@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import '../App.css';
 import CharacterListButtons from './characterlistbuttons';
+import "./globalcontext"
+import CharacterListCard from './characterlistcard';
 
 class CharacterList extends Component {
     constructor(props) {
@@ -49,24 +50,7 @@ class CharacterList extends Component {
                     <div id="CharacterListUlHolder">
                         <ul id="CharacterList">
                             {characters.map(character => (
-                                <li className="CharacterList" id={"CharacterListLiID-"+character.Id}>
-                                    <div className="CharacterListRow" id={"CharacterListRowID-"+character.Id}>
-                                        <div className="CharacterListName">
-                                            {character.Name}
-                                        </div>
-                                        <div className="CharacterListImagesHolder">
-                                            <div className="CharacterRaceImageHolder">
-                                                <img className="CharacterRaceImage" src={character.RaceIconPath} />
-                                            </div>
-                                            <div className="CharacterClassImageHolder">
-                                                <img className="CharacterClassImage" src={character.ClassIconPath} />
-                                            </div>
-                                        </div>
-                                        <div className="CharacterListLevelRaceClass">
-                                            Level {character.Level} {character.Race} {character.Class}
-                                        </div>
-                                    </div>
-                                </li>
+                                <CharacterListCard Id={character.Id} Name={character.Name} Race={character.Race} Class={character.Class} RaceIconPath={character.RaceIconPath} ClassIconPath={character.ClassIconPath} Level={character.Level} />
                             ))}
                         </ul>
                     </div>

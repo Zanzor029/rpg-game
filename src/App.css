@@ -42,8 +42,8 @@ ul.RouterNavigationUlHolder {
 
 
 div.AppContentRightSide{
+  width:1000px;
   float:left;
-  width:1200px;
 }
 /*#endregion RouterNavigation */
 
@@ -76,7 +76,7 @@ div#CharacterPanel {
   height:800px;
   margin-left: auto;
   margin-right:auto;
-  background-image: url(/images/backgrounds/charactercreation.png);
+  background-image: url(resources/images/backgrounds/charactercreation.png);
 }
 
 div#selection {
@@ -199,13 +199,14 @@ div.CharacterListBtnPanel {
   align-items:center;
   justify-content:center;
   display:flex;
+  text-decoration: none;
 }
 /*#endregion CharacterList */
 
 
 /**********************  Highlights **********************/
 /*#region Highlights */
-.highlight {
+.highlightclass, .highlightrace {
   outline: none;
   border: 3px solid rgb(218, 144, 33);
   box-shadow: 0 0 25px rgb(218, 144, 33);
