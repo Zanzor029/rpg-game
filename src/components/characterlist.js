@@ -50,6 +50,7 @@ class CharacterList extends Component {
             <ul id="CharacterList">
               {characters.map(character => (
                 <li className="CharacterList">
+                    <div className="CharacterListRow">
                   <div className="CharacterListName">
                     {character.Name}
                   </div>
@@ -63,6 +64,7 @@ class CharacterList extends Component {
                   </div>
                   <div className="CharacterListLevelRaceClass">
                     Level {character.Level} {character.Race} {character.Class}
+                  </div>
                   </div>
                 </li>
               ))}
