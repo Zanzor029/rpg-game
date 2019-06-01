@@ -68,6 +68,7 @@ class CharacterList extends Component {
               ))}
             </ul>
           </div>
+          <CharacterListButtons/>
         </div>
       );
     }

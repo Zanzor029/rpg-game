@@ -8,9 +8,8 @@ class App extends Component {
   render() {
 
     return (
-      <CharacterList />
+        <CharacterList/>
     );
-
   }
 }
 export default App;
