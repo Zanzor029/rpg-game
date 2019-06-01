@@ -35,7 +35,7 @@
 /*Fonts*/
 @font-face {
   font-family: FrizQuadrata;
-  src: url(/fonts/Friz\ Quadrata\ Std\ Medium.otf);
+  src: url(resources/fonts/FrizQuadrataStdMedium.otf);
 }
 
 /*Shared General*/
