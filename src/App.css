@@ -33,6 +33,7 @@ div.RouterNavigation > ul > li > a {
   color: orange;
   font-weight:bold;
   font-family: FrizQuadrata;
+  text-decoration: none;
 }
 ul.RouterNavigationUlHolder {
   list-style-type: none;
