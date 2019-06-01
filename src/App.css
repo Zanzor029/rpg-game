@@ -1,0 +1,375 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*Fonts*/
+@font-face {
+  font-family: FrizQuadrata;
+  src: url(/fonts/Friz\ Quadrata\ Std\ Medium.otf);
+}
+
+/*Shared General*/
+body {
+  background-color: #333;
+  color: rgb(0, 0, 0);
+  font-family: FrizQuadrata;
+}
+button {
+  font-family: FrizQuadrata;
+  width:200px;
+  height:40px;
+  background-color: rgb(148, 5, 5);
+  color: orange;
+  border-radius: 5px;
+  border: 1px solid grey;
+
+}
+
+/**********************  Character Creation **********************/
+/*#region CharacterCreation */
+.disable {
+  pointer-events : none;
+  opacity: .6;
+}
+
+ul#classlist,#racelist {
+  width:250px;
+}
+li.racelist {
+  list-style-type: none;
+  display: inline-block;
+  height:60px;
+  width: 60px;
+}
+
+li.classlist {
+  list-style-type: none;
+  display: inline-block;
+  height:60px;
+  width: 60px;
+}
+
+div#CharacterPanel {
+  width:1200px;
+  height:800px;
+  margin-left: auto;
+  margin-right:auto;
+  background-image: url(/images/backgrounds/charactercreation.png);
+}
+
+div#selection {
+  width:400px;
+  height:600px;
+  padding-left: 10px;
+  float: left;
+}
+div#details {
+  float:right;
+  width:400px;
+  height:600px;
+}
+h2.spgame {
+  color: black;
+}
+
+.tablerow {
+  padding: 5px;
+}
+
+.tableheader {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#characterNameInputHolder {
+  margin-top: 20px;
+}
+
+#createCharacterButtonHolder {
+  margin-top: 50px;
+
+}
+/*#endregion CharacterCreation */
+
+/**********************  Character List **********************/
+/*#region CharacterList */
+#CharacterListPanel {
+  padding-bottom: 50px;
+  width: 1200px;
+  background-image: url("resources/images/backgrounds/characterlist.png");
+
+  margin-left:auto;
+  margin-right:auto;
+}
+
+ul#CharacterList {
+  max-height:600px;
+  overflow:auto;
+}
+
+div#CharacterListUlHolder {
+  width:1100px;
+  height:500px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+li.CharacterList {
+  list-style-type: none;
+  margin-top:15px;
+  margin-bottom:15px;
+  margin-left: 15px;
+  display:inline-block;
+}
+.CharacterListRow {
+  margin-right:auto;
+  margin-left:auto;
+  width:180px;
+  border: 1px solid;
+  border-color:rgba(0, 0 , 0,0.3);
+  background-color:rgba(0, 0 , 0,0.4);
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
+
+.CharacterListName {
+  font-size: 23px;
+  color: orange;
+  font-weight:bold;
+  padding-bottom:5px;
+}
+.CharacterListImagesHolder {
+  padding-top: 5px;
+  display:inline;
+}
+
+img.CharacterRaceImage,.CharacterClassImage {
+  width:30px;
+  height:30px;
+}
+.CharacterRaceImageHolder {
+  display:inline;
+}
+.CharacterClassImageHolder {
+  display:inline;
+}
+
+.CharacterListLevelRaceClass {
+  font-size: 13px;
+  color:white;
+  text-shadow: 2px 2px 1px #000000;
+  
+}
+
+div#CharacterListBtnsPanel {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.CharacterListBtnPanel {
+  margin-top: 20px;
+}
+
+.CharacterListBtn {
+  margin-left: auto;
+  margin-right: auto;
+  align-items:center;
+  justify-content:center;
+  display:flex;
+}
+/*#endregion CharacterList */
+
+
+/**********************  Highlights **********************/
+/*#region Highlights */
+.highlight {
+  outline: none;
+  border: 3px solid rgb(218, 144, 33);
+  box-shadow: 0 0 25px rgb(218, 144, 33);
+}
+
+.highlightcharacter {
+  outline: none;
+  box-shadow:
+  0 0 20px #fed20d,         
+  -8px 0 20px #fed20d,        
+  8px 0 20px #fed20d;         
+  background-color: rgba(255, 153, 0, 0.24);
+}
+/*#endregion Highlights */
+
+
+/********************** Encounter **********************/
+/*#region Encounter */
+div#EncounterPanel {
+  width:1200px;
+  height:800px;
+  border: 1px solid grey;
+  margin-right:auto;
+  margin-left:auto;
+}
+
+/*********** Unit Frames *********************/
+/*#region UnitFrames */
+div#EncounterUnitframesPanel {
+  width:1180px;
+  height:220px;
+  padding: 3px;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 15px;
+}
+div#EncounterCharacterPanel {
+  width:420px;
+  float:left;
+  border: 2px solid black;
+  padding: 3px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+div#EncounterCreaturePanel {
+  width:420px;
+  float:right;
+  border: 2px solid black;
+  padding: 3px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+div#EncounterCharacterName,div#EncounterCreatureName {
+  width:400px;
+  height:30px;
+  font-size: 23px;
+  padding: 1px;
+  color: orange;
+  font-weight:bold;
+}
+
+div#EncounterCharacterTopBar,div#EncounterCreatureTopBar {
+  height:80;
+  padding: 1px;
+}
+div#EncounterCharacterRaceIconHolder,div#EncounterCharacterClassIconHolder, div#EncounterCreatureIconHolder {
+  float:left;
+  width:60px;
+}
+img#EncounterCharacterClassIcon, img#EncounterCharacterRaceIcon {
+  width:60px;
+  height:60px;
+}
+div#EncounterCharacterHealthBar,div#EncounterCreatureHealthBar {
+  float:right;
+  width:340px;
+  height: 60px;
+  background-color: rgb(255, 0, 0);
+}
+
+div#EncounterCharacterManaBar,div#EncounterCreatureManaBar {
+  float:right;
+  width:340px;
+  height: 60px;
+  background-color: rgb(0, 17, 255);
+}
+
+div#EncounterCharacterBottomBar,div#EncounterCreatureBottomBar {
+  height:80;
+  padding: 1px;
+}
+
+span.EncounterHealthManaText {
+  margin-right:auto;
+  margin-left:auto;
+  margin-top:auto;
+  margin-bottom:auto;
+}
+/*#endregion UnitFrames */
+/**** Main Panel ****/
+/*#region MainPanel */
+div#EncounterMainPanel {
+  width:100%;
+  height:300px;
+  border: 1px solid black;
+}
+/*#endregion MainPanel */
+
+/**********   ActionBar + Log Panel ********************/
+/*#region ActionBar */
+div#EncounterActionbarLogPanel {
+  width: 100%;
+  height: 220px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+}
+
+div#EncounterLogPanel {
+  width:300px;
+  height:200px;
+  border: 1px solid black;
+  float:left;
+}
+div#EncounterActionbarPanel {
+  width: 550px;
+  height:200px;
+  display:inline-block;
+  margin-left:auto;
+  margin-right:auto;
+  border: 1px solid black;
+}
+div#EncounterExtraPanel {
+  width:300px;
+  height:200px;
+  float:right;
+  border: 1px solid black;
+}
+div#EncounterSpellBar {
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 400px;
+  height: 190px;
+  margin: auto;
+}
+div.EncounterSpell {
+  width:45px;
+  height:45px;
+  border: 1px solid black;
+  padding: 5px;
+  display:inline-block;
+}
+
+
+/*#endregion ActionBar */
+
+
+
+
+/*#endregion Encounter*/
