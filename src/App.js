@@ -3,33 +3,41 @@ import './App.css';
 import CharacterList from './components/characterlist.js';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
-function App() {
-  return (
-    <Router>
-      <div className="RouterNavigation">
-        <ul className="RouterNavigationUlHolder">
-          <li classname="RouterNavigationLi">
-            <Link to="/">Home</Link>
-          </li>
-          <li classname="RouterNavigationLi">
-            <Link to="/characterlist">Character List</Link>
-          </li>
-          <li classname="RouterNavigationLi">
-            <Link className="RouterNavigation" to="/test">Test</Link>
-          </li>
-        </ul>
-      </div>
-      <div className="AppContentRightSide">
-        <Route exact path="/" component={Home} />
-        <Route path="/characterlist" component={CharacterListRoute} />
-        <Route path="/test" component={Test} />
-      </div>
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      SelectedCharacterId: 1,
+      TestGlobalVar: "Test123"
+    }
+  }
+  render() {
+    return (
+      <Router>
+        <div className="RouterNavigation">
+          <ul className="RouterNavigationUlHolder">
+            <li className="RouterNavigationLi">
+              <Link to="/">Home</Link>
+            </li>
+            <li className="RouterNavigationLi">
+              <Link to="/characterlist">Character List</Link>
+            </li>
+            <li className="RouterNavigationLi">
+              <Link className="RouterNavigation" to="/test">Test</Link>
+            </li>
+          </ul>
+        </div>
+        <div className="AppContentRightSide">
+          <Route exact path="/" component={HomeRoute} />
+          <Route path="/characterlist" component={CharacterListRoute} />
+          <Route path="/test" component={TestRoute} />
+        </div>
 
-    </Router>
-  );
+      </Router>
+    );
+  }
 }
-
-function Home() {
+function HomeRoute() {
   return (
     <div>
       <p>Home</p>
@@ -52,7 +60,7 @@ function CharacterListRoute() {
   );
 }
 
-function Test({ match }) {
+function TestRoute({ match }) {
   return (
     <div>
       <h2>Test route matching</h2>
