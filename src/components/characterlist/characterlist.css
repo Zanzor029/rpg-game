@@ -1,0 +1,40 @@
+#CharacterListPanel {
+    padding-bottom: 50px;
+    width: 1200px;
+    background-image: url("../../resources/images/backgrounds/characterlist.png");
+    margin-left:auto;
+    margin-right:auto;
+  }
+  
+  ul#CharacterList {
+    max-height:600px;
+    overflow:auto;
+  }
+  
+  div#CharacterListUlHolder {
+    width:1100px;
+    height:500px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  
+  
+  
+  div#CharacterListBtnsPanel {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  div.CharacterListBtnPanel {
+    margin-top: 20px;
+  }
+  
+  .CharacterListBtn {
+    margin-left: auto;
+    margin-right: auto;
+    align-items:center;
+    justify-content:center;
+    display:flex;
+    text-decoration: none;
+  }

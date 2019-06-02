@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import CharacterListButtons from './characterlistbuttons';
-import "./globalcontext"
-import CharacterListCard from './characterlistcard';
+import "../globalcontext";
+import CharacterListCard from '../characterlistcard/characterlistcard';
+import "./characterlist.css";
 
 class CharacterList extends Component {
     constructor(props) {

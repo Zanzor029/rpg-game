@@ -1,0 +1,77 @@
+.disable {
+    pointer-events : none;
+    opacity: .6;
+  }
+  
+  ul#classlist,#racelist {
+    width:250px;
+  }
+  li.racelist, li.classlist {
+    list-style-type: none;
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    margin-right: 5px;
+    border: 3px solid grey;
+    border-radius: 5px;
+  }
+  img.raceimg, img.classimg{
+    height: 50px;
+    width:50px;
+    border-radius:4px;
+  
+  }
+  
+  div#CharacterPanel {
+    width:1200px;
+    height:800px;
+    margin-left: auto;
+    margin-right:auto;
+    background-image: url(../../resources/images/backgrounds/charactercreation.png);
+  }
+  
+  div#selection {
+    width:400px;
+    height:600px;
+    padding-left: 10px;
+    float: left;
+  }
+  div#details {
+    float:right;
+    width:400px;
+    height:600px;
+  }
+  #detailstable {
+      color:white;
+  }
+  h2.spgame {
+    color: black;
+  }
+  
+  .tablerow {
+    padding: 5px;
+  }
+  
+  .tableheader {
+    font-size: 15px;
+    font-weight: bold;
+  }
+  
+  #characterNameInputHolder {
+    margin-top: 20px;
+  }
+  
+  #createCharacterButtonHolder {
+    margin-top: 50px;
+  
+  }
+
+  .highlightclass, .highlightrace {
+    outline: none;
+    border: 3px solid rgb(218, 144, 33) !important;
+    box-shadow: 0 0 25px rgb(218, 144, 33);
+  }
+
+  #CreateCharacterLoreBoxes {
+      margin: 10px;
+  }

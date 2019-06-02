@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import "./globalcontext"
+import "../globalcontext"
+import "./characterlistcard.css"
 
 class CharacterListCard extends Component {
     constructor(props) {
@@ -31,10 +32,10 @@ class CharacterListCard extends Component {
                     </div>
                     <div className="CharacterListImagesHolder">
                         <div className="CharacterRaceImageHolder">
-                            <img className="CharacterRaceImage" src={require("../" + this.props.RaceIconPath)} alt={this.props.Race} />
+                            <img className="CharacterRaceImage" src={require("../../" + this.props.RaceIconPath)} alt={this.props.Race} />
                         </div>
                         <div className="CharacterClassImageHolder">
-                            <img className="CharacterClassImage" src={require("../" + this.props.ClassIconPath)} alt={this.props.Class} />
+                            <img className="CharacterClassImage" src={require("../../" + this.props.ClassIconPath)} alt={this.props.Class} />
                         </div>
                     </div>
                     <div className="CharacterListLevelRaceClass">

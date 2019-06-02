@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import ReactDOM from "react-dom";
-import "./globalcontext"
-import LoreBox from './lorebox/lorebox';
+import "../globalcontext";
+import LoreBox from '../lorebox/lorebox';
+import "./createcharacter.css";
+import GenderSelection from './genderselection';
 
 class CreateCharacter extends Component {
     constructor(props) {
@@ -79,7 +81,7 @@ class CreateCharacter extends Component {
                 <LoreBox 
                     LoreBoxTitle ={SeletedClassObject[0].Name}
                     LoreBoxText ={SeletedClassObject[0].ClassDescription}
-                    LoreBoxIcon = {require("../" + SeletedClassObject[0].ClassIconPath)}
+                    LoreBoxIcon = {require("../../" + SeletedClassObject[0].ClassIconPath)}
                 />, document.getElementById("ClassLoreBox")
             );
 
@@ -124,14 +126,14 @@ class CreateCharacter extends Component {
                 <LoreBox 
                     LoreBoxTitle ={SeletedRaceObject[0].Name}
                     LoreBoxText ={SeletedRaceObject[0].RaceDescription}
-                    LoreBoxIcon = {require("../" + SeletedRaceObject[0].MaleIconPath)}
+                    LoreBoxIcon = {require("../../" + SeletedRaceObject[0].MaleIconPath)}
                 />, document.getElementById("RaceLoreBox")
             );
             ReactDOM.render(
                 <LoreBox 
                     LoreBoxTitle ={SeletedRaceObject[0].Faction}
                     LoreBoxText ={SeletedRaceObject[0].FactionDescription}
-                    LoreBoxIcon = {require("../" + SeletedRaceObject[0].FactionIconPath)}
+                    LoreBoxIcon = {require("../../" + SeletedRaceObject[0].FactionIconPath)}
                 />, document.getElementById("FactionLoreBox")
             );
 
@@ -231,7 +233,7 @@ class CreateCharacter extends Component {
                             <ul id="racelist">
                                 {Races.map(Race => (
                                     <li className="racelist" id={"Race-" + Race.Id} key={Race.Id} onClick={(e) => { this.selectRace(e, global.RacesArr) }}>
-                                        <img className="raceimg" src={require("../" + Race.MaleIconPath)} alt={Race.Name} />
+                                        <img className="raceimg" src={require("../../" + Race.MaleIconPath)} alt={Race.Name} />
                                     </li>
                                 ))}
                             </ul>
@@ -241,18 +243,19 @@ class CreateCharacter extends Component {
                             <ul id="classlist">
                                 {Classes.map(Class => (
                                     <li className="classlist" id={"Class-" + Class.Id} key={Class.Id} onClick={(e) => { this.selectClass(e, global.ClassesArr) }}>
-                                        <img className="classimg" src={require("../" + Class.ClassIconPath)} alt={Class.Name} />
+                                        <img className="classimg" src={require("../../" + Class.ClassIconPath)} alt={Class.Name} />
                                     </li>
                                 ))}
                             </ul>
                         </div>
+                        <GenderSelection />
                     </div>
 
                     <div id="details">
                         <div id="CreateCharacterLoreBoxes">
-                            <LoreBox Id="FactionLoreBox" LoreBoxIcon="AAA" LoreBoxTitle="Faction" LoreBoxText="Lorem Ipsum" />
-                            <LoreBox Id="RaceLoreBox" LoreBoxIcon="AAA" LoreBoxTitle="Race" LoreBoxText="Lorem Ipsum" />
-                            <LoreBox Id="ClassLoreBox" LoreBoxIcon="AAA" LoreBoxTitle="Class" LoreBoxText="Lorem Ipsum" />
+                            <LoreBox LoreBoxClassName="LoreBox" LoreBoxId="FactionLoreBox" LoreBoxTitle="Faction" LoreBoxText="No faction selected" />
+                            <LoreBox LoreBoxClassName="LoreBox" LoreBoxId="RaceLoreBox" LoreBoxTitle="Race" LoreBoxText="No race selected" />
+                            <LoreBox LoreBoxClassName="LoreBox" LoreBoxId="ClassLoreBox" LoreBoxTitle="Class" LoreBoxText="No class selected" />
                         </div>
                         <div id="detailstable">
                             <div id="selectedBaseStrength" className="tablerow">
@@ -276,11 +279,7 @@ class CreateCharacter extends Component {
                                 <div id="selectedBaseSpiValue" className="tablevalue"> </div>
                             </div>
                         </div>
-                        <div id="characterGenderInputHolder">
-                            Gender:
-                            <input type="radio" name="gender" className="genderInput" id="characterGenderInputMale" value="Male" defaultChecked />Male
-                                <input type="radio" name="gender" id="characterGenderInputFemale" className="genderInput" value="Female" />Female
-        </div>
+                        
                         <div id="characterNameInputHolder">
                             Character Name: <input type="text" name="charname" id="characterNameInput" />
                         </div>

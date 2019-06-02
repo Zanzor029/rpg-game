@@ -3,8 +3,8 @@ import './App.css';
 import "./components/globalcontext";
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
-import CharacterList from './components/characterlist.js';
-import CreateCharacter from './components/createcharacter.js';
+import CharacterList from './components/characterlist/characterlist.js';
+import CreateCharacter from './components/createcharacter/createcharacter.js';
 import VariableDebugger from './components/variabledebugger';
 
 
