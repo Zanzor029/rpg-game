@@ -146,7 +146,7 @@ class CreateCharacter extends Component {
             alert("Name too short!");
             return;
         }
-        if (document.getElementById("characterGenderInput").value === "Male") {
+        if (document.querySelector('.genderInput:checked').value === "Male") {
             global.CreateCharacterSelectedRaceIconPath = global.CreateCharacterSelectedRaceMaleIconPath
         }
         else {
@@ -166,7 +166,7 @@ class CreateCharacter extends Component {
             Intellect: global.CreateCharacterSelectedCombinedBaseIntellect,
             Spirit: global.CreateCharacterSelectedCombinedBaseSpirit,
             Name: document.getElementById("characterNameInput").value,
-            Gender: document.getElementById("characterGenderInput").value,
+            Gender: document.querySelector('.genderInput:checked').value,
             RaceIconPath: global.CreateCharacterSelectedRaceIconPath,
             ClassIconPath: global.CreateCharacterSelectedClassIconPath,
             Level: 1
@@ -264,8 +264,8 @@ class CreateCharacter extends Component {
                         </div>
                         <div id="characterGenderInputHolder">
                             Gender:
-                            <input type="radio" name="gender" className="genderInput" id="characterGenderInput" value="Male" defaultChecked />Male
-                                <input type="radio" name="gender" className="genderInput" value="Female" />Female
+                            <input type="radio" name="gender" className="genderInput" id="characterGenderInputMale" value="Male" defaultChecked />Male
+                                <input type="radio" name="gender" id="characterGenderInputFemale" className="genderInput" value="Female" />Female
         </div>
                         <div id="characterNameInputHolder">
                             Character Name: <input type="text" name="charname" id="characterNameInput" />
