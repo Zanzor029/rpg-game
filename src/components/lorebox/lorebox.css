@@ -1,0 +1,15 @@
+.LoreBox {
+    background-color: #333;
+    margin: 10px;
+}
+.LoreBoxTitle {
+    font-size: 15px;
+    color: orange;
+    font-weight:bold;
+    padding-bottom:5px;
+}
+
+.LoreBoxText {
+    font-size: 10px;
+    color: white;
+}

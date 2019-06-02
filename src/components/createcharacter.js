@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import ReactDOM from "react-dom";
 import "./globalcontext"
+import LoreBox from './lorebox/lorebox';
 
 class CreateCharacter extends Component {
     constructor(props) {
@@ -72,7 +74,15 @@ class CreateCharacter extends Component {
             const SeletedClassObject = ClassArr.filter((obj) => obj.Id === parseInt(e.currentTarget.id.split("-")[1]))
             console.log(SeletedClassObject[0].Name)
             global.CreateCharacterSelectedClassName = SeletedClassObject[0].Name;
-            document.getElementById("selectedClassRowValue").innerHTML = SeletedClassObject[0].Name;
+
+            ReactDOM.render(
+                <LoreBox 
+                    LoreBoxTitle ={SeletedClassObject[0].Name}
+                    LoreBoxText ={SeletedClassObject[0].ClassDescription}
+                    LoreBoxIcon = {require("../" + SeletedClassObject[0].ClassIconPath)}
+                />, document.getElementById("ClassLoreBox")
+            );
+
             global.CreateCharacterSelectedClassIconPath = SeletedClassObject[0].ClassIconPath;
             global.CreateCharacterSelectedClassBaseStrength = SeletedClassObject[0].BaseStrength;
             global.CreateCharacterSelectedClassBaseAgility = SeletedClassObject[0].BaseAgility;
@@ -109,8 +119,22 @@ class CreateCharacter extends Component {
             const SeletedRaceObject = RaceArr.filter((obj) => obj.Id === parseInt(e.currentTarget.id.split("-")[1]))
             console.log(SeletedRaceObject[0].Name)
             global.CreateCharacterSelectedRaceName = SeletedRaceObject[0].Name
-            document.getElementById("selectedRaceRowValue").innerHTML = SeletedRaceObject[0].Name;
-            document.getElementById("selectedFactionRowValue").innerHTML = SeletedRaceObject[0].Faction;
+
+            ReactDOM.render(
+                <LoreBox 
+                    LoreBoxTitle ={SeletedRaceObject[0].Name}
+                    LoreBoxText ={SeletedRaceObject[0].RaceDescription}
+                    LoreBoxIcon = {require("../" + SeletedRaceObject[0].MaleIconPath)}
+                />, document.getElementById("RaceLoreBox")
+            );
+            ReactDOM.render(
+                <LoreBox 
+                    LoreBoxTitle ={SeletedRaceObject[0].Faction}
+                    LoreBoxText ={SeletedRaceObject[0].FactionDescription}
+                    LoreBoxIcon = {require("../" + SeletedRaceObject[0].FactionIconPath)}
+                />, document.getElementById("FactionLoreBox")
+            );
+
             global.CreateCharacterSelectedFaction = SeletedRaceObject[0].Faction;
             global.CreateCharacterSelectedRaceMaleIconPath = SeletedRaceObject[0].MaleIconPath;
             global.CreateCharacterSelectedRaceFemaleIconPath = SeletedRaceObject[0].FemaleIconPath;
@@ -190,6 +214,7 @@ class CreateCharacter extends Component {
         global.RacesArr = this.state.Races;
         global.ClassesArr = this.state.Classes;
 
+
         if (error) {
             return <div>Error: {error.message}</div>;
         }
@@ -224,23 +249,12 @@ class CreateCharacter extends Component {
                     </div>
 
                     <div id="details">
+                        <div id="CreateCharacterLoreBoxes">
+                            <LoreBox Id="FactionLoreBox" LoreBoxIcon="AAA" LoreBoxTitle="Faction" LoreBoxText="Lorem Ipsum" />
+                            <LoreBox Id="RaceLoreBox" LoreBoxIcon="AAA" LoreBoxTitle="Race" LoreBoxText="Lorem Ipsum" />
+                            <LoreBox Id="ClassLoreBox" LoreBoxIcon="AAA" LoreBoxTitle="Class" LoreBoxText="Lorem Ipsum" />
+                        </div>
                         <div id="detailstable">
-                            <div id="selectedRaceRow" className="tablerow">
-                                <div id="selectedRaceRowHeader" className="tableheader">Selected Race</div>
-                                <div id="selectedRaceRowValue" className="tablevalue"> </div>
-                            </div>
-                            <div id="selectedClassRow" className="tablerow">
-                                <div id="selectedClassRowHeader" className="tableheader">Selected Class</div>
-                                <div id="selectedClassRowValue" className="tablevalue"> </div>
-                            </div>
-                            <div id="selectedClassRow" className="tablerow">
-                                <div id="selectedClassDescriptionRowHeader" className="tableheader">Class Description</div>
-                                <div id="selectedClassDescriptionRowValue" className="tablevalue"> </div>
-                            </div>
-                            <div id="selectedFactionRow" className="tablerow">
-                                <div id="selectedFactionRowHeader" className="tableheader">Faction</div>
-                                <div id="selectedFactionRowValue" className="tablevalue"> </div>
-                            </div>
                             <div id="selectedBaseStrength" className="tablerow">
                                 <div id="selectedBaseStrengthHeader" className="tableheader">Base Strength</div>
                                 <div id="selectedBaseStrengthValue" className="tablevalue"> </div>
@@ -271,15 +285,18 @@ class CreateCharacter extends Component {
                             Character Name: <input type="text" name="charname" id="characterNameInput" />
                         </div>
                         <div id="createCharacterButtonHolder">
-                            <button id="createCharacterButton" type="button" onClick={this.createCharacterPost}>Create Character!</button>
+                            <button id="createCharacterButton" type="button" onClick={this.createCharacterPost}>Accept</button>
                         </div>
                         <div id="cancelButtonHolder">
-                            <Link to="/CharacterList" className="CharacterListBtn"><button id="cancelButton" type="button">Cancel</button></Link>
+                            <Link to="/CharacterList" className="CharacterListBtn"><button id="cancelButton" type="button">Back</button></Link>
                         </div>
                     </div>
                 </div>
             );
+
         }
+
     }
+    initialSelection
 }
 export default CreateCharacter;
