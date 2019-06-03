@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import "../globalcontext"
-import "./characterlistcard.css"
+import "./charactercard.css"
 
-class CharacterListCard extends Component {
+class CharacterCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -47,4 +47,4 @@ class CharacterListCard extends Component {
     }
 
 }
-export default CharacterListCard;
+export default CharacterCard;

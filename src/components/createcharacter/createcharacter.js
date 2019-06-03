@@ -5,6 +5,8 @@ import "../globalcontext";
 import LoreBox from '../lorebox/lorebox';
 import "./createcharacter.css";
 import GenderSelection from './genderselection';
+import ClassListEntry from './classlistentry';
+import RaceListEntry from './racelistentry';
 
 class CreateCharacter extends Component {
     constructor(props) {
@@ -60,104 +62,7 @@ class CreateCharacter extends Component {
             )
     }
 
-    selectClass(e, ClassArr) {
-        console.log("Selected Class " + e.currentTarget.id.split("-")[1])
-        global.CreateCharacterSelectedClassId = e.currentTarget.id.split("-")[1];
 
-        //set highlight, clears previous highlight first
-        var els = document.getElementsByClassName('highlightrace')
-        while (els[0]) {
-            els[0].classList.remove('highlightrace')
-        }
-        e.currentTarget.className = "classlist highlightrace"
-
-        //Get property of specific object in array from an ID
-        if (ClassArr.length > 0) {
-            const SeletedClassObject = ClassArr.filter((obj) => obj.Id === parseInt(e.currentTarget.id.split("-")[1]))
-            console.log(SeletedClassObject[0].Name)
-            global.CreateCharacterSelectedClassName = SeletedClassObject[0].Name;
-
-            ReactDOM.render(
-                <LoreBox 
-                    LoreBoxTitle ={SeletedClassObject[0].Name}
-                    LoreBoxText ={SeletedClassObject[0].ClassDescription}
-                    LoreBoxIcon = {require("../../" + SeletedClassObject[0].ClassIconPath)}
-                />, document.getElementById("ClassLoreBox")
-            );
-
-            global.CreateCharacterSelectedClassIconPath = SeletedClassObject[0].ClassIconPath;
-            global.CreateCharacterSelectedClassBaseStrength = SeletedClassObject[0].BaseStrength;
-            global.CreateCharacterSelectedClassBaseAgility = SeletedClassObject[0].BaseAgility;
-            global.CreateCharacterSelectedClassBaseStamina = SeletedClassObject[0].BaseStamina;
-            global.CreateCharacterSelectedClassBaseIntellect = SeletedClassObject[0].BaseIntellect;
-            global.CreateCharacterSelectedClassBaseSpirit = SeletedClassObject[0].BaseSpirit;
-
-            global.CreateCharacterSelectedCombinedBaseStrength = global.CreateCharacterSelectedClassBaseStrength + global.CreateCharacterSelectedRaceBaseStrength;
-            document.getElementById("selectedBaseStrengthValue").innerHTML = global.CreateCharacterSelectedCombinedBaseStrength;
-            global.CreateCharacterSelectedCombinedBaseAgility = global.CreateCharacterSelectedClassBaseAgility + global.CreateCharacterSelectedRaceBaseAgility;
-            document.getElementById("selectedBaseAgilityValue").innerHTML = global.CreateCharacterSelectedCombinedBaseAgility;
-            global.CreateCharacterSelectedCombinedBaseStamina = global.CreateCharacterSelectedClassBaseStamina + global.CreateCharacterSelectedRaceBaseStamina;
-            document.getElementById("selectedBaseStaminaValue").innerHTML = global.CreateCharacterSelectedCombinedBaseStamina;
-            global.CreateCharacterSelectedCombinedBaseIntellect = global.CreateCharacterSelectedClassBaseIntellect + global.CreateCharacterSelectedRaceBaseIntellect;
-            document.getElementById("selectedBaseIntValue").innerHTML = global.CreateCharacterSelectedCombinedBaseIntellect;
-            global.CreateCharacterSelectedCombinedBaseSpirit = global.CreateCharacterSelectedClassBaseSpirit + global.CreateCharacterSelectedRaceBaseSpirit;
-            document.getElementById("selectedBaseSpiValue").innerHTML = global.CreateCharacterSelectedCombinedBaseSpirit;
-        }
-
-    }
-    selectRace(e, RaceArr) {
-        console.log("Selected RaceId " + e.currentTarget.id.split("-")[1]);
-        global.CreateCharacterSelectedRaceId = e.currentTarget.id.split("-")[1];
-
-        //set highlight, clears previous highlight first
-        var els = document.getElementsByClassName('highlightclass');
-        while (els[0]) {
-            els[0].classList.remove('highlightclass')
-        }
-        e.currentTarget.className = "racelist highlightclass";
-
-        //Get property of specific object in array from an ID
-        if (RaceArr.length > 0) {
-            const SeletedRaceObject = RaceArr.filter((obj) => obj.Id === parseInt(e.currentTarget.id.split("-")[1]))
-            console.log(SeletedRaceObject[0].Name)
-            global.CreateCharacterSelectedRaceName = SeletedRaceObject[0].Name
-
-            ReactDOM.render(
-                <LoreBox 
-                    LoreBoxTitle ={SeletedRaceObject[0].Name}
-                    LoreBoxText ={SeletedRaceObject[0].RaceDescription}
-                    LoreBoxIcon = {require("../../" + SeletedRaceObject[0].MaleIconPath)}
-                />, document.getElementById("RaceLoreBox")
-            );
-            ReactDOM.render(
-                <LoreBox 
-                    LoreBoxTitle ={SeletedRaceObject[0].Faction}
-                    LoreBoxText ={SeletedRaceObject[0].FactionDescription}
-                    LoreBoxIcon = {require("../../" + SeletedRaceObject[0].FactionIconPath)}
-                />, document.getElementById("FactionLoreBox")
-            );
-
-            global.CreateCharacterSelectedFaction = SeletedRaceObject[0].Faction;
-            global.CreateCharacterSelectedRaceMaleIconPath = SeletedRaceObject[0].MaleIconPath;
-            global.CreateCharacterSelectedRaceFemaleIconPath = SeletedRaceObject[0].FemaleIconPath;
-            global.CreateCharacterSelectedRaceBaseStrength = SeletedRaceObject[0].BaseStrength;
-            global.CreateCharacterSelectedRaceBaseAgility = SeletedRaceObject[0].BaseAgility;
-            global.CreateCharacterSelectedRaceBaseStamina = SeletedRaceObject[0].BaseStamina;
-            global.CreateCharacterSelectedRaceBaseIntellect = SeletedRaceObject[0].BaseIntellect;
-            global.CreateCharacterSelectedRaceBaseSpirit = SeletedRaceObject[0].BaseSpirit;
-
-            global.CreateCharacterSelectedCombinedBaseStrength = global.CreateCharacterSelectedClassBaseStrength + global.CreateCharacterSelectedRaceBaseStrength
-            document.getElementById("selectedBaseStrengthValue").innerHTML = global.CreateCharacterSelectedCombinedBaseStrength
-            global.CreateCharacterSelectedCombinedBaseAgility = global.CreateCharacterSelectedClassBaseAgility + global.CreateCharacterSelectedRaceBaseAgility
-            document.getElementById("selectedBaseAgilityValue").innerHTML = global.CreateCharacterSelectedCombinedBaseAgility
-            global.CreateCharacterSelectedCombinedBaseStamina = global.CreateCharacterSelectedClassBaseStamina + global.CreateCharacterSelectedRaceBaseStamina
-            document.getElementById("selectedBaseStaminaValue").innerHTML = global.CreateCharacterSelectedCombinedBaseStamina;
-            global.CreateCharacterSelectedCombinedBaseIntellect = global.CreateCharacterSelectedClassBaseIntellect + global.CreateCharacterSelectedRaceBaseIntellect
-            document.getElementById("selectedBaseIntValue").innerHTML = global.CreateCharacterSelectedCombinedBaseIntellect
-            global.CreateCharacterSelectedCombinedBaseSpirit = global.CreateCharacterSelectedClassBaseSpirit + global.CreateCharacterSelectedRaceBaseSpirit
-            document.getElementById("selectedBaseSpiValue").innerHTML = global.CreateCharacterSelectedCombinedBaseSpirit
-        }
-    }
 
     createCharacterPost() {
         if (global.CreateCharacterSelectedRaceId === 0) {
@@ -232,9 +137,13 @@ class CreateCharacter extends Component {
                             <h2 className="spgame">Race</h2>
                             <ul id="racelist">
                                 {Races.map(Race => (
-                                    <li className="racelist" id={"Race-" + Race.Id} key={Race.Id} onClick={(e) => { this.selectRace(e, global.RacesArr) }}>
-                                        <img className="raceimg" src={require("../../" + Race.MaleIconPath)} alt={Race.Name} />
-                                    </li>
+                                    <RaceListEntry
+                                        RaceListEntryId={"RaceListEntry-" + Race.Id}
+                                        RaceListEntryKey={Race.Id}
+                                        RaceListEntryImgPath={require("../../" + Race.MaleIconPath)}
+                                        RaceListEntryImgText={Race.Name.toLowerCase()}
+                                        RaceListEntryClassName={"racelistentry"}
+                                    />
                                 ))}
                             </ul>
                         </div>
@@ -242,9 +151,12 @@ class CreateCharacter extends Component {
                             <h2 className="spgame">Class</h2>
                             <ul id="classlist">
                                 {Classes.map(Class => (
-                                    <li className="classlist" id={"Class-" + Class.Id} key={Class.Id} onClick={(e) => { this.selectClass(e, global.ClassesArr) }}>
-                                        <img className="classimg" src={require("../../" + Class.ClassIconPath)} alt={Class.Name} />
-                                    </li>
+                                    <ClassListEntry
+                                        ClassListEntryId={"Class-" + Class.Id}
+                                        ClassListEntryKey={Class.Id}
+                                        ClassListEntryImgPath={require("../../" + Class.ClassIconPath)}
+                                        ClassListEntryImgText={Class.Name}
+                                    />
                                 ))}
                             </ul>
                         </div>
@@ -279,7 +191,7 @@ class CreateCharacter extends Component {
                                 <div id="selectedBaseSpiValue" className="tablevalue"> </div>
                             </div>
                         </div>
-                        
+
                         <div id="characterNameInputHolder">
                             Character Name: <input type="text" name="charname" id="characterNameInput" />
                         </div>

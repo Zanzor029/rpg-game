@@ -6,7 +6,7 @@
   ul#classlist,#racelist {
     width:250px;
   }
-  li.racelist, li.classlist {
+  li.racelistentry, li.classlistentry {
     list-style-type: none;
     display: inline-block;
     height: 50px;

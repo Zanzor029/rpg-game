@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CharacterListButtons from './characterlistbuttons';
 import "../globalcontext";
-import CharacterListCard from '../characterlistcard/characterlistcard';
+import CharacterCard from '../charactercard/charactercard';
 import "./characterlist.css";
 
 class CharacterList extends Component {
@@ -51,7 +51,7 @@ class CharacterList extends Component {
                     <div id="CharacterListUlHolder">
                         <ul id="CharacterList">
                             {characters.map(character => (
-                                <CharacterListCard Id={character.Id} Name={character.Name} Race={character.Race} Class={character.Class} RaceIconPath={character.RaceIconPath} ClassIconPath={character.ClassIconPath} Level={character.Level} />
+                                <CharacterCard Id={character.Id} Name={character.Name} Race={character.Race} Class={character.Class} RaceIconPath={character.RaceIconPath} ClassIconPath={character.ClassIconPath} Level={character.Level} />
                             ))}
                         </ul>
                     </div>
