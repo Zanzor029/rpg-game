@@ -30,7 +30,7 @@ class CreateCharacter extends Component {
     }
 
     setGenderValueFromChild(GenderValue,e) {
-        e.preventDefault();
+
         this.setState({
             racegender: GenderValue
         });
