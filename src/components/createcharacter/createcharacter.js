@@ -13,17 +13,31 @@ class CreateCharacter extends Component {
         super(props);
         this.state = {
             error: null,
+            racegender: "Male",
+            selectedClass: "Warrior",
+            selectedRace: "Human",
             RacesLoaded: false,
             ClassesLoaded: false,
             Races: [],
             Classes: [],
         };
+        this.setGenderValueFromChild = this.setGenderValueFromChild.bind(this);
     }
 
     componentDidMount() {
         this.getRaceData()
         this.getClassData()
     }
+
+    setGenderValueFromChild(GenderValue,e) {
+        e.preventDefault();
+        this.setState({
+            racegender: GenderValue
+        });
+        console.log("Gender value set to: "+this.state.racegender)
+    }
+
+
 
     getRaceData() {
         fetch("http://rpgapi.jpersson.eu:3003/races")
@@ -62,7 +76,14 @@ class CreateCharacter extends Component {
             )
     }
 
-
+    setRaceImagePath(Race) {
+        if(this.state.racegender === "Male"){
+            return Race.MaleIconPath
+        }
+        if(this.state.racegender === "Female"){
+            return Race.FemaleIconPath
+        }
+    }
 
     createCharacterPost() {
         if (global.CreateCharacterSelectedRaceId === 0) {
@@ -137,13 +158,17 @@ class CreateCharacter extends Component {
                             <h2 className="spgame">Race</h2>
                             <ul id="racelist">
                                 {Races.map(Race => (
-                                    <RaceListEntry
-                                        RaceListEntryId={"RaceListEntry-" + Race.Id}
-                                        RaceListEntryKey={Race.Id}
-                                        RaceListEntryImgPath={require("../../" + Race.MaleIconPath)}
-                                        RaceListEntryImgText={Race.Name.toLowerCase()}
-                                        RaceListEntryClassName={"racelistentry"}
-                                    />
+                                    <div id={"div-RaceListEntry-"+Race.Id} className ="RaceListEntryDiv">
+                                        <RaceListEntry
+                                            RaceListEntryId={"RaceListEntry-" + Race.Id}
+                                            RaceListEntryKey={Race.Id}
+                                            RaceListImagePath = {require("../../" + this.setRaceImagePath(Race))}
+                                            RaceListEntryMaleImgPath={require("../../" + Race.MaleIconPath)}
+                                            RaceListEntryFemaleImgPath={require("../../" + Race.MaleIconPath)}
+                                            RaceListEntryImgText={Race.Name.toLowerCase()}
+                                            RaceListEntryClassName={"racelistentry"}
+                                        />
+                                    </div>
                                 ))}
                             </ul>
                         </div>
@@ -160,7 +185,7 @@ class CreateCharacter extends Component {
                                 ))}
                             </ul>
                         </div>
-                        <GenderSelection />
+                        <GenderSelection setGenderValueFromChild={this.setGenderValueFromChild}/>
                     </div>
 
                     <div id="details">

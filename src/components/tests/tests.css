@@ -1,0 +1,11 @@
+#MainArea {
+    height: 800px;
+    width: 800px;
+    background-color: green;
+}
+.SingleChild-yellow {
+    background-color: yellow;
+}
+.SingleChild-blue {
+    background-color: blue;
+}

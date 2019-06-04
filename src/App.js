@@ -5,15 +5,14 @@ import "./components/globalcontext";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import CharacterList from './components/characterlist/characterlist.js';
 import CreateCharacter from './components/createcharacter/createcharacter.js';
-import VariableDebugger from './components/variabledebugger';
+import TestParent from './components/tests/testparent';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      SelectedCharacterId: 1,
-      TestGlobalVar: "Test123"
+
     }
   }
   render() {
@@ -31,7 +30,7 @@ class App extends Component {
               <Link className="RouterNavigation" to="/test">Test</Link>
             </li>
             <li className="RouterNavigationLi">
-              <Link className="RouterNavigation" to="/DebuggerRoute">VarDebug</Link>
+              <Link className="RouterNavigation" to="/DebuggerRoute">Debug</Link>
             </li>
             
           </ul>
@@ -100,7 +99,7 @@ function TestRoute({ match }) {
 function DebuggerRoute() {
   return(
     <div>
-      <VariableDebugger />
+      <TestParent />
     </div>
   )
 }

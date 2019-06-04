@@ -67,7 +67,7 @@ class RaceListEntry extends Component {
     render() {
         return (
             <li className={this.props.RaceListEntryClassName} id={this.props.RaceListEntryId} key={this.props.RaceListEntryKey} onClick={(e) => { this.selectRace(e, global.RacesArr) }}>
-                <img id={this.props.RaceListEntryId+"-img"}className="raceimg" src={this.props.RaceListEntryImgPath} alt={this.props.RaceListEntryImgText} />
+                <img id={this.props.RaceListEntryId+"-img"}className="raceimg" src={this.props.RaceListImagePath} alt={this.props.RaceListEntryImgText} />
             </li>
         );
     }

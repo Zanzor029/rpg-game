@@ -8,8 +8,9 @@ class GenderSelection extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Highlighted: "No"
+            value: "Male"
         };
+        
     }
     setGender(event) {
         console.log(event.target.value);
@@ -20,7 +21,8 @@ class GenderSelection extends Component {
             var raceidarr = [];
             for (let i = 0; i < racelistentries.length; i++) {
                 var obj = {
-                    Id: racelistentries[i].id,
+                    LiId: racelistentries[i].id,
+                    DivId: "div-"+racelistentries[i].id,
                     AltText: document.getElementById(racelistentries[i].id+"-img").alt
                 }
                 raceidarr.push(obj);
@@ -32,8 +34,9 @@ class GenderSelection extends Component {
                     <RaceListEntry
                         RaceListEntryImgPath={require("../../resources/images/icons/races/male/" + raceidarr[i].AltText + ".png")}
                         RaceListEntryImgText={raceidarr[i].AltText}
-                        RaceListEntryId={raceidarr[i].Id}
-                    />, document.getElementById(raceidarr[i].Id)
+                        RaceListEntryId={raceidarr[i].LiId}
+                        RaceListEntryClassName={"racelistentry"}
+                    />, document.getElementById(raceidarr[i].DivId)
                 )
             }
         }
@@ -63,10 +66,13 @@ class GenderSelection extends Component {
 
 
     }
+    handleChange(event) {
+        this.setState({value: event.target.value})
+    }
 
     render() {
         return (
-            <div id="characterGenderInputHolder" onChange={this.setGender.bind(this)}>
+            <div id="characterGenderInputHolder" onChange={(event) => {this.props.setGenderValueFromChild(event.target.value, event)}}>
                 <p>Gender</p>
                 <input type="radio" name="gender" className="genderInput" id="characterGenderInputMale" value="Male" defaultChecked />Male
                 <input type="radio" name="gender" id="characterGenderInputFemale" className="genderInput" value="Female" />Female
