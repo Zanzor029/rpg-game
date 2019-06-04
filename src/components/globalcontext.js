@@ -11,6 +11,7 @@ global.CreateCharacterSelectedClassId = 0;
 global.CreateCharacterSelectedClassName = "";
 global.CreateCharacterSelectedClassIconPath = "";
 global.CreateCharacterSelectedFaction = "";
+global.CreateCharacterSelectedGender = "";
 
 //Base Class base stats for Character Creation
 global.CreateCharacterSelectedClassBaseStrength = 0;

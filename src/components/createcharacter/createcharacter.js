@@ -78,9 +78,11 @@ class CreateCharacter extends Component {
 
     setRaceImagePath(Race) {
         if(this.state.racegender === "Male"){
+            global.CreateCharacterSelectedGender = "Male"
             return Race.MaleIconPath
         }
         if(this.state.racegender === "Female"){
+            global.CreateCharacterSelectedGender = "Female"
             return Race.FemaleIconPath
         }
     }
@@ -98,7 +100,7 @@ class CreateCharacter extends Component {
             alert("Name too short!");
             return;
         }
-        if (document.querySelector('.genderInput:checked').value === "Male") {
+        if (global.CreateCharacterSelectedGender === "Male") {
             global.CreateCharacterSelectedRaceIconPath = global.CreateCharacterSelectedRaceMaleIconPath
         }
         else {
@@ -118,7 +120,7 @@ class CreateCharacter extends Component {
             Intellect: global.CreateCharacterSelectedCombinedBaseIntellect,
             Spirit: global.CreateCharacterSelectedCombinedBaseSpirit,
             Name: document.getElementById("characterNameInput").value,
-            Gender: document.querySelector('.genderInput:checked').value,
+            Gender: global.CreateCharacterSelectedGender,
             RaceIconPath: global.CreateCharacterSelectedRaceIconPath,
             ClassIconPath: global.CreateCharacterSelectedClassIconPath,
             Level: 1
@@ -185,7 +187,7 @@ class CreateCharacter extends Component {
                                 ))}
                             </ul>
                         </div>
-                        <GenderSelection setGenderValueFromChild={this.setGenderValueFromChild}/>
+                        <GenderSelection setGenderValueFromChild={this.setGenderValueFromChild} femalechecked={this.state.femaleselected} malechecked={this.malechecked}/>
                     </div>
 
                     <div id="details">
