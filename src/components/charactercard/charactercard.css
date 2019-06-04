@@ -1,7 +1,7 @@
 li.CharacterList {
     list-style-type: none;
     margin-top:15px;
-    margin-bottom:15px;
+    margin-bottom:20px;
     margin-left: 15px;
     display:inline-block;
   }
@@ -17,6 +17,13 @@ li.CharacterList {
     padding-bottom: 5px;
     padding-left: 5px;
   }
+  .CharacterListRow:hover {
+    box-shadow:
+    0 0 15px #f1d65e93,         
+    -4px 0 20px #f1d65e93,        
+    4px 0 20px #f1d65e93; 
+  }
+
   
   .CharacterListName {
     font-size: 23px;
@@ -49,6 +56,7 @@ li.CharacterList {
 
   .highlightcharacter {
     outline: none;
+    border-color:rgb(251, 255, 0);
     box-shadow:
     0 0 20px #fed20d,         
     -8px 0 20px #fed20d,        

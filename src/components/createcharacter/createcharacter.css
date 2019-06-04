@@ -23,8 +23,13 @@
     height: 50px;
     width:50px;
     border-radius:4px;
-  
   }
+  li.racelistentry:hover, li.classlistentry:hover{
+    box-shadow: 0 0 25px rgb(218, 144, 33);
+    border: 3px solid rgb(196, 159, 103);;
+  }
+
+
   
   div#CharacterPanel {
     width:1200px;

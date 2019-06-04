@@ -9,6 +9,7 @@
   ul#CharacterList {
     max-height:600px;
     overflow:auto;
+    padding-bottom: 15px;
   }
   
   div#CharacterListUlHolder {

@@ -187,7 +187,7 @@ class CreateCharacter extends Component {
                                 ))}
                             </ul>
                         </div>
-                        <GenderSelection setGenderValueFromChild={this.setGenderValueFromChild} femalechecked={this.state.femaleselected} malechecked={this.malechecked}/>
+                        <GenderSelection setGenderValueFromChild={this.setGenderValueFromChild}/>
                     </div>
 
                     <div id="details">
