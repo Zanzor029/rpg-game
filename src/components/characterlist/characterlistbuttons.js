@@ -25,7 +25,7 @@ class CharacterListButtons extends Component {
             var alertConfirmation = window.confirm("This will delete the character permantently!");
             if (alertConfirmation === true) {
                 console.log("Delete character: " + global.SelectedCharacter);
-                var apipath = global.DeleteCharacterApiStartPath + global.SelectedCharacter
+                var apipath = global.ApiStartPath + "deletecharacter/" + global.SelectedCharacter
                 fetch(apipath, {
                     method: "DELETE",
                 })

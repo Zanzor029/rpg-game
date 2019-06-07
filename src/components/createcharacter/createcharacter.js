@@ -25,8 +25,15 @@ class CreateCharacter extends Component {
     }
 
     componentDidMount() {
-        this.getRaceData()
-        this.getClassData()
+        if(!this.props.userid) {
+            return <div>Not logged in...</div>;
+        }
+        else {
+            this.getRaceData()
+            this.getClassData()
+            console.log("userid: "+this.props.userid)
+        }
+
     }
 
     setGenderValueFromChild(GenderValue,e) {
@@ -87,7 +94,7 @@ class CreateCharacter extends Component {
         }
     }
 
-    createCharacterPost() {
+    createCharacterPost(userid) {
         if (global.CreateCharacterSelectedRaceId === 0) {
             alert("Select a Race!");
             return;
@@ -107,9 +114,9 @@ class CreateCharacter extends Component {
             global.CreateCharacterSelectedRaceIconPath = global.CreateCharacterSelectedRaceFemaleIconPath
         }
 
-
         var payload = {
             Race: global.CreateCharacterSelectedRaceName,
+            UserId: userid,
             RaceId: global.CreateCharacterSelectedRaceId,
             Class: global.CreateCharacterSelectedClassName,
             ClassId: global.CreateCharacterSelectedClassId,
@@ -123,10 +130,11 @@ class CreateCharacter extends Component {
             Gender: global.CreateCharacterSelectedGender,
             RaceIconPath: global.CreateCharacterSelectedRaceIconPath,
             ClassIconPath: global.CreateCharacterSelectedClassIconPath,
-            Level: 1
+            Level: 1,
         }
-        console.log(payload);
-        fetch("http://rpgapi.jpersson.eu:3003/character/create",
+        console.log(JSON.stringify(payload));
+        var createCharacterApiPath = global.ApiStartPath + "character/create"
+        fetch(createCharacterApiPath,
             {
                 headers: {
                     'Accept': 'application/json',
@@ -136,7 +144,7 @@ class CreateCharacter extends Component {
                 body: JSON.stringify(payload)
             })
             .then(function (res) { return res.json(); })
-            .then(function (payload) { alert(JSON.stringify(payload)) })
+            .then(function (res) { alert(JSON.stringify(res)) })
     }
 
     render() {
@@ -147,6 +155,9 @@ class CreateCharacter extends Component {
 
         if (error) {
             return <div>Error: {error.message}</div>;
+        }
+        else if (!this.props.userid) {
+            return <div>not logged in!</div>;
         }
         else if (!RacesLoaded && !ClassesLoaded) {
             return <div>Loading...</div>;
@@ -223,7 +234,8 @@ class CreateCharacter extends Component {
                             Character Name: <input type="text" name="charname" id="characterNameInput" />
                         </div>
                         <div id="createCharacterButtonHolder">
-                            <button id="createCharacterButton" type="button" onClick={this.createCharacterPost}>Accept</button>
+                            {/* <button id="createCharacterButton" type="button" onClick={this.createCharacterPost}>Accept</button> */}
+                            <button id="createCharacterButton" type="button" onClick={(event) => this.createCharacterPost(this.props.userid)}>Accept</button>
                         </div>
                         <div id="cancelButtonHolder">
                             <Link to="/CharacterList" className="CharacterListBtn"><button id="cancelButton" type="button">Back</button></Link>

@@ -10,16 +10,33 @@ class CharacterList extends Component {
         this.state = {
             error: null,
             isLoaded: false,
-            characters: []
+            characters: [],
+            token: localStorage.getItem('token')
         };
     }
 
     componentDidMount() {
-        this.getCharacterData()
+        if (!this.props.userid) {
+            console.log("Missing UserID Prop")
+        }
+        else {
+            this.getCharacterData()
+        }
+
     }
 
     getCharacterData() {
-        fetch("http://rpgapi.jpersson.eu:3003/characters")
+        var getCharacterDataPath = global.ApiStartPath + "characters/" + this.props.userid
+        console.log("Call API to get all characters with userID" + this.props.userid)
+        fetch(getCharacterDataPath,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                method: "GET",
+            })
             .then(res => res.json())
             .then(
                 (result) => {
@@ -38,9 +55,15 @@ class CharacterList extends Component {
     }
 
     render() {
-        const { error, isLoaded, characters } = this.state;
+        const { error, isLoaded, characters, token } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
+        }
+        else if (!this.props.userid) {
+            return (
+                <div> You are not logged in to the application.
+                </div>
+            )
         }
         else if (!isLoaded) {
             return <div>Loading...</div>;
