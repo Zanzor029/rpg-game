@@ -1,0 +1,14 @@
+.landing {
+  background: url("../../resources/images/backgrounds/landingback2.jpg");
+  position: relative;
+  background-size: cover;
+  height: 100vh;
+  width: 170vh;
+}
+
+.landing-btn {
+  text-align: center;
+  display: inline-block;
+  margin-top: 250px;
+  margin-left: 300px;
+}

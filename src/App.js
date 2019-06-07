@@ -6,6 +6,9 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import CharacterList from './components/characterlist/characterlist.js';
 import CreateCharacter from './components/createcharacter/createcharacter.js';
 import TestParent from './components/tests/testparent';
+import Landing from "./components/Landing/Landing";
+import Login from "./components/Landing/Login";
+import Register from "./components/Landing/Register";
 
 
 class App extends Component {
@@ -36,11 +39,13 @@ class App extends Component {
           </ul>
         </div>
         <div className="AppContentRightSide">
-          <Route exact path="/" component={HomeRoute} />
+          <Route exact path="/" component={Landing} />
           <Route path="/characterlist" component={CharacterListRoute} />
           <Route path="/test" component={TestRoute} />
           <Route path="/DebuggerRoute" component={DebuggerRoute} />
           <Route path="/CreateCharacter" component={CreateCharacterRoute} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
         </div>
 
       </Router>
