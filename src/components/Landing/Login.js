@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import history from '../../history';
 class Login extends Component {
   constructor() {
     super();
@@ -9,6 +9,12 @@ class Login extends Component {
       usertoken: "",
       userid: ""
     };
+    this.routeChange = this.routeChange.bind(this);
+  }
+
+  routeChange(targetpath) {
+    history.push(targetpath);
+    window.location.reload()
   }
 
   onChange = e => {
@@ -38,24 +44,28 @@ class Login extends Component {
       .then(function (res) { return res.json(); })
       .then(res => {
         console.log(res);
-        localStorage.setItem('token', res.token);
-        var base64url = res.token.split('.')[1]
-        var base64 = decodeURIComponent(atob(base64url).split('').map(function (c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        var base64json = JSON.parse(base64)
-        this.setState({
-          usertoken: res.token,
-          userid: res.token.split
-        })
-        console.log("Base64: " + base64);
-        console.log("Base64 id: " + base64json.id)
-        {
-          this.props.useridHandler({
-            usertoken: this.state.usertoken,
-            userid: base64json.id
+        if (res.msg === "ok") {
+          console.log("login successfull")
+          localStorage.setItem('token', res.token);
+          var base64url = res.token.split('.')[1]
+          var base64 = decodeURIComponent(atob(base64url).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          }).join(''));
+          var base64json = JSON.parse(base64)
+          this.setState({
+            usertoken: res.token,
+            userid: res.token.split
           })
+          console.log("Base64: " + base64);
+          console.log("Base64 id: " + base64json.id)
+          this.routeChange("/auth/characterlist")
+
         }
+        else {
+          console.log("Bad login")
+          alert("Incorrect credentials!")
+        }
+
       })
   };
 
@@ -65,13 +75,12 @@ class Login extends Component {
         <div>
           <div>
             <div>
-              <h1>Log in</h1>
-              <p>Submit login credentials</p>
-              <p>{this.state.usertoken}</p>
+              <div className="loginheadertext">Submit login credentials</div>
               <p>{this.state.userid}</p>
               <form onSubmit={this.onSubmit}>
                 <div>
                   <input
+                    className="logininput"
                     type="text"
                     placeholder="Username"
                     name="username"
@@ -81,6 +90,7 @@ class Login extends Component {
                 </div>
                 <div>
                   <input
+                    className="logininput"
                     type="password"
                     placeholder="Password"
                     name="password"
@@ -88,7 +98,7 @@ class Login extends Component {
                     onChange={this.onChange}
                   />
                 </div>
-                <input value="Login" type="submit" />
+                <input className="logininputsubmit" value="Login" type="submit" />
               </form>
             </div>
           </div>

@@ -65,7 +65,7 @@ class CharacterListButtons extends Component {
         return (
             <div id="CharacterListBtnsPanel">
                 <div className="CharacterListBtnPanel" id="CharacterListCreateNewBtnPanel">
-                    <Link to="/CreateCharacter" className="CharacterListBtn"><button className="CharacterListBtn" id="CharacterListCreateNewBtn" type="Button">Create New Character</button></Link>
+                    <Link to="/auth/CreateCharacter" className="CharacterListBtn"><button className="CharacterListBtn" id="CharacterListCreateNewBtn" type="Button">Create New Character</button></Link>
                 </div>
                 <div className="CharacterListBtnPanel" id="CharacterListDeleteBtnPanel">
                     <button className="CharacterListBtn" id="CharacterListDeleteBtn" type="Button" onClick={() => { this.deleteCharacter() }}>Delete Character</button>

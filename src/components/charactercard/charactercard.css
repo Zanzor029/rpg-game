@@ -1,9 +1,11 @@
+
 li.CharacterList {
     list-style-type: none;
     margin-top:15px;
     margin-bottom:20px;
     margin-left: 15px;
     display:inline-block;
+    font-family: FrizQuadrata;
   }
 
   

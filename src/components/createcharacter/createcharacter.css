@@ -3,6 +3,18 @@
     opacity: .6;
   }
   
+  #classlistpanel, #racelistpanel {
+    border: 1px solid;
+    border-color:rgba(0, 0 , 0,0.3);
+    background-color:rgba(0, 0 , 0,0.6);
+    width: 330px;
+    margin-top: 20px;
+    font-size: 15px;
+    color: orange;
+    padding-bottom:5px;
+    padding-left: 5px;
+
+  }
   ul#classlist,#racelist {
     width:250px;
   }
@@ -32,18 +44,30 @@
 
   
   div#CharacterPanel {
-    width:1200px;
-    height:800px;
-    margin-left: auto;
-    margin-right:auto;
-    background-image: url(../../resources/images/backgrounds/charactercreation.png);
+    position: relative;
+    background-size: cover;
+    width: auto;
+    margin-left:64px;
+    height:100vh;
+    background-image: url(../../resources/images/backgrounds/darkportal.jpg);
   }
-  
+  #characterGenderInputHolder {
+    border: 1px solid;
+    border-color:rgba(0, 0 , 0,0.3);
+    background-color:rgba(0, 0 , 0,0.6);
+    width: 330px;
+    margin-top: 20px;
+    font-size: 15px;
+    color: orange;
+    padding-bottom:5px;
+    padding-left: 5px;
+  }
   div#selection {
     width:400px;
     height:600px;
     padding-left: 10px;
     float: left;
+    
   }
   div#details {
     float:right;
@@ -51,28 +75,41 @@
     height:600px;
   }
   #detailstable {
-      color:white;
-  }
-  h2.spgame {
-    color: black;
+    display: table;         
+    width: auto;         
+    border-color:rgba(0, 0 , 0,0.3);
+    background-color:rgba(0, 0 , 0,0.6);       
+    border-spacing: 5px; /* cellspacing:poor IE support for  this */
+    color: white;
   }
   
   .tablerow {
-    padding: 5px;
+    display: table-row;
+    width: auto;
+    clear: both;
   }
   
+  .tableheader,.tablevalue {
+    float: left; /* fix for  buggy browsers */
+    display: table-column;         
+    width: 75px;
+    font-size: 12px;         
+  }
   .tableheader {
-    font-size: 15px;
     font-weight: bold;
   }
   
-  #characterNameInputHolder {
-    margin-top: 20px;
-  }
+
   
   #createCharacterButtonHolder {
     margin-top: 50px;
   
+  }
+
+  #createCharacterButton,#cancelButton {
+    margin-left:100px;
+    margin-right:auto;
+    display: inline;
   }
 
   .highlightclass, .highlightrace {
@@ -83,4 +120,29 @@
 
   #CreateCharacterLoreBoxes {
       margin: 10px;
+      height: 500px;
+  }
+
+  #CreateCharacterName {
+    width: 200px;
+    margin: 0;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid;
+    border-color:rgba(0, 0 , 0,0.3);
+    background-color:rgba(0, 0 , 0,0.6);
+    padding:10px;
+
+  }
+
+  #characterNametextHolder {
+    font-size: 25px;
+    padding-bottom:5px;
+    padding-left: 5px;
+    -webkit-text-fill-color: orange;
+    -webkit-text-stroke-color: black;
+    text-shadow: 1px 1px black;
+    
   }

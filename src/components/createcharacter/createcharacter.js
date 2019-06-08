@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
-import ReactDOM from "react-dom";
+import history from '../../history';
 import "../globalcontext";
 import LoreBox from '../lorebox/lorebox';
 import "./createcharacter.css";
@@ -25,26 +25,29 @@ class CreateCharacter extends Component {
     }
 
     componentDidMount() {
-        if(!this.props.userid) {
+        if (!this.props.userid) {
             return <div>Not logged in...</div>;
         }
         else {
             this.getRaceData()
             this.getClassData()
-            console.log("userid: "+this.props.userid)
+            console.log("userid: " + this.props.userid)
         }
 
     }
 
-    setGenderValueFromChild(GenderValue,e) {
+    setGenderValueFromChild(GenderValue, e) {
 
         this.setState({
             racegender: GenderValue
         });
-        console.log("Gender value set to: "+this.state.racegender)
+        console.log("Gender value set to: " + this.state.racegender)
     }
 
-
+    routeChange(targetpath) {
+        history.push(targetpath);
+        window.location.reload()
+      }
 
     getRaceData() {
         fetch("http://rpgapi.jpersson.eu:3003/races")
@@ -84,11 +87,11 @@ class CreateCharacter extends Component {
     }
 
     setRaceImagePath(Race) {
-        if(this.state.racegender === "Male"){
+        if (this.state.racegender === "Male") {
             global.CreateCharacterSelectedGender = "Male"
             return Race.MaleIconPath
         }
-        if(this.state.racegender === "Female"){
+        if (this.state.racegender === "Female") {
             global.CreateCharacterSelectedGender = "Female"
             return Race.FemaleIconPath
         }
@@ -144,7 +147,10 @@ class CreateCharacter extends Component {
                 body: JSON.stringify(payload)
             })
             .then(function (res) { return res.json(); })
-            .then(function (res) { alert(JSON.stringify(res)) })
+            .then(function(res) {
+                console.log(res);
+            })
+            this.routeChange("/auth/characterlist");
     }
 
     render() {
@@ -166,16 +172,15 @@ class CreateCharacter extends Component {
             return (
                 <div id="CharacterPanel">
                     <div id="selection">
-                        <h2 className="spgame">Select and Race and a Class from below.</h2>
                         <div id="racelistpanel">
-                            <h2 className="spgame">Race</h2>
+                            <p>Race</p>
                             <ul id="racelist">
                                 {Races.map(Race => (
-                                    <div id={"div-RaceListEntry-"+Race.Id} className ="RaceListEntryDiv">
+                                    <div id={"div-RaceListEntry-" + Race.Id} className="RaceListEntryDiv">
                                         <RaceListEntry
                                             RaceListEntryId={"RaceListEntry-" + Race.Id}
                                             RaceListEntryKey={Race.Id}
-                                            RaceListImagePath = {require("../../" + this.setRaceImagePath(Race))}
+                                            RaceListImagePath={require("../../" + this.setRaceImagePath(Race))}
                                             RaceListEntryMaleImgPath={require("../../" + Race.MaleIconPath)}
                                             RaceListEntryFemaleImgPath={require("../../" + Race.MaleIconPath)}
                                             RaceListEntryImgText={Race.Name.toLowerCase()}
@@ -186,7 +191,7 @@ class CreateCharacter extends Component {
                             </ul>
                         </div>
                         <div id="classlistpanel">
-                            <h2 className="spgame">Class</h2>
+                            <p>Class</p>
                             <ul id="classlist">
                                 {Classes.map(Class => (
                                     <ClassListEntry
@@ -198,9 +203,16 @@ class CreateCharacter extends Component {
                                 ))}
                             </ul>
                         </div>
-                        <GenderSelection setGenderValueFromChild={this.setGenderValueFromChild}/>
+                        <GenderSelection setGenderValueFromChild={this.setGenderValueFromChild} />
                     </div>
-
+                    <div id="CreateCharacterName">
+                        <div id="characterNametextHolder">
+                            Name
+                        </div>
+                        <div id="characterNameInputHolder">
+                            <input type="text" name="charname" id="characterNameInput" />
+                        </div>
+                    </div>
                     <div id="details">
                         <div id="CreateCharacterLoreBoxes">
                             <LoreBox LoreBoxClassName="LoreBox" LoreBoxId="FactionLoreBox" LoreBoxTitle="Faction" LoreBoxText="No faction selected" />
@@ -208,33 +220,23 @@ class CreateCharacter extends Component {
                             <LoreBox LoreBoxClassName="LoreBox" LoreBoxId="ClassLoreBox" LoreBoxTitle="Class" LoreBoxText="No class selected" />
                         </div>
                         <div id="detailstable">
-                            <div id="selectedBaseStrength" className="tablerow">
-                                <div id="selectedBaseStrengthHeader" className="tableheader">Base Strength</div>
+                            <div className="tablerow">
+                                <div id="selectedBaseStrengthHeader" className="tableheader">Strength</div>
+                                <div id="selectedBaseAgilityHeader" className="tableheader">Agility</div>
+                                <div id="selectedBaseStaminaHeader" className="tableheader">Stamina</div>
+                                <div id="selectedBaseIntHeader" className="tableheader">Intellect</div>
+                                <div id="selectedBaseSpiHeader" className="tableheader">Spirit</div>
+                            </div>
+                            <div className="tablerow">
                                 <div id="selectedBaseStrengthValue" className="tablevalue"> </div>
-                            </div>
-                            <div id="selectedBaseAgility" className="tablerow">
-                                <div id="selectedBaseAgilityHeader" className="tableheader">Base Agility</div>
                                 <div id="selectedBaseAgilityValue" className="tablevalue"> </div>
-                            </div>
-                            <div id="selectedBaseStamina" className="tablerow">
-                                <div id="selectedBaseStaminaHeader" className="tableheader">Base Stamina</div>
                                 <div id="selectedBaseStaminaValue" className="tablevalue"> </div>
-                            </div>
-                            <div id="selectedBaseInt" className="tablerow">
-                                <div id="selectedBaseIntHeader" className="tableheader">Base Intellect</div>
                                 <div id="selectedBaseIntValue" className="tablevalue"> </div>
-                            </div>
-                            <div id="selectedBaseSpi" className="tablerow">
-                                <div id="selectedBaseSpiHeader" className="tableheader">Base Spirit</div>
                                 <div id="selectedBaseSpiValue" className="tablevalue"> </div>
                             </div>
                         </div>
 
-                        <div id="characterNameInputHolder">
-                            Character Name: <input type="text" name="charname" id="characterNameInput" />
-                        </div>
                         <div id="createCharacterButtonHolder">
-                            {/* <button id="createCharacterButton" type="button" onClick={this.createCharacterPost}>Accept</button> */}
                             <button id="createCharacterButton" type="button" onClick={(event) => this.createCharacterPost(this.props.userid)}>Accept</button>
                         </div>
                         <div id="cancelButtonHolder">

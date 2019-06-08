@@ -3,6 +3,7 @@ import CharacterListButtons from './characterlistbuttons';
 import "../globalcontext";
 import CharacterCard from '../charactercard/charactercard';
 import "./characterlist.css";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class CharacterList extends Component {
     constructor(props) {
@@ -61,8 +62,11 @@ class CharacterList extends Component {
         }
         else if (!this.props.userid) {
             return (
-                <div> You are not logged in to the application.
+                <div> You are not logged in to the application
+                
+                <Link to="/"><h2>Press here to login</h2></Link>
                 </div>
+                
             )
         }
         else if (!isLoaded) {
