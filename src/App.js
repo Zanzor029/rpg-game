@@ -8,6 +8,7 @@ import Landing from "./components/Landing/Landing";
 import Register from "./components/Landing/Register";
 import history from './history';
 import Navbar from './components/navbar/navbar';
+import Logout from './components/logout/logout';
 
 
 class App extends Component {
@@ -58,15 +59,12 @@ class App extends Component {
   }
 
   render() {
-    // if(this.state.redirectlogin == true){
-    //   this.routeChange("/")
-
-    // }
     return (
       <Router>
         <Navbar />
         <div className="AppContentRightSide">
           <Route exact path="/" component={Landing} />
+          <Route path="/register" component={Register} />
           <Route path="/auth/characterlist" render={() => (
             <CharacterList userid={this.state.userid}
             />
@@ -74,7 +72,10 @@ class App extends Component {
           <Route path="/auth/CreateCharacter" render={() => (
             <CreateCharacter userid={this.state.userid} />
           )} />
-          <Route path="/register" component={Register} />
+            <Route path="/auth/Logout" render={() => (
+            <Logout/>
+          )} />
+
         </div>
 
       </Router>

@@ -45,6 +45,14 @@ class Navbar extends Component {
                                 Character List
                             </NavText>
                         </NavItem>
+                        <NavItem eventKey="/auth/logout">
+                            <NavIcon>
+                                <i className="fas fa-sign-out-alt"></i>
+                            </NavIcon>
+                            <NavText>
+                                Log Out
+                            </NavText>
+                        </NavItem>
                         
                     </SideNav.Nav>
                 </SideNav>
