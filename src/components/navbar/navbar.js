@@ -31,7 +31,7 @@ class Navbar extends Component {
                     <SideNav.Nav defaultSelected="home">
                         <NavItem eventKey="/">
                             <NavIcon>
-                                <i class="fas fa-home"></i>
+                                <i className="fas fa-home"></i>
                             </NavIcon>
                             <NavText>
                                 Home
@@ -39,7 +39,7 @@ class Navbar extends Component {
                         </NavItem>
                         <NavItem eventKey="/auth/characterlist">
                             <NavIcon>
-                                <i class="fas fa-users"></i>
+                                <i className="fas fa-users"></i>
                             </NavIcon>
                             <NavText>
                                 Character List

@@ -19,7 +19,7 @@ class Landing extends Component {
           <Login useridHandler={this.useridHandler}/>
           <div className="registerholder">
           <Link to="/register">
-            <button className="register-btn">Register</button>
+            <button className="register-btn">Register a new account</button>
           </Link>
         </div>
         </div>

@@ -64,47 +64,57 @@ class Register extends Component {
 
       <div className="landing">
         <div className="loginbox">
-          <p>Create your account</p>
+          <div className="loginheadertext">
+            Create your account
+          </div>
           <form onSubmit={this.onSubmit}>
             <div>
               <input
+              className="logininput"
                 type="text"
                 minLength="5"
                 placeholder="Username"
                 name="name"
+                required
                 value={this.state.name}
                 onChange={this.onChange}
               />
             </div>
             <div>
               <input
+              className="logininput"
                 type="email"
                 placeholder="Email Address"
                 name="email"
+                required
                 value={this.state.email}
                 onChange={this.onChange}
               />
             </div>
             <div>
               <input
+              className="logininput"
                 type="password"
                 placeholder="Password"
                 minLength="5"
                 name="password"
+                required
                 value={this.state.password}
                 onChange={this.onChange}
               />
             </div>
             <div>
               <input
+              className="logininput"
                 type="password"
                 placeholder="Confirm Password"
                 name="password2"
+                required
                 value={this.state.password2}
                 onChange={this.onChange}
               />
             </div>
-            <input value="Register" type="submit" />
+            <input className="logininputsubmit" value="Register" type="submit" />
           </form>
         </div>
       </div>
