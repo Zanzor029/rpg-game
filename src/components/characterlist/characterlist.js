@@ -73,6 +73,9 @@ class CharacterList extends Component {
             return <div>Loading...</div>;
         }
         else {
+            characters.sort(function(a,b){
+                return parseInt(a.Id)  - parseInt(b.Id);
+               })
             return (
                 <div id="CharacterListPanel">
                     <div id="CharacterListUlHolder">

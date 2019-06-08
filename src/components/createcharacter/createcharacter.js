@@ -46,7 +46,9 @@ class CreateCharacter extends Component {
 
     routeChange(targetpath) {
         history.push(targetpath);
-        window.location.reload()
+        setTimeout(function () {
+            window.location.reload()
+        }, 500)
       }
 
     getRaceData() {
@@ -150,7 +152,10 @@ class CreateCharacter extends Component {
             .then(function(res) {
                 console.log(res);
             })
+
             this.routeChange("/auth/characterlist");
+
+
     }
 
     render() {
