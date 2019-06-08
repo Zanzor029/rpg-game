@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import history from '../../history';
 import "./Landing.css";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Register extends Component {
   constructor() {
@@ -116,7 +117,9 @@ class Register extends Component {
             </div>
             <input className="logininputsubmit" value="Register" type="submit" />
           </form>
+          <Link to="/"><button id="RegisterCancel">Cancel</button></Link>
         </div>
+
       </div>
 
     );
