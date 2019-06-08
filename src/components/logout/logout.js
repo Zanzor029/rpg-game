@@ -29,7 +29,7 @@ routeChange(targetpath) {
 
   render() {
     return (
-        <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+        <p>Logout</p>
     );
   }
 }

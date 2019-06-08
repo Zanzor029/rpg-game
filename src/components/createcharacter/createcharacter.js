@@ -240,7 +240,7 @@ class CreateCharacter extends Component {
                             <button id="createCharacterButton" type="button" onClick={(event) => this.createCharacterPost(this.props.userid)}>Accept</button>
                         </div>
                         <div id="cancelButtonHolder">
-                            <Link to="/CharacterList" className="CharacterListBtn"><button id="cancelButton" type="button">Back</button></Link>
+                            <Link to="/auth/CharacterList" className="CharacterListBtn"><button id="cancelButton" type="button">Back</button></Link>
                         </div>
                     </div>
                 </div>

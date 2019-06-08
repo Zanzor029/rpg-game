@@ -106,10 +106,20 @@
   
   }
 
-  #createCharacterButton,#cancelButton {
-    margin-left:100px;
+  #createCharacterButton {
+    /* margin-left:100px;
     margin-right:auto;
-    display: inline;
+    display: inline; */
+    position: absolute;
+    top: 90%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+  }
+  #cancelButton {
+    position: absolute;
+    top: 85%;
+    left: 90%;
+    transform: translate(-50%, -50%);
   }
 
   .highlightclass, .highlightrace {
@@ -120,7 +130,7 @@
 
   #CreateCharacterLoreBoxes {
       margin: 10px;
-      height: 500px;
+      height: 600px;
   }
 
   #CreateCharacterName {

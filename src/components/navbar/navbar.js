@@ -13,9 +13,9 @@ class Navbar extends Component {
     }
     routeChange(targetpath) {
         history.push(targetpath);
-    
+
         window.location.reload()
-      }
+    }
 
     render() {
         return (
@@ -45,6 +45,14 @@ class Navbar extends Component {
                                 Character List
                             </NavText>
                         </NavItem>
+                        <NavItem eventKey="/auth/createcharacter">
+                            <NavIcon>
+                                <i className="fas fa-user-plus"></i>
+                            </NavIcon>
+                            <NavText>
+                                Create Character
+                            </NavText>
+                        </NavItem>
                         <NavItem eventKey="/auth/logout">
                             <NavIcon>
                                 <i className="fas fa-sign-out-alt"></i>
@@ -53,7 +61,7 @@ class Navbar extends Component {
                                 Log Out
                             </NavText>
                         </NavItem>
-                        
+
                     </SideNav.Nav>
                 </SideNav>
             </div>
