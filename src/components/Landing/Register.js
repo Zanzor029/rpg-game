@@ -32,32 +32,36 @@ class Register extends Component {
     };
 
     console.log(newUser);
-    if (newUser.password === newUser.password2) {
-      console.log("Password matches, creating account");
-
-      var apipath = global.ApiStartPath + "register"
-      fetch(apipath,
-        {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method: "POST",
-          body: JSON.stringify(newUser)
-        })
-        .then(function (res) { return res.json(); })
-      // .then(function (newUser) { alert(JSON.stringify(newUser)) })
-      this.routeChange("/")
-
+    var confirmationalert = window.confirm("Passwords are not yet stored with encryption, do not use any private credentials! Press OK to create account or Cancel to abort")
+    if(confirmationalert == true ){
+      if (newUser.password === newUser.password2) {
+        console.log("Password matches, creating account");
+  
+        var apipath = global.ApiStartPath + "register"
+        fetch(apipath,
+          {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify(newUser)
+          })
+          .then(function (res) { return res.json(); })
+        // .then(function (newUser) { alert(JSON.stringify(newUser)) })
+        this.routeChange("/")
+  
+      }
+      else {
+        console.log("Password does not match")
+        alert("Password does not match! Try again.");
+        this.setState({
+          password: "",
+          password2: ""
+        });
+      }
     }
-    else {
-      console.log("Password does not match")
-      alert("Password does not match!");
-      this.setState({
-        password: "",
-        password2: ""
-      });
-    }
+    
   };
 
   render() {
@@ -66,7 +70,8 @@ class Register extends Component {
       <div className="landing">
         <div className="loginbox">
           <div className="loginheadertext">
-            Create your account
+            Create your account <br></br>
+            Warning: Passwords are <br></br> not encrypted in <br></br>database yet!
           </div>
           <form onSubmit={this.onSubmit}>
             <div>

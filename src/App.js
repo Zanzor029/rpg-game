@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import "./components/globalcontext";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import CharacterList from './components/characterlist/characterlist.js';
 import CreateCharacter from './components/createcharacter/createcharacter.js';
 import Landing from "./components/Landing/Landing";
