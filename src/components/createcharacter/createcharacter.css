@@ -47,7 +47,6 @@
     position: relative;
     background-size: cover;
     width: auto;
-    margin-left:64px;
     height:100vh;
     background-image: url(../../resources/images/backgrounds/darkportal.jpg);
   }

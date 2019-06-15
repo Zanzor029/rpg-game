@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import history from '../../history';
 
 class CharacterListButtons extends Component {
     constructor(props) {
@@ -10,6 +11,13 @@ class CharacterListButtons extends Component {
             isLoaded: false
         };
     }
+    routeChange(targetpath) {
+        history.push(targetpath);
+        setTimeout(function () {
+            window.location.reload()
+        }, 500)
+      }
+
     deleteCharacterApiCall(characterId) {
         console.log("ApiPath")
 
@@ -60,6 +68,19 @@ class CharacterListButtons extends Component {
 
     };
 
+    enterWorld() {
+        if(!this.props.selectedCharacterId)
+        {
+            alert("No character selected");
+        }
+        else
+        {
+            console.log(`Enter world with ${this.props.selectedCharacterId}`);
+            // this.routeChange("/auth/world");
+        }
+
+    }
+
     render() {
 
         return (
@@ -72,7 +93,7 @@ class CharacterListButtons extends Component {
                 </div>
 
                 <div className="CharacterListBtnPanel" id="CharacterListEnterWorldBtnPanel">
-                    <button className="CharacterListBtn" id="CharacterListEnterWorldBtn" type="Button">Enter World</button>
+                    <Link to="/auth/world"><button className="CharacterListBtn" id="CharacterListEnterWorldBtn" type="Button"  onClick={() => { this.enterWorld() }}>Enter World</button></Link>
                 </div>
             </div>
         );

@@ -9,6 +9,7 @@ import Register from "./components/Landing/Register";
 import history from './history';
 import Navbar from './components/navbar/navbar';
 import Logout from './components/logout/logout';
+import World from './components/world/world';
 
 
 class App extends Component {
@@ -17,8 +18,10 @@ class App extends Component {
     this.state = {
       token: "",
       userid: "",
+      characterid: "",
       redirectlogin: false
     }
+    this.setSelectedCharacterIdtoApp = this.setSelectedCharacterIdtoApp.bind(this);
   }
 
   componentWillMount() {
@@ -27,7 +30,6 @@ class App extends Component {
 
   routeChange(targetpath) {
     history.push(targetpath);
-
     window.location.reload()
   }
 
@@ -58,6 +60,14 @@ class App extends Component {
     }
   }
 
+  setSelectedCharacterIdtoApp(id) {
+    this.setState({
+      characterid: id
+  });
+  console.log("id from function" + id);
+  console.log("state:" + this.state.characterid);
+  }
+
   render() {
     return (
       <Router>
@@ -65,9 +75,11 @@ class App extends Component {
         <div className="AppContentRightSide">
           <Route exact path="/" component={Landing} />
           <Route path="/register" component={Register} />
+          <Route path="/auth/world" render={() => (
+            <World characterid={this.state.characterid}/>
+          )} />
           <Route path="/auth/characterlist" render={() => (
-            <CharacterList userid={this.state.userid}
-            />
+            <CharacterList userid={this.state.userid}  setSelectedCharacterIdtoApp={this.setSelectedCharacterIdtoApp}/>
           )} />
           <Route path="/auth/CreateCharacter" render={() => (
             <CreateCharacter userid={this.state.userid} />

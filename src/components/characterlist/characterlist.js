@@ -12,8 +12,10 @@ class CharacterList extends Component {
             error: null,
             isLoaded: false,
             characters: [],
+            characterid: "",
             token: localStorage.getItem('token')
         };
+        this.setSelectedCharacterId = this.setSelectedCharacterId.bind(this);
     }
 
     componentDidMount() {
@@ -25,6 +27,29 @@ class CharacterList extends Component {
         }
 
     }
+
+
+
+    setSelectedCharacterId(e) {
+        const selectedCharacterId = e.currentTarget.id.split("-")[1];
+        console.log("Selected CharacterID " +selectedCharacterId);
+        global.SelectedCharacterListId = e.currentTarget.id;
+        global.SelectedCharacter = selectedCharacterId;
+
+        //set highlight, clears previous highlight first
+        var els = document.getElementsByClassName('highlightcharacter')
+        while (els[0]) {
+            els[0].classList.remove('highlightcharacter')
+        }
+        e.currentTarget.className = "CharacterList highlightcharacter"
+        this.props.setSelectedCharacterIdtoApp(selectedCharacterId);
+        this.setState({
+            characterid: selectedCharacterId
+        });
+
+        console.log("character id value set to: " + selectedCharacterId);
+
+    };
 
     getCharacterData() {
         var getCharacterDataPath = global.ApiStartPath + "characters/" + this.props.userid
@@ -81,11 +106,11 @@ class CharacterList extends Component {
                     <div id="CharacterListUlHolder">
                         <ul id="CharacterList">
                             {characters.map(character => (
-                                <CharacterCard Id={character.Id} Name={character.Name} Race={character.Race} Class={character.Class} RaceIconPath={character.RaceIconPath} ClassIconPath={character.ClassIconPath} Level={character.Level} />
+                                <CharacterCard Id={character.Id} Name={character.Name} Race={character.Race} Class={character.Class} RaceIconPath={character.RaceIconPath} ClassIconPath={character.ClassIconPath} Level={character.Level} setSelectedCharacterId={this.setSelectedCharacterId}/>
                             ))}
                         </ul>
                     </div>
-                    <CharacterListButtons />
+                    <CharacterListButtons selectedCharacterId={this.state.characterid}/>
                 </div>
             );
         }

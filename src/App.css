@@ -28,6 +28,7 @@ div.AppContentRightSide{
   width:100vw;
   height:100vh;
   float:left;
+  margin-left:64px;
 }
 
 

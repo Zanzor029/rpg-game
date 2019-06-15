@@ -52,7 +52,8 @@ class CreateCharacter extends Component {
       }
 
     getRaceData() {
-        fetch("http://rpgapi.jpersson.eu:3003/races")
+        const getRacesData = global.ApiStartPath + "races/"
+        fetch(getRacesData)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -70,7 +71,8 @@ class CreateCharacter extends Component {
             )
     }
     getClassData() {
-        fetch("http://rpgapi.jpersson.eu:3003/classes")
+        const getClassesData = global.ApiStartPath + "classes/"
+        fetch(getClassesData)
             .then(res => res.json())
             .then(
                 (result) => {
