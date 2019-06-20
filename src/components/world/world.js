@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import "../globalcontext";
 import './world.css';
+import history from '../../history';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class World extends Component {
@@ -20,6 +21,13 @@ class World extends Component {
         this.getCharacterData();
         this.checkSaveState();
     }
+
+    routeChange(targetpath) {
+        history.push(targetpath);
+        setTimeout(function () {
+            window.location.reload()
+        }, 500)
+      }
 
     getCharacterData() {
         const getCharacterDataPath = global.ApiStartPath + "character/" + this.props.characterid
@@ -76,20 +84,33 @@ class World extends Component {
             )
     }
 
-    createSaveState(value) {
-        if(value == false) {
-            console.log("Savestate not loaded!")
+    createSaveState() {
+        console.log("No savestate found. Creating savestate for character id" + this.props.characterid);
+        var payload = {
+            Characterid: this.props.characterid,
+            ZoneLocation: 1
         }
-        else {
-            console.log("Savestate is loaded!")
-        }
-
+        var createCharacterApiPath = global.ApiStartPath + "savestate/create"
+        fetch(createCharacterApiPath,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(function (res) { return res.json(); })
+            .then(function(res) {
+                console.log(res);
+            })
     }
 
     render() {
-        const { error, character, characterloaded, savestate } = this.state;
-        console.log(character);
-        console.log(savestate);
+        const { error, character, characterloaded } = this.state;
+        if(!this.props.characterid){
+            this.routeChange("/auth/characterlist")
+        }
 
         if (error) {
             return <div>Error: {error.message}</div>;
@@ -97,12 +118,15 @@ class World extends Component {
         else if (!characterloaded) {
             return <div>Loading...</div>;
         }
+        if(!this.state.savestate){
+            this.createSaveState()
+        }
 
         return (
             <div id="WorldContainer">
-                <p>Hello World</p>
                 <p>character id: {this.props.characterid}</p>
                 <p>character name: {character.Name}</p>
+                <p>savestate: {this.state.savestate.Characterid}</p>
             </div>
         );
     }

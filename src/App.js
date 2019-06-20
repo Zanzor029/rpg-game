@@ -64,8 +64,6 @@ class App extends Component {
     this.setState({
       characterid: id
   });
-  console.log("id from function" + id);
-  console.log("state:" + this.state.characterid);
   }
 
   render() {
