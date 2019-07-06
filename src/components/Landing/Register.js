@@ -32,36 +32,33 @@ class Register extends Component {
     };
 
     console.log(newUser);
-    var confirmationalert = window.confirm("Passwords are not yet stored with encryption, do not use any private credentials! Press OK to create account or Cancel to abort")
-    if(confirmationalert == true ){
-      if (newUser.password === newUser.password2) {
-        console.log("Password matches, creating account");
-  
-        var apipath = global.ApiStartPath + "register"
-        fetch(apipath,
-          {
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            method: "POST",
-            body: JSON.stringify(newUser)
-          })
-          .then(function (res) { return res.json(); })
-        // .then(function (newUser) { alert(JSON.stringify(newUser)) })
-        this.routeChange("/")
-  
-      }
-      else {
-        console.log("Password does not match")
-        alert("Password does not match! Try again.");
-        this.setState({
-          password: "",
-          password2: ""
-        });
-      }
+
+    if (newUser.password === newUser.password2) {
+      console.log("Password matches, creating account");
+
+      var apipath = global.ApiStartPath + "register"
+      fetch(apipath,
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify(newUser)
+        })
+        .then(function (res) { return res.json(); })
+      // .then(function (newUser) { alert(JSON.stringify(newUser)) })
+      this.routeChange("/")
+
     }
-    
+    else {
+      console.log("Password does not match")
+      alert("Password does not match! Try again.");
+      this.setState({
+        password: "",
+        password2: ""
+      });
+    }
   };
 
   render() {
@@ -71,12 +68,11 @@ class Register extends Component {
         <div className="loginbox">
           <div className="loginheadertext">
             Create your account <br></br>
-            Warning: Passwords are <br></br> not encrypted in <br></br>database yet!
           </div>
           <form onSubmit={this.onSubmit}>
             <div>
               <input
-              className="logininput"
+                className="logininput"
                 type="text"
                 minLength="5"
                 placeholder="Username"
@@ -88,7 +84,7 @@ class Register extends Component {
             </div>
             <div>
               <input
-              className="logininput"
+                className="logininput"
                 type="email"
                 placeholder="Email Address"
                 name="email"
@@ -99,7 +95,7 @@ class Register extends Component {
             </div>
             <div>
               <input
-              className="logininput"
+                className="logininput"
                 type="password"
                 placeholder="Password"
                 minLength="5"
@@ -111,7 +107,7 @@ class Register extends Component {
             </div>
             <div>
               <input
-              className="logininput"
+                className="logininput"
                 type="password"
                 placeholder="Confirm Password"
                 name="password2"

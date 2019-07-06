@@ -72,7 +72,7 @@ class World extends Component {
             .then(
                 (result) => {
                     this.setState({
-                        savestate: result[0],
+                        savestate: result[0].Id,
                         savestateloaded: true
                     });
                 },
@@ -126,7 +126,8 @@ class World extends Component {
             <div id="WorldContainer">
                 <p>character id: {this.props.characterid}</p>
                 <p>character name: {character.Name}</p>
-                <p>savestate: {this.state.savestate.Characterid}</p>
+                <p>savestate: {this.state.savestate}</p>
+                <a href="#" data-wowhead="item-18608&domain=classic">Link</a>
             </div>
         );
     }
