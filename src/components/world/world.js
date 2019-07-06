@@ -2,7 +2,18 @@ import React, { Component } from 'react';
 import "../globalcontext";
 import './world.css';
 import history from '../../history';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+
+//import react components
+import Card from 'react-bootstrap/Card';
+import Accordion from 'react-bootstrap/Accordion'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
+
+//import underlying components
+import QuestLog from './questlog/questlog'
+import CharacterPanel from './characterpanel/characterpanel'
+import Spellbook from './spellbook/spellbook';
 
 class World extends Component {
     constructor(props) {
@@ -16,10 +27,10 @@ class World extends Component {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         console.log("World prop:" + this.props.characterid)
         this.getCharacterData();
-        this.checkSaveState();
+        this.checkSaveState(this.state.savestateloaded);
     }
 
     routeChange(targetpath) {
@@ -27,7 +38,7 @@ class World extends Component {
         setTimeout(function () {
             window.location.reload()
         }, 500)
-      }
+    }
 
     getCharacterData() {
         const getCharacterDataPath = global.ApiStartPath + "character/" + this.props.characterid
@@ -57,58 +68,86 @@ class World extends Component {
             )
     }
 
-    checkSaveState() {
-        const getSaveStatePath = global.ApiStartPath + "savestate/" + this.props.characterid
-        fetch(getSaveStatePath,
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                },
-                method: "GET",
-            })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        savestate: result[0].Id,
-                        savestateloaded: true
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        error
-                    });
-                }
-            )
+    checkSaveState(loaded) {
+        if (loaded == false) {
+            const getSaveStatePath = global.ApiStartPath + "savestate/" + this.props.characterid
+            fetch(getSaveStatePath,
+                {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    method: "GET",
+                })
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        if (result.msg == "null") {
+                            console.log("0 savestates found")
+                            if (loaded == false) {
+                                this.createSaveState(false)
+                            }
+
+                        }
+                        else if (result.msg == "found") {
+                            console.log("Savestate found:")
+                            console.log(result.result[0].Id)
+                            this.setState({
+                                savestate: result.result[0].Id,
+                                savestateloaded: true
+                            });
+
+                        }
+                    },
+                    (error) => {
+                        if (error)
+                            this.setState({
+                                error
+                            });
+                    }
+                )
+        }
     }
 
-    createSaveState() {
-        console.log("No savestate found. Creating savestate for character id" + this.props.characterid);
-        var payload = {
-            Characterid: this.props.characterid,
-            ZoneLocation: 1
+    createSaveState(loaded) {
+        if (loaded == false) {
+            console.log("No savestate found. Creating savestate for character id" + this.props.characterid);
+            var payload = {
+                Characterid: this.props.characterid,
+                ZoneLocation: 1
+            }
+            var createCharacterApiPath = global.ApiStartPath + "savestate/create"
+            fetch(createCharacterApiPath,
+                {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        this.setState({
+                            savestate: result.insertId,
+                            savestateloaded: true
+                        });
+                    },
+                    (error) => {
+                        if (error)
+                            this.setState({
+                                error
+                            });
+                    }
+                )
         }
-        var createCharacterApiPath = global.ApiStartPath + "savestate/create"
-        fetch(createCharacterApiPath,
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                method: "POST",
-                body: JSON.stringify(payload)
-            })
-            .then(function (res) { return res.json(); })
-            .then(function(res) {
-                console.log(res);
-            })
     }
 
     render() {
         const { error, character, characterloaded } = this.state;
-        if(!this.props.characterid){
+        if (!this.props.characterid) {
             this.routeChange("/auth/characterlist")
         }
 
@@ -118,16 +157,29 @@ class World extends Component {
         else if (!characterloaded) {
             return <div>Loading...</div>;
         }
-        if(!this.state.savestate){
-            this.createSaveState()
-        }
-
+        console.log("Savestate when rendered: " + this.state.savestate)
         return (
             <div id="WorldContainer">
-                <p>character id: {this.props.characterid}</p>
-                <p>character name: {character.Name}</p>
-                <p>savestate: {this.state.savestate}</p>
-                <a href="#" data-wowhead="item-18608&domain=classic">Link</a>
+                <div id="WorldTabContainer">
+                    <Tabs defaultActiveKey="CharacterPanel" id="uncontrolled-tab-example">
+                        <Tab eventKey="CharacterPanel" title="Character Panel">
+                            <CharacterPanel character={this.state.character} />
+                        </Tab>
+                        <Tab eventKey="Inventory" title="Inventory">
+                            <p> List inventory</p>
+                        </Tab>
+                        <Tab eventKey="QuestLog" title="Quest Log">
+                            <QuestLog />
+                        </Tab>
+                        <Tab eventKey="AvailableEncounters" title="Available Encounters">
+                            <p>List available encounters</p>
+                        </Tab>
+                        <Tab eventKey="Spellbook" title="Spellbook">
+                            <Spellbook ClassId={this.state.character.ClassId}/>
+                        </Tab>
+
+                    </Tabs>
+                </div>
             </div>
         );
     }

@@ -1,0 +1,44 @@
+.SpellbookIcon {
+    width: 20px;
+    height: 20px;
+}
+
+#SpellbookTableContainer {
+    margin-top: 10px;
+    height:700px;
+}
+
+.SpellbookTooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .SpellbookTooltip .SpellbookTooltipText {
+    visibility: hidden;
+    width: 300px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    /* border-radius: 6px; */
+    padding: 5px 0;
+    position: absolute;
+    z-index: 10;
+    top: -5px;
+    left: 110%;
+  }
+  
+  .SpellbookTooltip .SpellbookTooltipText::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: 5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+  }
+  
+  .SpellbookTooltip:hover .SpellbookTooltipText {
+    visibility: visible;
+    opacity: 1;
+  }

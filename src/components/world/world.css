@@ -1,9 +1,10 @@
 #WorldContainer {
     display:inline-block;  
-    width: 100%;
-    height:100vh;
-    background-image: url("../../resources/images/backgrounds/darkportal.jpg");
-    background-size: cover;
     margin-right:auto;
-    color: white;
+    color: black;
+    margin-left: 20px;
   }
+
+#WorldAccordion {
+  max-width: 400px;
+}
