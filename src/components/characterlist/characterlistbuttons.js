@@ -76,7 +76,6 @@ class CharacterListButtons extends Component {
         else
         {
             console.log(`Enter world with ${this.props.selectedCharacterId}`);
-            // this.routeChange("/auth/world");
         }
 
     }

@@ -106,7 +106,7 @@ class CharacterList extends Component {
                     <div id="CharacterListUlHolder">
                         <ul id="CharacterList">
                             {characters.map(character => (
-                                <CharacterCard Id={character.Id} Name={character.Name} Race={character.Race} Class={character.Class} RaceIconPath={character.RaceIconPath} ClassIconPath={character.ClassIconPath} Level={character.Level} setSelectedCharacterId={this.setSelectedCharacterId}/>
+                                <CharacterCard key={character.Id} Id={character.Id} Name={character.Name} Race={character.Race} Class={character.Class} RaceIconPath={character.RaceIconPath} ClassIconPath={character.ClassIconPath} Level={character.Level} setSelectedCharacterId={this.setSelectedCharacterId}/>
                             ))}
                         </ul>
                     </div>

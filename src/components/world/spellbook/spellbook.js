@@ -3,6 +3,7 @@ import "./spellbook.css"
 
 //import react components
 import Table from 'react-bootstrap/Table'
+import { tsExpressionWithTypeArguments } from '@babel/types';
 
 class Spellbook extends Component {
     constructor(props) {
@@ -10,7 +11,8 @@ class Spellbook extends Component {
         this.state = {
             error: null,
             spellsloaded: false,
-            spells: []
+            spells: [],
+            selection: []
         };
     }
 
@@ -45,12 +47,44 @@ class Spellbook extends Component {
                 }
             )
     }
-    showSpellTooltip(spell) {
-        console.log("mouseover")
-    }
-    render() {
-        const { error, spells, spellsloaded } = this.state;
 
+    selectSpell(SpellId) {
+        console.log("Selected spell: " + SpellId)
+
+        if (!this.state.selection.length == 0) {
+            var selectionArr = this.state.selection
+            if (selectionArr.indexOf(SpellId) > -1) {
+                console.log("Already Selected, will remove")
+                var index = selectionArr.indexOf(SpellId)
+                if (index !== -1) {
+                    selectionArr.splice(index, 1);
+                  this.setState({selection: selectionArr});
+                }
+            }
+            else {
+                console.log("Not selected, will add")
+                if(this.state.selection.length > 3) {
+                    var index = selectionArr.indexOf(selectionArr[0])
+                    if (index !== -1) {
+                        selectionArr.splice(index, 1);
+                      this.setState({selection: selectionArr});
+                    }
+                }
+                this.setState(prevState => ({
+                    selection: [...prevState.selection, SpellId]
+                }));
+            }
+        }
+        else {
+            console.log(this.state.selection.length + " is 0")
+            this.setState(prevState => ({
+                selection: [...prevState.selection, SpellId]
+            }));
+        }
+    }
+
+    render() {
+        const { error, spells, spellsloaded, selection } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         }
@@ -59,29 +93,25 @@ class Spellbook extends Component {
         }
         return (
             <div id="SpellbookTableContainer">
-                <Table responsive>
+                <p>Select active spells below. Only 4 spells can be active at the same time.</p>
+                <Table bordered responsive>
                     <thead>
                         <tr>
                             <th>Spell</th>
                             <th>Cast Time (s)</th>
+                            <th>Cooldown (s)</th>
                             <th>Mana Cost</th>
-                            <th>Min Damage</th>
-                            <th>Max Damage</th>
+                            <th>Description</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="SpellbookTableBody">
                         {spells.map(spell => (
-                            <tr>
-                                <td>
-                                    <div className="SpellbookTooltip">
-                                        <span className="SpellbookTooltipText">{spell.Description}</span>
-                                    <img className="SpellbookIcon" src={require('../../../' + spell.IconPath)}></img> {spell.Name}
-                                    </div>
-                                </td>
+                            <tr id={"SpellbookTableRow-" + spell.Id} className={`${selection.includes(spell.Id) == true? 'SpelbookTableActive': ''}`} onClick={() => this.selectSpell(spell.Id)} key={spell.Id}>
+                                <td><img className="SpellbookIcon" src={require('../../../' + spell.IconPath)}></img> {spell.Name}</td>
                                 <td>{spell.CastTime}</td>
+                                <td>{spell.Cooldown}</td>
                                 <td>{spell.ManaCost}</td>
-                                <td>{spell.MinDamage}</td>
-                                <td>{spell.MaxDamage}</td>
+                                <td>{spell.Description}</td>
                             </tr>
                         ))}
                     </tbody>

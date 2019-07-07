@@ -5,15 +5,15 @@ import history from '../../history';
 
 
 //import react components
-import Card from 'react-bootstrap/Card';
-import Accordion from 'react-bootstrap/Accordion'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
+import Button from 'react-bootstrap/Button'
 
 //import underlying components
 import QuestLog from './questlog/questlog'
 import CharacterPanel from './characterpanel/characterpanel'
 import Spellbook from './spellbook/spellbook';
+import EncounterList from './encounter/encounterlist';
 
 class World extends Component {
     constructor(props) {
@@ -23,8 +23,11 @@ class World extends Component {
             characterloaded: false,
             error: null,
             savestateloaded: false,
-            savestate: []
+            savestate: [],
+            selectedencounter: null,
+            selectedspells: []
         };
+        this.setSelectedEncounterValueFromChild = this.setSelectedEncounterValueFromChild.bind(this);
     }
 
     componentWillMount() {
@@ -38,6 +41,13 @@ class World extends Component {
         setTimeout(function () {
             window.location.reload()
         }, 500)
+    }
+
+    setSelectedEncounterValueFromChild(SelectedEncounter) {
+        this.setState({
+            selectedencounter: SelectedEncounter
+        });
+        console.log("Encounter selected with ID " + SelectedEncounter)
     }
 
     getCharacterData() {
@@ -61,7 +71,7 @@ class World extends Component {
                 },
                 (error) => {
                     this.setState({
-                        characterloaded: true,
+                        characterloaded: false,
                         error
                     });
                 }
@@ -91,10 +101,9 @@ class World extends Component {
 
                         }
                         else if (result.msg == "found") {
-                            console.log("Savestate found:")
-                            console.log(result.result[0].Id)
+                            console.log("Savestate found:" + result.result[0].Id)
                             this.setState({
-                                savestate: result.result[0].Id,
+                                savestate: result.result[0],
                                 savestateloaded: true
                             });
 
@@ -131,7 +140,7 @@ class World extends Component {
                 .then(
                     (result) => {
                         this.setState({
-                            savestate: result.insertId,
+                            savestate: result,
                             savestateloaded: true
                         });
                     },
@@ -146,7 +155,7 @@ class World extends Component {
     }
 
     render() {
-        const { error, character, characterloaded } = this.state;
+        const { error, character, characterloaded, savestateloaded } = this.state;
         if (!this.props.characterid) {
             this.routeChange("/auth/characterlist")
         }
@@ -157,13 +166,16 @@ class World extends Component {
         else if (!characterloaded) {
             return <div>Loading...</div>;
         }
-        console.log("Savestate when rendered: " + this.state.savestate)
+        else if (!savestateloaded) {
+            return <div>Loading...</div>;
+        }
+        console.log("Savestate when rendered: " + this.state.savestate.Id)
         return (
             <div id="WorldContainer">
                 <div id="WorldTabContainer">
                     <Tabs defaultActiveKey="CharacterPanel" id="uncontrolled-tab-example">
                         <Tab eventKey="CharacterPanel" title="Character Panel">
-                            <CharacterPanel character={this.state.character} />
+                            <CharacterPanel character={character} />
                         </Tab>
                         <Tab eventKey="Inventory" title="Inventory">
                             <p> List inventory</p>
@@ -172,10 +184,13 @@ class World extends Component {
                             <QuestLog />
                         </Tab>
                         <Tab eventKey="AvailableEncounters" title="Available Encounters">
-                            <p>List available encounters</p>
+                            <EncounterList character={this.state.character} savestate={this.state.savestate} setSelectedEncounterValueFromChild={this.setSelectedEncounterValueFromChild} />
+                            <div id="EncounterSelectButton">
+                                <Button variant="primary">Start Encounter: {this.state.selectedencounter}</Button>
+                            </div>
                         </Tab>
                         <Tab eventKey="Spellbook" title="Spellbook">
-                            <Spellbook ClassId={this.state.character.ClassId}/>
+                            <Spellbook ClassId={this.state.character.ClassId} />
                         </Tab>
 
                     </Tabs>
