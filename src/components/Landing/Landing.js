@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import "./Landing.css";
 import Login from "./Login";
+import Button from 'react-bootstrap/Button'
 
 class Landing extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class Landing extends Component {
           <Login useridHandler={this.useridHandler}/>
           <div className="registerholder">
           <Link to="/register">
-            <button className="register-btn">Register a new account</button>
+            <Button variant="dark" className="register-btn">Register a new account</Button>
           </Link>
         </div>
         </div>

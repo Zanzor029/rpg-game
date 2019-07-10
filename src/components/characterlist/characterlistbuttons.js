@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import history from '../../history';
+import Button from 'react-bootstrap/Button'
 
 class CharacterListButtons extends Component {
     constructor(props) {
@@ -85,14 +86,14 @@ class CharacterListButtons extends Component {
         return (
             <div id="CharacterListBtnsPanel">
                 <div className="CharacterListBtnPanel" id="CharacterListCreateNewBtnPanel">
-                    <Link to="/auth/CreateCharacter" className="CharacterListBtn"><button className="CharacterListBtn" id="CharacterListCreateNewBtn" type="Button">Create New Character</button></Link>
+                    <Link to="/auth/CreateCharacter" className="CharacterListBtn"><Button variant="dark" className="CharacterListBtn" id="CharacterListCreateNewBtn">Create New Character</Button></Link>
                 </div>
                 <div className="CharacterListBtnPanel" id="CharacterListDeleteBtnPanel">
-                    <button className="CharacterListBtn" id="CharacterListDeleteBtn" type="Button" onClick={() => { this.deleteCharacter() }}>Delete Character</button>
+                    <Link className="CharacterListBtn"><Button variant="dark" className="CharacterListBtn" id="CharacterListDeleteBtn" onClick={() => { this.deleteCharacter() }}>Delete Character</Button></Link>
                 </div>
 
                 <div className="CharacterListBtnPanel" id="CharacterListEnterWorldBtnPanel">
-                    <Link to="/auth/world"><button className="CharacterListBtn" id="CharacterListEnterWorldBtn" type="Button"  onClick={() => { this.enterWorld() }}>Enter World</button></Link>
+                    <Link to="/auth/world" className="CharacterListBtn"><Button variant="dark" className="CharacterListBtn" id="CharacterListEnterWorldBtn" onClick={() => { this.enterWorld() }}>Enter World</Button></Link>
                 </div>
             </div>
         );

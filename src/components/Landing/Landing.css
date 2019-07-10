@@ -1,9 +1,10 @@
 .landing {
-  background-image: url("../../resources/images/backgrounds/darkportal.jpg");
-  position: relative;
-  background-size: cover;
   width: 100%;
-  height: 100%;
+  height:100vh;
+  margin-left:auto;
+  margin-right:auto;
+  background-image: url('../../resources/images/backgrounds/darkportal.jpg');
+  background-size: cover;
 }
 
 .register-btn {

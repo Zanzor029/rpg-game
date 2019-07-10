@@ -39,6 +39,9 @@ class Spellbook extends Component {
                         spellsloaded: true,
                         spells: result
                     });
+
+                    //Select the first spell, user can add more by pressing the table rows
+                    this.selectSpell(result[0].Id)
                 },
                 (error) => {
                     this.setState({
@@ -53,26 +56,36 @@ class Spellbook extends Component {
 
         if (!this.state.selection.length == 0) {
             var selectionArr = this.state.selection
+
             if (selectionArr.indexOf(SpellId) > -1) {
                 console.log("Already Selected, will remove")
                 var index = selectionArr.indexOf(SpellId)
                 if (index !== -1) {
                     selectionArr.splice(index, 1);
-                  this.setState({selection: selectionArr});
+
+                    this.setState({ selection: selectionArr });
+
+                    //Update parent component spell selection state
+                    this.props.setSelectedSpellsValueFromChild(selectionArr)
                 }
             }
             else {
                 console.log("Not selected, will add")
-                if(this.state.selection.length > 3) {
+                if (this.state.selection.length > 3) {
                     var index = selectionArr.indexOf(selectionArr[0])
                     if (index !== -1) {
                         selectionArr.splice(index, 1);
-                      this.setState({selection: selectionArr});
+                        this.setState({ selection: selectionArr });
+
+                        //Update parent component spell selection state
+                        this.props.setSelectedSpellsValueFromChild([...this.state.selection,SpellId])
                     }
                 }
                 this.setState(prevState => ({
                     selection: [...prevState.selection, SpellId]
                 }));
+                //Update parent component spell selection state
+                this.props.setSelectedSpellsValueFromChild([...this.state.selection,SpellId])
             }
         }
         else {
@@ -80,6 +93,9 @@ class Spellbook extends Component {
             this.setState(prevState => ({
                 selection: [...prevState.selection, SpellId]
             }));
+
+            //Update parent component spell selection state
+            this.props.setSelectedSpellsValueFromChild(SpellId)
         }
     }
 
@@ -106,7 +122,7 @@ class Spellbook extends Component {
                     </thead>
                     <tbody className="SpellbookTableBody">
                         {spells.map(spell => (
-                            <tr id={"SpellbookTableRow-" + spell.Id} className={`${selection.includes(spell.Id) == true? 'SpelbookTableActive': ''}`} onClick={() => this.selectSpell(spell.Id)} key={spell.Id}>
+                            <tr id={"SpellbookTableRow-" + spell.Id} className={`${selection.includes(spell.Id) == true ? 'SpelbookTableActive' : ''}`} onClick={() => this.selectSpell(spell.Id)} key={spell.Id}>
                                 <td><img className="SpellbookIcon" src={require('../../../' + spell.IconPath)}></img> {spell.Name}</td>
                                 <td>{spell.CastTime}</td>
                                 <td>{spell.Cooldown}</td>

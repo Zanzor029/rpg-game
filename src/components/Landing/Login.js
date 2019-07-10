@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import history from '../../history';
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+
 class Login extends Component {
   constructor() {
     super();
@@ -21,8 +24,8 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = e => {
-    e.preventDefault();
+  onSubmit(event){
+    event.preventDefault();
 
     const userData = {
       username: this.state.username,
@@ -44,6 +47,7 @@ class Login extends Component {
       .then(function (res) { return res.json(); })
       .then(res => {
         console.log(res);
+        alert(res)
         if (res.msg === "ok") {
           console.log("login successfull")
           localStorage.setItem('token', res.token);
@@ -72,37 +76,18 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <div>
-          <div>
-            <div>
-              <div className="loginheadertext">Submit login credentials</div>
-              <p>{this.state.userid}</p>
-              <form onSubmit={this.onSubmit}>
-                <div>
-                  <input
-                    className="logininput"
-                    type="text"
-                    placeholder="Username"
-                    name="username"
-                    value={this.state.username}
-                    onChange={this.onChange}
-                  />
-                </div>
-                <div>
-                  <input
-                    className="logininput"
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.onChange}
-                  />
-                </div>
-                <input className="logininputsubmit" value="Login" type="submit" />
-              </form>
-            </div>
-          </div>
-        </div>
+        <Form onSubmit={e => this.onSubmit(e)}>
+          <Form.Group controlId="formBasicUserName">
+            <Form.Label>Username</Form.Label>
+            <Form.Control type="username" placeholder="Enter username" onChange={this.onChange} name="username" value={this.state.username}/>
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" onChange={this.onChange} name="password" value={this.state.password}/>
+          </Form.Group>
+          <Button variant="dark" type="submit">Login</Button>
+        </Form>
       </div>
     );
   }

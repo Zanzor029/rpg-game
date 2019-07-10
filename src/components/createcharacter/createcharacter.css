@@ -45,10 +45,10 @@
   
   div#CharacterPanel {
     position: relative;
-    background-size: cover;
     width: auto;
     height:100vh;
-    background-image: url(../../resources/images/backgrounds/darkportal.jpg);
+    background-image: url('../../resources/images/backgrounds/darkportal.jpg');
+    background-size: cover;
   }
   #characterGenderInputHolder {
     border: 1px solid;

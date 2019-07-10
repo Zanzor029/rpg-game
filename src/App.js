@@ -10,6 +10,8 @@ import history from './history';
 import Navbar from './components/navbar/navbar';
 import Logout from './components/logout/logout';
 import World from './components/world/world';
+import Encounter from './components/world/encounter/encounter';
+import EncounterCompleted from './components/world/encounter/encountercomplete';
 
 
 class App extends Component {
@@ -76,6 +78,8 @@ class App extends Component {
           <Route path="/auth/world" render={() => (
             <World characterid={this.state.characterid}/>
           )} />
+          <Route path="/auth/encounter" component={Encounter} />
+          <Route path="/auth/encounterend" component={EncounterCompleted} />
           <Route path="/auth/characterlist" render={() => (
             <CharacterList userid={this.state.userid}  setSelectedCharacterIdtoApp={this.setSelectedCharacterIdtoApp}/>
           )} />

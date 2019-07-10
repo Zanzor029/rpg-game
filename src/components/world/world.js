@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "../globalcontext";
 import './world.css';
 import history from '../../history';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 //import react components
@@ -24,16 +25,22 @@ class World extends Component {
             error: null,
             savestateloaded: false,
             savestate: [],
-            selectedencounter: null,
             selectedspells: []
         };
         this.setSelectedEncounterValueFromChild = this.setSelectedEncounterValueFromChild.bind(this);
+        this.setSelectedSpellsValueFromChild = this.setSelectedSpellsValueFromChild.bind(this);
     }
 
     componentWillMount() {
-        console.log("World prop:" + this.props.characterid)
-        this.getCharacterData();
-        this.checkSaveState(this.state.savestateloaded);
+        if (!this.props.characterid) {
+            this.routeChange("/auth/characterlist")
+        }
+        else{
+            console.log("World prop:" + this.props.characterid)
+            this.getCharacterData();
+            this.checkSaveState(this.state.savestateloaded);
+        }
+
     }
 
     routeChange(targetpath) {
@@ -45,9 +52,16 @@ class World extends Component {
 
     setSelectedEncounterValueFromChild(SelectedEncounter) {
         this.setState({
-            selectedencounter: SelectedEncounter
+            selectedencounterid: SelectedEncounter.Id,
+            selectedcreatureid: SelectedEncounter.CreatureId
         });
-        console.log("Encounter selected with ID " + SelectedEncounter)
+        console.log(SelectedEncounter)
+        console.log("Encounter selected with ID " + SelectedEncounter.Id + " and Creature ID " + SelectedEncounter.CreatureId)
+    }
+    setSelectedSpellsValueFromChild(SelectedSpells) {
+        this.setState({
+            selectedspells: SelectedSpells
+        });
     }
 
     getCharacterData() {
@@ -156,10 +170,6 @@ class World extends Component {
 
     render() {
         const { error, character, characterloaded, savestateloaded } = this.state;
-        if (!this.props.characterid) {
-            this.routeChange("/auth/characterlist")
-        }
-
         if (error) {
             return <div>Error: {error.message}</div>;
         }
@@ -186,11 +196,22 @@ class World extends Component {
                         <Tab eventKey="AvailableEncounters" title="Available Encounters">
                             <EncounterList character={this.state.character} savestate={this.state.savestate} setSelectedEncounterValueFromChild={this.setSelectedEncounterValueFromChild} />
                             <div id="EncounterSelectButton">
-                                <Button variant="primary">Start Encounter: {this.state.selectedencounter}</Button>
+                                <Link to={{
+                                    pathname: '/auth/encounter',
+                                    state: {
+                                        savestate: this.state.savestate,
+                                        selectedspells: this.state.selectedspells,
+                                        character: this.state.character,
+                                        selectedencounterid: this.state.selectedencounterid,
+                                        selectedcreatureid: this.state.selectedcreatureid
+                                    }
+                                }}>
+                                    <Button variant="dark">Start Encounter: {this.state.selectedencounterid}</Button>
+                                </Link>
                             </div>
                         </Tab>
                         <Tab eventKey="Spellbook" title="Spellbook">
-                            <Spellbook ClassId={this.state.character.ClassId} />
+                            <Spellbook ClassId={this.state.character.ClassId} setSelectedSpellsValueFromChild={this.setSelectedSpellsValueFromChild}/>
                         </Tab>
 
                     </Tabs>

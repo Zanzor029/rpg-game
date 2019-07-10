@@ -11,6 +11,8 @@
 body {
   color: rgb(0, 0, 0);
   font-family: 'Open Sans', sans-serif;
+  width: 100vw;
+  height:100vh;
 
   /* Disable text selection */
   -webkit-touch-callout: none; /* iOS Safari */
@@ -20,6 +22,8 @@ body {
       -ms-user-select: none; /* Internet Explorer/Edge */
           user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome and Opera */
+  /* Disable dragging */
+
 }
 button {
   font-family: FrizQuadrata;
@@ -33,145 +37,10 @@ button {
 
 
 div.AppContentRightSide{
-  width:100vw;
-  height:100vh;
   float:left;
-  margin-left:64px;
-}
-
-
-/********************** Encounter **********************/
-/*#region Encounter */
-div#EncounterPanel {
-  width:1200px;
-  height:800px;
-  border: 1px solid grey;
-  margin-right:auto;
-  margin-left:auto;
-}
-
-/*********** Unit Frames *********************/
-/*#region UnitFrames */
-div#EncounterUnitframesPanel {
-  width:1180px;
-  height:220px;
-  padding: 3px;
-  margin-left:auto;
-  margin-right:auto;
-  margin-top: 15px;
-}
-div#EncounterCharacterPanel {
-  width:420px;
-  float:left;
-  border: 2px solid black;
-  padding: 3px;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-div#EncounterCreaturePanel {
-  width:420px;
-  float:right;
-  border: 2px solid black;
-  padding: 3px;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-
-div#EncounterCharacterName,div#EncounterCreatureName {
-  width:400px;
-  height:30px;
-  font-size: 23px;
-  padding: 1px;
-  color: orange;
-  font-weight:bold;
-}
-
-div#EncounterCharacterTopBar,div#EncounterCreatureTopBar {
-  height:80;
-  padding: 1px;
-}
-div#EncounterCharacterRaceIconHolder,div#EncounterCharacterClassIconHolder, div#EncounterCreatureIconHolder {
-  float:left;
-  width:60px;
-}
-img#EncounterCharacterClassIcon, img#EncounterCharacterRaceIcon {
-  width:60px;
-  height:60px;
-}
-div#EncounterCharacterHealthBar,div#EncounterCreatureHealthBar {
-  float:right;
-  width:340px;
-  height: 60px;
-  background-color: rgb(255, 0, 0);
-}
-
-div#EncounterCharacterManaBar,div#EncounterCreatureManaBar {
-  float:right;
-  width:340px;
-  height: 60px;
-  background-color: rgb(0, 17, 255);
-}
-
-div#EncounterCharacterBottomBar,div#EncounterCreatureBottomBar {
-  height:80;
-  padding: 1px;
-}
-
-span.EncounterHealthManaText {
-  margin-right:auto;
-  margin-left:auto;
-  margin-top:auto;
-  margin-bottom:auto;
-}
-/*#endregion UnitFrames */
-/**** Main Panel ****/
-/*#region MainPanel */
-div#EncounterMainPanel {
+  padding-left:64px;
   width:100%;
-  height:300px;
-  border: 1px solid black;
-}
-/*#endregion MainPanel */
 
-/**********   ActionBar + Log Panel ********************/
-/*#region ActionBar */
-div#EncounterActionbarLogPanel {
-  width: 100%;
-  height: 220px;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid black;
 }
 
-div#EncounterLogPanel {
-  width:300px;
-  height:200px;
-  border: 1px solid black;
-  float:left;
-}
-div#EncounterActionbarPanel {
-  width: 550px;
-  height:200px;
-  display:inline-block;
-  margin-left:auto;
-  margin-right:auto;
-  border: 1px solid black;
-}
-div#EncounterExtraPanel {
-  width:300px;
-  height:200px;
-  float:right;
-  border: 1px solid black;
-}
-div#EncounterSpellBar {
-  background-color: rgba(0, 0, 0, 0.4);
-  width: 400px;
-  height: 190px;
-  margin: auto;
-}
-div.EncounterSpell {
-  width:45px;
-  height:45px;
-  border: 1px solid black;
-  padding: 5px;
-  display:inline-block;
-}
+

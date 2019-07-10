@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import history from '../../history';
 import "./Landing.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 class Register extends Component {
   constructor() {
@@ -69,7 +71,7 @@ class Register extends Component {
           <div className="loginheadertext">
             Create your account <br></br>
           </div>
-          <form onSubmit={this.onSubmit}>
+          <Form onSubmit={this.onSubmit}>
             <div>
               <input
                 className="logininput"
@@ -116,9 +118,9 @@ class Register extends Component {
                 onChange={this.onChange}
               />
             </div>
-            <input className="logininputsubmit" value="Register" type="submit" />
-          </form>
-          <Link to="/"><button id="RegisterCancel">Cancel</button></Link>
+            <Button variant="dark" type="submit">Register</Button>
+          </Form>
+          <Link to="/"><Button variant="dark" id="RegisterCancel">Cancel</Button></Link>
         </div>
 
       </div>

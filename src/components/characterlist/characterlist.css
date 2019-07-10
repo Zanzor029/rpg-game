@@ -2,10 +2,10 @@
     display:inline-block;  
     width: 100%;
     height:100vh;
-    background-image: url("../../resources/images/backgrounds/darkportal.jpg");
-    background-size: cover;
     margin-left:auto;
     margin-right:auto;
+    background-image: url('../../resources/images/backgrounds/darkportal.jpg');
+    background-size: cover;
   }
   
   ul#CharacterList {
@@ -22,12 +22,15 @@
     margin-right:auto;
   }
   
-  
+  a, button {
+    text-decoration: none !important; 
+  }
   
   div#CharacterListBtnsPanel {
     margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
+    justify-content: center;
   }
   
   div.CharacterListBtnPanel {

@@ -22,6 +22,7 @@ class EncounterList extends Component {
         this.getZoneLocation(this.props.savestate.ZoneLocation)
         this.getZoneEncounters(this.props.savestate.ZoneLocation)
     }
+
     getZoneLocation(zoneid) {
         const getZoneDataPath = global.ApiStartPath + "zone/" + zoneid
         console.log(getZoneDataPath)
@@ -70,7 +71,7 @@ class EncounterList extends Component {
                         encountersloaded: true,
                         encounters: result,
                     });
-                    this.props.setSelectedEncounterValueFromChild(result[0].Id)
+                    this.props.setSelectedEncounterValueFromChild({Id:result[0].Id,CreatureId:result[0].CreatureId})
                 },
                 (error) => {
                     this.setState({
@@ -80,6 +81,7 @@ class EncounterList extends Component {
                 }
             )
     }
+
     selectEncounter(Id) {
         console.log("Encounter selected with ID " + Id)
         this.setState({
@@ -98,15 +100,13 @@ class EncounterList extends Component {
         else if (!encountersloaded) {
             return <div>Loading...</div>;
         }
-        console.log(encounters)
         return (
             <div id="EncounterListContainer">
                 <p>Zone: {this.state.encounterzonelocationname}</p>
                 <div id="EncounterListGroupContainer">
                     <ListGroup>
                         {encounters.map(encounter => (
-                            <ListGroupItem action onClick={() => this.props.setSelectedEncounterValueFromChild(encounter.Id)} key={encounter.Id}>{encounter.Id}</ListGroupItem>
-                            // onChange={(event) => {this.props.setGenderValueFromChild(event.target.value, event)}}>
+                            <ListGroupItem className="EncounterListItem" action onClick={() => this.props.setSelectedEncounterValueFromChild({Id:encounter.Id, CreatureId:encounter.CreatureId})} key={encounter.Id}>{encounter.Id} : <img className="EncounterListIcon" src={require('../../../'+encounter.IconPath)}></img> Level {encounter.Level} {encounter.Name} </ListGroupItem>
                         ))}
                     </ListGroup>
                 </div>

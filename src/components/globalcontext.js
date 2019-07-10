@@ -1,7 +1,7 @@
 global.SelectedCharacterListId = 0;
 global.SelectedCharacterListName = "Null";
 global.SelectedCharacter = 0;
-global.ApiStartPath = "http://rpgapi.jpersson.eu:3003/"
+global.ApiStartPath = "https://rpgapi.jpersson.eu/"
 // global.ApiStartPath = "http://localhost:3003/"
 
 //Selected values for Character Creation
