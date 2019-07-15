@@ -17,7 +17,7 @@ class CharacterListButtons extends Component {
         setTimeout(function () {
             window.location.reload()
         }, 500)
-      }
+    }
 
     deleteCharacterApiCall(characterId) {
         console.log("ApiPath")
@@ -70,12 +70,10 @@ class CharacterListButtons extends Component {
     };
 
     enterWorld() {
-        if(!this.props.selectedCharacterId)
-        {
+        if (!this.props.selectedCharacterId) {
             alert("No character selected");
         }
-        else
-        {
+        else {
             console.log(`Enter world with ${this.props.selectedCharacterId}`);
         }
 
@@ -93,7 +91,13 @@ class CharacterListButtons extends Component {
                 </div>
 
                 <div className="CharacterListBtnPanel" id="CharacterListEnterWorldBtnPanel">
-                    <Link to="/auth/world" className="CharacterListBtn"><Button variant="dark" className="CharacterListBtn" id="CharacterListEnterWorldBtn" onClick={() => { this.enterWorld() }}>Enter World</Button></Link>
+                    <Link className="CharacterListBtn" to={{
+                        pathname: '/auth/world',
+                        state: {
+                            characterid: this.props.selectedCharacterId
+                        }
+                    }}>
+                        <Button variant="dark" className="CharacterListBtn" id="CharacterListEnterWorldBtn" onClick={() => { this.enterWorld() }}>Enter World</Button></Link>
                 </div>
             </div>
         );

@@ -48,9 +48,15 @@ class Register extends Component {
           method: "POST",
           body: JSON.stringify(newUser)
         })
-        .then(function (res) { return res.json(); })
+        .then(function (res) { 
+          if(!res.ok) {
+            alert("Error!")
+            return res.json();
+          }
+        })
+        .then(this.routeChange("/"))
       // .then(function (newUser) { alert(JSON.stringify(newUser)) })
-      this.routeChange("/")
+      
 
     }
     else {

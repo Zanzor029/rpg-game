@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import "./characterpanel.css"
 import Table from 'react-bootstrap/Table'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 class CharacterPanel extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+        var xpvalue = (this.props.character.Level * 5) + 45
+        var xptolevel = (2 * this.props.character.Level) * xpvalue
         return (
             <div id="StatTableContainer">
                 <Table responsive size="sm">
@@ -18,6 +21,10 @@ class CharacterPanel extends Component {
                         <tr>
                             <td>Level</td>
                             <td>{this.props.character.Level}</td>
+                        </tr>
+                        <tr>
+                            <td>Experience</td>
+                            <td><ProgressBar now={Math.round((this.props.character.ExperiencePoints / xptolevel) * 100)} label={this.props.character.ExperiencePoints+ " / "+ xptolevel + " ("+Math.round((this.props.character.ExperiencePoints / xptolevel) * 100)+"%)"}/></td>
                         </tr>
                         <tr>
                             <td>Class</td>

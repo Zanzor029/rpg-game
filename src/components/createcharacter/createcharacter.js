@@ -49,7 +49,7 @@ class CreateCharacter extends Component {
         setTimeout(function () {
             window.location.reload()
         }, 500)
-      }
+    }
 
     getRaceData() {
         const getRacesData = global.ApiStartPath + "races/"
@@ -101,6 +101,43 @@ class CreateCharacter extends Component {
         }
     }
 
+    createSaveState(charid) {
+        console.log("No savestate found. Creating savestate for character id" + charid);
+        if (global.CreateCharacterSelectedFaction == "Horde") {
+            var zonevalue = 2
+        } else {
+            var zonevalue = 1
+        }
+        var payload = {
+            Characterid: charid,
+            ZoneLocation: zonevalue
+        }
+        var createCharacterApiPath = global.ApiStartPath + "savestate/create"
+        fetch(createCharacterApiPath,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.routeChange("/auth/characterlist");
+                },
+                (error) => {
+                    if (error)
+                        this.setState({
+                            error
+                        });
+                }
+            )
+
+
+    }
+
     createCharacterPost(userid) {
         if (global.CreateCharacterSelectedRaceId === 0) {
             alert("Select a Race!");
@@ -150,12 +187,27 @@ class CreateCharacter extends Component {
                 method: "POST",
                 body: JSON.stringify(payload)
             })
-            .then(function (res) { return res.json(); })
-            .then(function(res) {
-                console.log(res);
-            })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.createSaveState(result.insertId)
+                },
+                (error) => {
+                    this.setState({
+                        error
+                    });
+                }
+            )
+            // .then(function (res) { return res.json(); })
+            // .then(function (res) {
+            //     console.log(res);
+                // this.createSaveState(res.insertId)
+            // })
+            // .then((res) => {
+            //     this.createSaveState(res.insertId)
+            // })
 
-            this.routeChange("/auth/characterlist");
+
 
 
     }
@@ -177,9 +229,9 @@ class CreateCharacter extends Component {
         }
         else {
             return (
-                <div id="CharacterPanel">
-                    <div id="selection">
-                        <div id="racelistpanel">
+                <div id="CharacterPanel" className="flex-container">
+                    <div id="selection" className="flex-item">
+                        <div id="racelistpanel" className="flex-item">
                             <p>Race</p>
                             <ul id="racelist">
                                 {Races.map(Race => (
@@ -197,7 +249,7 @@ class CreateCharacter extends Component {
                                 ))}
                             </ul>
                         </div>
-                        <div id="classlistpanel">
+                        <div id="classlistpanel" className="flex-item">
                             <p>Class</p>
                             <ul id="classlist">
                                 {Classes.map(Class => (
@@ -212,29 +264,29 @@ class CreateCharacter extends Component {
                         </div>
                         <GenderSelection setGenderValueFromChild={this.setGenderValueFromChild} />
                     </div>
-                    <div id="CreateCharacterName">
+                    <div id="CreateCharacterName" className="flex-item">
                         <div id="characterNametextHolder">
                             Name
                         </div>
-                        <div id="characterNameInputHolder">
+                        <div id="characterNameInputHolder" className="flex-item">
                             <input type="text" name="charname" id="characterNameInput" />
                         </div>
                     </div>
-                    <div id="details">
-                        <div id="CreateCharacterLoreBoxes">
+                    <div id="details" className="flex-item">
+                        <div id="CreateCharacterLoreBoxes" className="flex-item">
                             <LoreBox LoreBoxClassName="LoreBox" LoreBoxId="FactionLoreBox" LoreBoxTitle="Faction" LoreBoxText="No faction selected" />
                             <LoreBox LoreBoxClassName="LoreBox" LoreBoxId="RaceLoreBox" LoreBoxTitle="Race" LoreBoxText="No race selected" />
                             <LoreBox LoreBoxClassName="LoreBox" LoreBoxId="ClassLoreBox" LoreBoxTitle="Class" LoreBoxText="No class selected" />
                         </div>
-                        <div id="detailstable">
-                            <div className="tablerow">
+                        <div id="detailstable" className="flex-item">
+                            <div className="tablerow" className="flex-item">
                                 <div id="selectedBaseStrengthHeader" className="tableheader">Strength</div>
                                 <div id="selectedBaseAgilityHeader" className="tableheader">Agility</div>
                                 <div id="selectedBaseStaminaHeader" className="tableheader">Stamina</div>
                                 <div id="selectedBaseIntHeader" className="tableheader">Intellect</div>
                                 <div id="selectedBaseSpiHeader" className="tableheader">Spirit</div>
                             </div>
-                            <div className="tablerow">
+                            <div className="tablerow" className="flex-item">
                                 <div id="selectedBaseStrengthValue" className="tablevalue"> </div>
                                 <div id="selectedBaseAgilityValue" className="tablevalue"> </div>
                                 <div id="selectedBaseStaminaValue" className="tablevalue"> </div>
@@ -243,10 +295,10 @@ class CreateCharacter extends Component {
                             </div>
                         </div>
 
-                        <div id="createCharacterButtonHolder">
+                        <div id="createCharacterButtonHolder" className="flex-item">
                             <button id="createCharacterButton" type="button" onClick={(event) => this.createCharacterPost(this.props.userid)}>Accept</button>
                         </div>
-                        <div id="cancelButtonHolder">
+                        <div id="cancelButtonHolder" className="flex-item">
                             <Link to="/auth/CharacterList" className="CharacterListBtn"><button id="cancelButton" type="button">Back</button></Link>
                         </div>
                     </div>

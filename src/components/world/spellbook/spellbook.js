@@ -20,6 +20,11 @@ class Spellbook extends Component {
         console.log("load spells with class Id" + this.props.ClassId)
         this.getSpellData()
     }
+    componentDidMount() {
+        //Select the first four spells
+        
+        
+    }
 
     getSpellData() {
         const getSpellDataPath = global.ApiStartPath + "classspells/" + this.props.ClassId
@@ -39,9 +44,8 @@ class Spellbook extends Component {
                         spellsloaded: true,
                         spells: result
                     });
-
-                    //Select the first spell, user can add more by pressing the table rows
-                    this.selectSpell(result[0].Id)
+                    this.setState({selection: [result[0].Id,result[1].Id,result[2].Id,result[3].Id]})
+                    this.props.setSelectedSpellsValueFromChild([result[0].Id,result[1].Id,result[2].Id,result[3].Id])
                 },
                 (error) => {
                     this.setState({
@@ -78,14 +82,14 @@ class Spellbook extends Component {
                         this.setState({ selection: selectionArr });
 
                         //Update parent component spell selection state
-                        this.props.setSelectedSpellsValueFromChild([...this.state.selection,SpellId])
+                        this.props.setSelectedSpellsValueFromChild([...this.state.selection, SpellId])
                     }
                 }
                 this.setState(prevState => ({
                     selection: [...prevState.selection, SpellId]
                 }));
                 //Update parent component spell selection state
-                this.props.setSelectedSpellsValueFromChild([...this.state.selection,SpellId])
+                this.props.setSelectedSpellsValueFromChild([...this.state.selection, SpellId])
             }
         }
         else {
@@ -114,9 +118,9 @@ class Spellbook extends Component {
                     <thead>
                         <tr>
                             <th>Spell</th>
-                            <th>Cast Time (s)</th>
-                            <th>Cooldown (s)</th>
-                            <th>Mana Cost</th>
+                            <th><i class="fas fa-spinner fa-spin"></i> Cast Time (s)</th>
+                            <th><i class="far fa-clock"></i> Cooldown (s) </th>
+                            <th><i class="fas fa-tint fa-manaicon"></i> Mana Cost</th>
                             <th>Description</th>
                         </tr>
                     </thead>

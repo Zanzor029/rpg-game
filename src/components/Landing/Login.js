@@ -47,7 +47,6 @@ class Login extends Component {
       .then(function (res) { return res.json(); })
       .then(res => {
         console.log(res);
-        alert(res)
         if (res.msg === "ok") {
           console.log("login successfull")
           localStorage.setItem('token', res.token);

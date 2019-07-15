@@ -42,14 +42,27 @@
   }
 
 
-  
-  div#CharacterPanel {
-    position: relative;
-    width: auto;
-    height:100vh;
-    background-image: url('../../resources/images/backgrounds/darkportal.jpg');
-    background-size: cover;
+  @media screen and (max-width: 1070px) {
+    div#CharacterPanel {
+      position: relative;
+      width: auto;
+      height: auto;
+      overflow: auto;
+      background-image: url('../../resources/images/backgrounds/darkportal.jpg');
+      background-size: cover;
+      background-repeat: repeat-y;
+    }
   }
+  @media screen and (min-width: 1071px) {
+    div#CharacterPanel {
+      position: relative;
+      width: auto;
+      height:100vh;
+      background-image: url('../../resources/images/backgrounds/darkportal.jpg');
+      background-size: cover;
+    }
+  }
+
   #characterGenderInputHolder {
     border: 1px solid;
     border-color:rgba(0, 0 , 0,0.3);
@@ -105,22 +118,6 @@
   
   }
 
-  #createCharacterButton {
-    /* margin-left:100px;
-    margin-right:auto;
-    display: inline; */
-    position: absolute;
-    top: 90%;
-    left: 90%;
-    transform: translate(-50%, -50%);
-  }
-  #cancelButton {
-    position: absolute;
-    top: 85%;
-    left: 90%;
-    transform: translate(-50%, -50%);
-  }
-
   .highlightclass, .highlightrace {
     outline: none;
     border: 3px solid rgb(218, 144, 33) !important;
@@ -134,11 +131,8 @@
 
   #CreateCharacterName {
     width: 200px;
+    max-height: 100px;
     margin: 0;
-    position: absolute;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     border: 1px solid;
     border-color:rgba(0, 0 , 0,0.3);
     background-color:rgba(0, 0 , 0,0.6);

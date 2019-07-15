@@ -11,7 +11,9 @@ import Navbar from './components/navbar/navbar';
 import Logout from './components/logout/logout';
 import World from './components/world/world';
 import Encounter from './components/world/encounter/encounter';
-import EncounterCompleted from './components/world/encounter/encountercomplete';
+import EncounterSuccess from './components/world/encounter/encountersuccess';
+import EncounterFailure from './components/world/encounter/encounterfailure';
+import LevelUp from './components/world/levelup/levelup';
 
 
 class App extends Component {
@@ -75,11 +77,11 @@ class App extends Component {
         <div className="AppContentRightSide">
           <Route exact path="/" component={Landing} />
           <Route path="/register" component={Register} />
-          <Route path="/auth/world" render={() => (
-            <World characterid={this.state.characterid}/>
-          )} />
+          <Route path="/auth/world" component={World}/>
           <Route path="/auth/encounter" component={Encounter} />
-          <Route path="/auth/encounterend" component={EncounterCompleted} />
+          <Route path="/auth/encountersuccess" component={EncounterSuccess} />
+          <Route path="/auth/encounterfailure" component={EncounterFailure} />
+          <Route path="/auth/levelup" component={LevelUp} />
           <Route path="/auth/characterlist" render={() => (
             <CharacterList userid={this.state.userid}  setSelectedCharacterIdtoApp={this.setSelectedCharacterIdtoApp}/>
           )} />

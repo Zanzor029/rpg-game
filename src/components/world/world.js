@@ -15,6 +15,7 @@ import QuestLog from './questlog/questlog'
 import CharacterPanel from './characterpanel/characterpanel'
 import Spellbook from './spellbook/spellbook';
 import EncounterList from './encounter/encounterlist';
+import Inventory from './inventory/inventory'
 
 class World extends Component {
     constructor(props) {
@@ -25,19 +26,23 @@ class World extends Component {
             error: null,
             savestateloaded: false,
             savestate: [],
-            selectedspells: []
+            selectedspells: [],
+            characterid: null
         };
         this.setSelectedEncounterValueFromChild = this.setSelectedEncounterValueFromChild.bind(this);
         this.setSelectedSpellsValueFromChild = this.setSelectedSpellsValueFromChild.bind(this);
     }
 
     componentWillMount() {
-        if (!this.props.characterid) {
+        if(!this.props.location.state) {
             this.routeChange("/auth/characterlist")
         }
-        else{
-            console.log("World prop:" + this.props.characterid)
-            this.getCharacterData();
+        // if (!this.props.location.state.characterid) {
+        //     this.routeChange("/auth/characterlist")
+        // }
+        else {
+            console.log("World prop:" + this.props.location.state.characterid)
+            this.getCharacterData(this.props.location.state.characterid);
             this.checkSaveState(this.state.savestateloaded);
         }
 
@@ -64,8 +69,8 @@ class World extends Component {
         });
     }
 
-    getCharacterData() {
-        const getCharacterDataPath = global.ApiStartPath + "character/" + this.props.characterid
+    getCharacterData(charid) {
+        const getCharacterDataPath = global.ApiStartPath + "character/" + charid
         fetch(getCharacterDataPath,
             {
                 headers: {
@@ -94,7 +99,7 @@ class World extends Component {
 
     checkSaveState(loaded) {
         if (loaded == false) {
-            const getSaveStatePath = global.ApiStartPath + "savestate/" + this.props.characterid
+            const getSaveStatePath = global.ApiStartPath + "savestate/" + this.props.location.state.characterid
             fetch(getSaveStatePath,
                 {
                     headers: {
@@ -136,9 +141,14 @@ class World extends Component {
     createSaveState(loaded) {
         if (loaded == false) {
             console.log("No savestate found. Creating savestate for character id" + this.props.characterid);
+            if (this.state.character.Faction == "Horde") {
+                var zonevalue = 2
+            } else {
+                var zonevalue = 1
+            }
             var payload = {
                 Characterid: this.props.characterid,
-                ZoneLocation: 1
+                ZoneLocation: zonevalue
             }
             var createCharacterApiPath = global.ApiStartPath + "savestate/create"
             fetch(createCharacterApiPath,
@@ -183,12 +193,12 @@ class World extends Component {
         return (
             <div id="WorldContainer">
                 <div id="WorldTabContainer">
-                    <Tabs defaultActiveKey="CharacterPanel" id="uncontrolled-tab-example">
+                    <Tabs defaultActiveKey="CharacterPanel" id="worldtab" variant="tabs">
                         <Tab eventKey="CharacterPanel" title="Character Panel">
                             <CharacterPanel character={character} />
                         </Tab>
                         <Tab eventKey="Inventory" title="Inventory">
-                            <p> List inventory</p>
+                            <Inventory character={character} />
                         </Tab>
                         <Tab eventKey="QuestLog" title="Quest Log">
                             <QuestLog />
@@ -211,7 +221,7 @@ class World extends Component {
                             </div>
                         </Tab>
                         <Tab eventKey="Spellbook" title="Spellbook">
-                            <Spellbook ClassId={this.state.character.ClassId} setSelectedSpellsValueFromChild={this.setSelectedSpellsValueFromChild}/>
+                            <Spellbook ClassId={this.state.character.ClassId} setSelectedSpellsValueFromChild={this.setSelectedSpellsValueFromChild} />
                         </Tab>
 
                     </Tabs>
