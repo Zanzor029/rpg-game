@@ -1,0 +1,14 @@
+#WorldContainer {
+    display:inline-block;  
+    margin-right:auto;
+    color: black;
+    margin-left: 20px;
+  }
+
+#WorldAccordion {
+  max-width: 400px;
+}
+
+#EncounterSelectButton {
+  margin-top: 20px;
+}

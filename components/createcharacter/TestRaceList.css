@@ -1,0 +1,18 @@
+.RaceList {
+  list-style-type: none;
+
+    height: 50px;
+    width: 50px;
+    margin: 5px;
+    border-radius: 5px;
+}
+.TestRaceDiv {
+  background-color: silver;
+  margin-bottom: 5px;
+}
+  
+
+
+.TestRaceDiv:hover {
+  background-color: orangered;
+}

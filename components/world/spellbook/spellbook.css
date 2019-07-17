@@ -1,0 +1,16 @@
+.SpellbookIcon {
+    width: 25px;
+    height: 25px;
+}
+
+#SpellbookTableContainer {
+    margin-top: 10px;
+    height:700px;
+}
+
+.SpelbookTableActive {
+    background-color: rgba(92, 252, 92, 0.438);
+}
+.SpellbookTableBody {
+    cursor: pointer;
+}

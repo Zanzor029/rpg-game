@@ -1,0 +1,15 @@
+.LevelUpStatBtn {
+    width: 40px;
+    height:40px;
+}
+
+.LevelUpStatLabel, .LevelUpStatValue, .LevelUpPlus, .LevelUpMinus {
+    display:inline;
+    margin-left: 10px;
+}
+
+.DisableBtn {
+    pointer-events: none;
+    color:red;
+    background-color: red;
+}

@@ -1,0 +1,159 @@
+.EncounterListIcon {
+    width: 30px;
+    height: 30px;
+}
+.EncounterListItem {
+  height:50px;
+}
+
+.fa-manaicon {
+  color:#007bff;
+}
+
+
+#EncounterContainer {
+    position: relative;
+    width: auto;
+    height:100vh;
+}
+
+#EncounterMainPanelContainer {
+    /* border: 1px black solid; */
+    padding: 5px;
+    height:100%;
+    width:100%
+}
+
+#EncounterCombatLogContainer {
+    /* border: 1px black solid; */
+    
+    /* float:right; */
+    padding: 5px;
+}
+
+#EncounterSecondaryContainer {
+    border: 1px black solid;
+    float:left;
+    padding: 5px;
+}
+
+#EncounterCombatLog {
+    width: 350px;
+    padding: 5px;
+    font-size: 12px;
+    overflow: auto;
+    margin-left: 10px;
+    height:700px;
+    resize: none;
+}
+
+/********************** Encounter **********************/
+/*#region Encounter */
+  
+  /*********** Unit Frames *********************/
+  /*#region UnitFrames */
+  div#EncounterCharacterPanel {
+    width:420px;
+    float:left;
+    border: 2px solid black;
+    padding: 3px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  div#EncounterCreaturePanel {
+    width:420px;
+    float:right;
+    border: 2px solid black;
+    padding: 3px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  
+  div#EncounterCharacterName,div#EncounterCreatureName {
+    width:400px;
+    height:30px;
+    margin-bottom:5px;
+    font-size: 23px;
+    color: orange;
+    text-shadow: 1px 1px #000000;
+    font-weight:bold;
+    text-align: left;
+  }
+
+  #EncounterCreatureLevel {
+    display: inline;
+  }
+  .GrayMobLevel {
+    color: Gray
+  }
+  .GreenMobLevel {
+    color: green
+  }
+  .YellowMobLevel {
+    color: orange;
+  }
+  .RedMobLevel {
+    color:red;
+  }
+  
+  div#EncounterCharacterTopBar,div#EncounterCreatureTopBar {
+    height:80;
+    padding: 1px;
+  }
+  div#EncounterCharacterRaceIconHolder,div#EncounterCharacterClassIconHolder, div#EncounterCreatureIconHolder {
+    float:left;
+    width:60px;
+  }
+  img#EncounterCharacterClassIcon, img#EncounterCharacterRaceIcon {
+    width:60px;
+    height:60px;
+  }
+  div#EncounterCharacterHealthBarContainer,div#EncounterCreatureHealthBarContainer {
+    float:right;
+    width:340px;
+    height: 60px;
+  }
+  #EncounterCharacterHealthBar, #EncounterCreatureHealthBar {
+    width:340px;
+    height: 60px;
+    background-color: rgb(65, 65, 65);
+    font-weight: bold;
+    border-radius: 0px;
+  }
+  div#EncounterCharacterManaBarContainer,div#EncounterCreatureManaBarContainer {
+    float:right;
+    width:340px;
+    height: 60px;
+  }
+  #EncounterCharacterManaBar, #EncounterCreatureManaBar {
+    width:340px;
+    height: 60px;
+    background-color: rgb(65, 65, 65);
+    font-weight: bold;
+    border-radius: 0px;
+  }
+  
+  div#EncounterCharacterBottomBar,div#EncounterCreatureBottomBar {
+    height:80;
+    padding: 1px;
+  }
+
+/* Spell casting */
+.CastInPogress {
+    /* background-color: rgba(17, 0, 255, 0.2); */
+    pointer-events: none;
+}
+
+.SpellOnCooldown {
+    background-color: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+#EncounterCastBar {
+  height:40px;
+  margin-top: 10px;
+  margin-bottom:10px;
+}
+
+.SpellCooldownBar {
+  width:150px;
+}

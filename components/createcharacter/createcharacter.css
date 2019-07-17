@@ -1,0 +1,151 @@
+.disable {
+    pointer-events : none;
+    opacity: .6;
+  }
+  
+  #classlistpanel, #racelistpanel {
+    border: 1px solid;
+    border-color:rgba(0, 0 , 0,0.3);
+    background-color:rgba(0, 0 , 0,0.6);
+    width: 330px;
+    margin-top: 20px;
+    font-size: 15px;
+    color: orange;
+    padding-bottom:5px;
+    padding-left: 5px;
+
+  }
+  ul#classlist,#racelist {
+    width:250px;
+  }
+  li.racelistentry, li.classlistentry {
+    list-style-type: none;
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    margin-right: 5px;
+    border: 3px solid grey;
+    border-radius: 5px;
+  }
+
+  div.RaceListEntryDiv {
+    display: inline-block;
+  }
+  img.raceimg, img.classimg{
+    height: 50px;
+    width:50px;
+    border-radius:4px;
+  }
+  li.racelistentry:hover, li.classlistentry:hover{
+    box-shadow: 0 0 25px rgb(218, 144, 33);
+    border: 3px solid rgb(196, 159, 103);;
+  }
+
+
+  @media screen and (max-width: 1070px) {
+    div#CharacterPanel {
+      position: relative;
+      width: auto;
+      height: auto;
+      overflow: auto;
+      background-image: url('../../resources/images/backgrounds/darkportal.jpg');
+      background-size: cover;
+      background-repeat: repeat-y;
+    }
+  }
+  @media screen and (min-width: 1071px) {
+    div#CharacterPanel {
+      position: relative;
+      width: auto;
+      height:100vh;
+      background-image: url('../../resources/images/backgrounds/darkportal.jpg');
+      background-size: cover;
+    }
+  }
+
+  #characterGenderInputHolder {
+    border: 1px solid;
+    border-color:rgba(0, 0 , 0,0.3);
+    background-color:rgba(0, 0 , 0,0.6);
+    width: 330px;
+    margin-top: 20px;
+    font-size: 15px;
+    color: orange;
+    padding-bottom:5px;
+    padding-left: 5px;
+  }
+  div#selection {
+    width:400px;
+    height:600px;
+    padding-left: 10px;
+    float: left;
+    
+  }
+  div#details {
+    float:right;
+    width:400px;
+    height:600px;
+  }
+  #detailstable {
+    display: table;         
+    width: auto;         
+    border-color:rgba(0, 0 , 0,0.3);
+    background-color:rgba(0, 0 , 0,0.6);       
+    border-spacing: 5px; /* cellspacing:poor IE support for  this */
+    color: white;
+  }
+  
+  .tablerow {
+    display: table-row;
+    width: auto;
+    clear: both;
+  }
+  
+  .tableheader,.tablevalue {
+    float: left; /* fix for  buggy browsers */
+    display: table-column;         
+    width: 75px;
+    font-size: 12px;         
+  }
+  .tableheader {
+    font-weight: bold;
+  }
+  
+
+  
+  #createCharacterButtonHolder {
+    margin-top: 50px;
+  
+  }
+
+  .highlightclass, .highlightrace {
+    outline: none;
+    border: 3px solid rgb(218, 144, 33) !important;
+    box-shadow: 0 0 25px rgb(218, 144, 33);
+  }
+
+  #CreateCharacterLoreBoxes {
+      margin: 10px;
+      height: 600px;
+  }
+
+  #CreateCharacterName {
+    width: 200px;
+    max-height: 100px;
+    margin: 0;
+    border: 1px solid;
+    border-color:rgba(0, 0 , 0,0.3);
+    background-color:rgba(0, 0 , 0,0.6);
+    padding:10px;
+
+  }
+
+  #characterNametextHolder {
+    font-size: 25px;
+    padding-bottom:5px;
+    padding-left: 5px;
+    -webkit-text-fill-color: orange;
+    -webkit-text-stroke-color: black;
+    text-shadow: 1px 1px black;
+    
+  }
