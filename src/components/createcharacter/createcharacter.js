@@ -198,18 +198,6 @@ class CreateCharacter extends Component {
                     });
                 }
             )
-            // .then(function (res) { return res.json(); })
-            // .then(function (res) {
-            //     console.log(res);
-                // this.createSaveState(res.insertId)
-            // })
-            // .then((res) => {
-            //     this.createSaveState(res.insertId)
-            // })
-
-
-
-
     }
 
     render() {
