@@ -3,7 +3,8 @@ import "../globalcontext";
 import './world.css';
 import history from '../../history';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import { setLoggedInCharacter } from '../../actions/characterActions'
+import { connect } from 'react-redux'
 
 //import react components
 import Tabs from 'react-bootstrap/Tabs'
@@ -87,6 +88,7 @@ class World extends Component {
                         characterloaded: true,
                         character: result[0]
                     });
+                    this.props.setLoggedInCharacter(result[0])                   
                 },
                 (error) => {
                     this.setState({
@@ -190,6 +192,7 @@ class World extends Component {
             return <div>Loading...</div>;
         }
         console.log("Savestate when rendered: " + this.state.savestate.Id)
+
         return (
             <div id="WorldContainer">
                 <div id="WorldTabContainer">
@@ -231,4 +234,9 @@ class World extends Component {
     }
 
 }
-export default World;
+
+const mapStateToProps = state => ({
+    loggedincharacter: state.loggedincharacter
+})
+
+export default connect(mapStateToProps, { setLoggedInCharacter })(World)

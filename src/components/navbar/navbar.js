@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link , Redirect, withRouter} from "react-router-dom";
 
 import history from '../../history';
 import "../globalcontext";
@@ -12,10 +12,10 @@ class Navbar extends Component {
         this.routeChange = this.routeChange.bind(this);
     }
     routeChange(targetpath) {
-        history.push(targetpath);
-
-        window.location.reload()
-    }
+        setTimeout(() => {
+          this.props.history.push(targetpath);
+        }, 500);
+      }
 
     render() {
         return (
@@ -25,10 +25,11 @@ class Navbar extends Component {
                     onSelect={(selected) => {
                         console.log(selected);
                         this.routeChange(selected)
+
                     }}
                 >
                     <SideNav.Toggle />
-                    <SideNav.Nav defaultSelected="home">
+                    <SideNav.Nav>
                         <NavItem eventKey="/">
                             <NavIcon>
                                 <i className="fas fa-home"></i>
@@ -43,8 +44,10 @@ class Navbar extends Component {
                             </NavIcon>
                             <NavText>
                                 Character List
-                            </NavText>
+                                </NavText>
                         </NavItem>
+
+
                         <NavItem eventKey="/auth/createcharacter">
                             <NavIcon>
                                 <i className="fas fa-user-plus"></i>
@@ -69,4 +72,4 @@ class Navbar extends Component {
     }
 
 }
-export default Navbar;
+export default withRouter(Navbar);

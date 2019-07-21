@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+
 import './App.css';
 import "./components/globalcontext";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import CharacterList from './components/characterlist/characterlist.js';
-import CreateCharacter from './components/createcharacter/createcharacter.js';
+import CreateChar from './components/createcharacter/CreateChar/CreateChar.js'
 import Landing from "./components/Landing/Landing";
 import Register from "./components/Landing/Register";
 import history from './history';
@@ -15,6 +17,8 @@ import EncounterSuccess from './components/world/encounter/encountersuccess';
 import EncounterFailure from './components/world/encounter/encounterfailure';
 import LevelUp from './components/world/levelup/levelup';
 
+import store from './store'
+import TestParent from './components/tests/testparent';
 
 class App extends Component {
   constructor(props) {
@@ -55,7 +59,7 @@ class App extends Component {
       console.log("Base64 id: " + base64json.id);
     }
     else {
-      if(window.location.href.match("/auth")){
+      if (window.location.href.match("/auth")) {
         alert("You are not logged in.")
         this.routeChange("/")
         console.log("Redirectlogin set to true");
@@ -67,34 +71,37 @@ class App extends Component {
   setSelectedCharacterIdtoApp(id) {
     this.setState({
       characterid: id
-  });
+    });
   }
 
   render() {
     return (
-      <Router>
-        <Navbar />
-        <div className="AppContentRightSide">
-          <Route exact path="/" component={Landing} />
-          <Route path="/register" component={Register} />
-          <Route path="/auth/world" component={World}/>
-          <Route path="/auth/encounter" component={Encounter} />
-          <Route path="/auth/encountersuccess" component={EncounterSuccess} />
-          <Route path="/auth/encounterfailure" component={EncounterFailure} />
-          <Route path="/auth/levelup" component={LevelUp} />
-          <Route path="/auth/characterlist" render={() => (
-            <CharacterList userid={this.state.userid}  setSelectedCharacterIdtoApp={this.setSelectedCharacterIdtoApp}/>
-          )} />
-          <Route path="/auth/CreateCharacter" render={() => (
-            <CreateCharacter userid={this.state.userid} />
-          )} />
+      <Provider store={store}>
+        <Router>
+          <Navbar />
+          <div className="AppContentRightSide">
+            <Route exact path="/" component={Landing} />
+            <Route path="/register" component={Register} />
+            <Route path="/test" component={TestParent} />
+            <Route path="/auth/world" component={World} />
+            <Route path="/auth/encounter" component={Encounter} />
+            <Route path="/auth/encountersuccess" component={EncounterSuccess} />
+            <Route path="/auth/encounterfailure" component={EncounterFailure} />
+            <Route path="/auth/levelup" component={LevelUp} />
+            <Route path="/auth/characterlist" render={() => (
+              <CharacterList userid={this.state.userid} setSelectedCharacterIdtoApp={this.setSelectedCharacterIdtoApp} />
+            )} />
+            <Route path="/auth/CreateCharacter" render={() => (
+              <CreateChar userid={this.state.userid} />
+            )} />
             <Route path="/auth/Logout" render={() => (
-            <Logout/>
-          )} />
+              <Logout />
+            )} />
 
-        </div>
+          </div>
 
-      </Router>
+        </Router>
+      </Provider>
     );
   }
 }

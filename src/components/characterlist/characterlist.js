@@ -4,6 +4,7 @@ import "../globalcontext";
 import CharacterCard from '../charactercard/charactercard';
 import "./characterlist.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import store from '../../store';
 
 class CharacterList extends Component {
     constructor(props) {
@@ -19,20 +20,30 @@ class CharacterList extends Component {
     }
 
     componentDidMount() {
-        if (!this.props.userid) {
-            console.log("Missing UserID Prop")
+        if (store.getState().app.userid === 0) {
+            if (localStorage.getItem('token')) {
+                var base64url = localStorage.getItem('token').split('.')[1]
+                var base64 = decodeURIComponent(atob(base64url).split('').map(function (c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                var base64json = JSON.parse(base64)
+                this.getCharacterData(base64json.id)
+            }
+            else {
+                return alert("you are not logged in!")
+            }
         }
         else {
-            this.getCharacterData()
+            this.getCharacterData(store.getState().app.userid)
         }
-
+        
     }
 
 
 
     setSelectedCharacterId(e) {
         const selectedCharacterId = e.currentTarget.id.split("-")[1];
-        console.log("Selected CharacterID " +selectedCharacterId);
+        console.log("Selected CharacterID " + selectedCharacterId);
         global.SelectedCharacterListId = e.currentTarget.id;
         global.SelectedCharacter = selectedCharacterId;
 
@@ -51,9 +62,9 @@ class CharacterList extends Component {
 
     };
 
-    getCharacterData() {
-        var getCharacterDataPath = global.ApiStartPath + "characters/" + this.props.userid
-        console.log("Call API to get all characters with userID" + this.props.userid)
+    getCharacterData(userid) {
+        var getCharacterDataPath = global.ApiStartPath + "characters/" + userid
+        console.log("Call API to get all characters with userID" + userid)
         fetch(getCharacterDataPath,
             {
                 headers: {
@@ -85,32 +96,23 @@ class CharacterList extends Component {
         if (error) {
             return <div>Error: {error.message}</div>;
         }
-        else if (!this.props.userid) {
-            return (
-                <div> You are not logged in to the application
-                
-                <Link to="/"><h2>Press here to login</h2></Link>
-                </div>
-                
-            )
-        }
         else if (!isLoaded) {
             return <div>Loading...</div>;
         }
         else {
-            characters.sort(function(a,b){
-                return parseInt(a.Id)  - parseInt(b.Id);
-               })
+            characters.sort(function (a, b) {
+                return parseInt(a.Id) - parseInt(b.Id);
+            })
             return (
                 <div id="CharacterListPanel">
                     <div id="CharacterListUlHolder">
                         <ul id="CharacterList">
                             {characters.map(character => (
-                                <CharacterCard key={character.Id} Id={character.Id} Name={character.Name} Race={character.Race} Class={character.Class} RaceIconPath={character.RaceIconPath} ClassIconPath={character.ClassIconPath} Level={character.Level} setSelectedCharacterId={this.setSelectedCharacterId}/>
+                                <CharacterCard key={character.Id} Id={character.Id} Name={character.Name} Race={character.Race} Class={character.Class} RaceIconPath={character.RaceIconPath} ClassIconPath={character.ClassIconPath} Level={character.Level} setSelectedCharacterId={this.setSelectedCharacterId} />
                             ))}
                         </ul>
                     </div>
-                    <CharacterListButtons selectedCharacterId={this.state.characterid}/>
+                    <CharacterListButtons selectedCharacterId={this.state.characterid} />
                 </div>
             );
         }

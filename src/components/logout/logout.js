@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import history from '../../history';
-
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
 
 class Logout extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ componentDidMount() {
         this.routeChange("/")
     }
     else {
-        this.routeChange("/auth/characterlist")
+        return
     }
 }
 
@@ -34,4 +34,4 @@ routeChange(targetpath) {
   }
 }
 
-export default Logout;
+export default withRouter(Logout)

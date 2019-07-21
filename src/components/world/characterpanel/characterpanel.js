@@ -2,16 +2,27 @@ import React, { Component } from 'react';
 import "./characterpanel.css"
 import Table from 'react-bootstrap/Table'
 import ProgressBar from 'react-bootstrap/ProgressBar'
+import store from '../../../store';
+import { connect } from 'react-redux'
 class CharacterPanel extends Component {
     constructor(props) {
         super(props);
+        
     }
-
+    
     render() {
         var xpvalue = (this.props.character.Level * 5) + 45
         var xptolevel = (2 * this.props.character.Level) * xpvalue
+        const loggedincharacter = store.getState().characters.loggedincharacter
         return (
+
             <div id="StatTableContainer">
+                <div>
+                    redux testing Name: {loggedincharacter.Name}
+                    
+            </div>
+            <br />
+            <br />
                 <Table responsive size="sm">
                     <tbody>
                         <tr>
@@ -24,7 +35,7 @@ class CharacterPanel extends Component {
                         </tr>
                         <tr>
                             <td>Experience</td>
-                            <td><ProgressBar now={Math.round((this.props.character.ExperiencePoints / xptolevel) * 100)} label={this.props.character.ExperiencePoints+ " / "+ xptolevel + " ("+Math.round((this.props.character.ExperiencePoints / xptolevel) * 100)+"%)"}/></td>
+                            <td><ProgressBar now={Math.round((this.props.character.ExperiencePoints / xptolevel) * 100)} label={this.props.character.ExperiencePoints + " / " + xptolevel + " (" + Math.round((this.props.character.ExperiencePoints / xptolevel) * 100) + "%)"} /></td>
                         </tr>
                         <tr>
                             <td>Class</td>
@@ -61,4 +72,10 @@ class CharacterPanel extends Component {
     }
 
 }
-export default CharacterPanel;
+
+const mapStateToProps = store => ({
+    loggedincharacter: store.loggedincharacter
+
+})
+
+export default connect(mapStateToProps)(CharacterPanel)

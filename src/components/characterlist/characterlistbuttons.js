@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import history from '../../history';
 import Button from 'react-bootstrap/Button'
 
+
 class CharacterListButtons extends Component {
     constructor(props) {
         super(props);
@@ -75,6 +76,7 @@ class CharacterListButtons extends Component {
         }
         else {
             console.log(`Enter world with ${this.props.selectedCharacterId}`);
+            
         }
 
     }
