@@ -18,12 +18,6 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  routeChange = (targetpath) =>{
-    setTimeout(() => {
-        this.props.history.push(targetpath);
-    }, 200);
-  }
-
   onSubmit(event) {
     event.preventDefault();
     if (this.state.username.length < 4) {
@@ -39,49 +33,22 @@ class Login extends Component {
       password: this.state.password
     };
     console.log(userData);
-    this.props.loginAccount(userData)
-    this.routeChange("/auth/characterlist")
 
-    //Call login action with userData as payload
+    let doLogin = async () => {
+      let res = await this.props.loginAccount(userData)
+      return res
+    }
+    doLogin().then((res)=>{
+      if(res.status === 200) {
+        console.log("login OK")
 
-    // console.log(userData);
-
-    // var apipath = global.ApiStartPath + "login"
-    // fetch(apipath,
-    //   {
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Content-Type': 'application/json'
-    //     },
-    //     method: "POST",
-    //     body: JSON.stringify(userData)
-    //   })
-    //   .then(function (res) { return res.json(); })
-    //   .then(res => {
-    //     console.log(res);
-    //     if (res.msg === "ok") {
-    //       console.log("login successfull")
-    //       localStorage.setItem('token', res.token);
-    //       var base64url = res.token.split('.')[1]
-    //       var base64 = decodeURIComponent(atob(base64url).split('').map(function (c) {
-    //         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    //       }).join(''));
-    //       var base64json = JSON.parse(base64)
-    //       this.setState({
-    //         usertoken: res.token,
-    //         userid: res.token.split
-    //       })
-    //       console.log("Base64: " + base64);
-    //       console.log("Base64 id: " + base64json.id)
-    //       this.routeChange("/auth/characterlist")
-
-    //     }
-    //     else {
-    //       console.log("Bad login")
-    //       alert("Incorrect credentials!")
-    //     }
-
-    //   })
+        //redirect to characterlist after OK login
+        this.props.history.push("/auth/characterlist");
+      } else {
+        console.log("bad login")
+        alert(res.data.msg)
+      }
+    })
   };
 
   render() {

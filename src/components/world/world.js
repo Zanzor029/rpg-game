@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import "../globalcontext";
 import './world.css';
 import history from '../../history';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Loading from '../loadingscreens/loading'
+import { BrowserRouter as Router, Route, Link, withRouter} from "react-router-dom";
 import { setLoggedInCharacter } from '../../actions/characterActions'
 import { connect } from 'react-redux'
 
-//import react components
+//import react bootstrap components
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import Button from 'react-bootstrap/Button'
@@ -36,11 +37,9 @@ class World extends Component {
 
     componentWillMount() {
         if(!this.props.location.state) {
-            this.routeChange("/auth/characterlist")
+            this.props.history.push("/auth/characterlist");
         }
-        // if (!this.props.location.state.characterid) {
-        //     this.routeChange("/auth/characterlist")
-        // }
+
         else {
             console.log("World prop:" + this.props.location.state.characterid)
             this.getCharacterData(this.props.location.state.characterid);
@@ -88,7 +87,14 @@ class World extends Component {
                         characterloaded: true,
                         character: result[0]
                     });
-                    this.props.setLoggedInCharacter(result[0])                   
+                    let dosetLoggedInCharacter = async () => {
+                        let res = await this.props.setLoggedInCharacter(result[0])    
+                        return res
+                      }
+                      dosetLoggedInCharacter()
+                      .then(
+                          console.log("Logged in character set in redux store")
+                      )                   
                 },
                 (error) => {
                     this.setState({
@@ -186,7 +192,8 @@ class World extends Component {
             return <div>Error: {error.message}</div>;
         }
         else if (!characterloaded) {
-            return <div>Loading...</div>;
+            // return <div>Loading...</div>;
+            return <Loading />
         }
         else if (!savestateloaded) {
             return <div>Loading...</div>;
@@ -236,7 +243,7 @@ class World extends Component {
 }
 
 const mapStateToProps = state => ({
-    loggedincharacter: state.loggedincharacter
+    setLoggedInCharacter: state.setLoggedInCharacter
 })
 
-export default connect(mapStateToProps, { setLoggedInCharacter })(World)
+export default connect(mapStateToProps, { setLoggedInCharacter })(withRouter(World))

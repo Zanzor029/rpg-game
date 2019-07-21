@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react'
 import './inventory.css'
 import Table from 'react-bootstrap/Table'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Overlay from 'react-bootstrap/Overlay'
-import Tooltip from 'react-bootstrap/Tooltip'
+import store from '../../../store';
+import { connect } from 'react-redux'
+
 
 class Inventory extends Component {
     constructor(props) {
@@ -32,7 +31,7 @@ class Inventory extends Component {
     }
 
     getItemData() {
-        const getItemDataPath = global.ApiStartPath + "inventory/" + this.props.character.Id
+        const getItemDataPath = global.ApiStartPath + "inventory/" + store.getState().world.loggedincharacter.Id
 
         fetch(getItemDataPath,
             {
@@ -114,7 +113,7 @@ class Inventory extends Component {
         else {
             return (
                 <div>
-                    <p>Character:</p>
+                    <p>Character:{store.getState().world.loggedincharacter.Name}</p>
                     <p>Head: {equipeditems.Head.Name}</p>
                     <p>This is the inventory</p>
                     <Table hover responsive size="sm" bordered>

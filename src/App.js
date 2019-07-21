@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 
 import './App.css';
 import "./components/globalcontext";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 import CharacterList from './components/characterlist/characterlist.js';
 import CreateChar from './components/createcharacter/CreateChar/CreateChar.js'
 import Landing from "./components/Landing/Landing";

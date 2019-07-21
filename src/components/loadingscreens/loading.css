@@ -1,0 +1,9 @@
+#loadingscreen-body {
+    background-color: grey;
+    height: 100vh;
+}
+#loadingscreen-middle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}

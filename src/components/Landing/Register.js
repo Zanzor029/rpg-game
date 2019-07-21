@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import history from '../../history';
 import "./Landing.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
+import { registerAccount } from '../../actions/accountActions'
+import { loginAccount } from '../../actions/accountActions'
+import { connect } from 'react-redux'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
@@ -9,55 +11,29 @@ class Register extends Component {
   constructor() {
     super();
     this.state = {
-      name: "",
+      username: "",
       email: "",
       password: "",
       password2: ""
     };
   }
-  routeChange(targetpath) {
-    history.push(targetpath);
-    window.location.reload()
-  }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   onSubmit = e => {
     e.preventDefault();
-
     const newUser = {
-      username: this.state.name,
+      username: this.state.username,
       email: this.state.email,
       password: this.state.password,
       password2: this.state.password2
-    };
+    }
 
-    console.log(newUser);
-
+    console.log(newUser)
     if (newUser.password === newUser.password2) {
-      console.log("Password matches, creating account");
-
-      var apipath = global.ApiStartPath + "register"
-      fetch(apipath,
-        {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method: "POST",
-          body: JSON.stringify(newUser)
-        })
-        .then(function (res) { 
-          if(!res.ok) {
-            alert("Error!")
-            return res.json();
-          }
-        })
-        .then(this.routeChange("/"))
-      // .then(function (newUser) { alert(JSON.stringify(newUser)) })
-      
-
+      console.log("Password matches, creating account")
     }
     else {
       console.log("Password does not match")
@@ -66,12 +42,38 @@ class Register extends Component {
         password: "",
         password2: ""
       });
+      return
     }
-  };
+    let doRegister = async () => {
+      let res = await this.props.registerAccount(newUser)
+      return res
+    }
+    let doLogin = async () => {
+      let res = await this.props.loginAccount({ username: newUser.username, password: newUser.password })
+      return res
+    }
+    doRegister().then((res) => {
+      if (res.status === 201) {
+        console.log("account created will now try login")
+        doLogin().then((res) => {
+          if (res.status === 200) {
+            console.log("login was OK, redirect to characterlist...")
+            this.props.history.push("/auth/characterlist");
+          } else {
+            console.log(res.data.msg)
+            alert(res.data.msg)
+          }
+        })
+      } else {
+        console.log(res.data.message)
+        alert(res.data.message)
+      }
+    })
+
+  }
 
   render() {
     return (
-
       <div className="landing">
         <div className="loginbox">
           <div className="loginheadertext">
@@ -84,9 +86,9 @@ class Register extends Component {
                 type="text"
                 minLength="5"
                 placeholder="Username"
-                name="name"
+                name="username"
                 required
-                value={this.state.name}
+                value={this.state.username}
                 onChange={this.onChange}
               />
             </div>
@@ -135,4 +137,9 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = state => ({
+  registerAccount: state.registerAccount,
+  loginAccount: state.loginAccount
+})
+
+export default connect(mapStateToProps, { registerAccount, loginAccount })(withRouter(Register))

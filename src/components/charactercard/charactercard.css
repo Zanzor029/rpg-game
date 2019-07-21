@@ -56,12 +56,9 @@ li.CharacterList {
     
   }
 
-  .highlightcharacter {
-    outline: none;
-    border-color:rgb(251, 255, 0);
+  .selectedcharacter {
     box-shadow:
-    0 0 20px #fed20d,         
-    -8px 0 20px #fed20d,        
-    8px 0 20px #fed20d;         
-    background-color: rgba(255, 153, 0, 0.24);
+    0 0 15px #f1d65e93,         
+    -4px 0 20px #f1d65e93,        
+    4px 0 20px #f1d65e93; 
   }

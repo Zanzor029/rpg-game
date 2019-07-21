@@ -4,6 +4,9 @@ import "./CreateChar.css";
 import LoreBox from '../../lorebox/lorebox.js'
 import StatTable from '../StatTable/StatTable.js'
 import history from '../../../history'
+import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
+import { loginAccountWithToken } from '../../../actions/accountActions'
+import { connect } from 'react-redux'
 
 import ImageList from "../ImageList/ImageList";
 
@@ -28,6 +31,32 @@ class CreateChar extends Component {
     this.selectClass = this.selectClass.bind(this);
     this.getRaceData = this.getRaceData.bind(this);
     this.getClassData = this.getClassData.bind(this);
+  }
+
+  componentWillMount() {
+    if (localStorage.getItem('token')) {
+      var base64url = localStorage.getItem('token').split('.')[1]
+      var base64 = decodeURIComponent(atob(base64url).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      var base64json = JSON.parse(base64)
+      console.log(base64json)
+
+      let dologinAccountWithToken = async () => {
+        let res = await this.props.loginAccountWithToken({
+          token: localStorage.getItem('token'),
+          userid: base64json.id
+        })
+        return res
+      }
+      dologinAccountWithToken().then(() => {
+        console.log("Logged in with saved JWT from local storage")
+        this.props.history.push("/auth/createcharacter");
+      })
+    }
+    else {
+      this.props.history.push("/");
+    }
   }
 
   componentDidMount() {
@@ -104,9 +133,9 @@ class CreateChar extends Component {
   routeChange(targetpath) {
     history.push(targetpath);
     setTimeout(function () {
-        window.location.reload()
+      window.location.reload()
     }, 500)
-}
+  }
 
 
   handleGenderChange = e => {
@@ -143,24 +172,24 @@ class CreateChar extends Component {
   createSaveState(charid) {
     console.log("No savestate found. Creating savestate for character id" + charid);
     if (this.state.selectedRace.Faction == "Horde") {
-        var zonevalue = 2
+      var zonevalue = 2
     } else {
-        var zonevalue = 1
+      var zonevalue = 1
     }
     var payload = {
-        Characterid: charid,
-        ZoneLocation: zonevalue
+      Characterid: charid,
+      ZoneLocation: zonevalue
     }
     var createCharacterApiPath = global.ApiStartPath + "savestate/create"
     axios.post(createCharacterApiPath, payload)
     this.routeChange("/auth/characterlist");
-}
+  }
 
   createCharacter = () => {
     if (this.state.name.length < 3) {
       alert("Name too short!");
       return;
-  }
+    }
     const character = {
       Race: this.state.selectedRace.Name,
       UserId: this.props.userid,
@@ -183,9 +212,9 @@ class CreateChar extends Component {
 
     try {
       axios
-      .post(`${BASE_URL}character/create`, character)
-      .then(res => 
-        this.createSaveState(res.data.insertId)
+        .post(`${BASE_URL}character/create`, character)
+        .then(res =>
+          this.createSaveState(res.data.insertId)
         )
 
     }
@@ -298,9 +327,6 @@ class CreateChar extends Component {
                   Stamina={(this.state.selectedClass.BaseStamina + this.state.selectedRace.BaseStamina)}
                   Intellect={(this.state.selectedClass.BaseIntellect + this.state.selectedRace.BaseIntellect)}
                   Spirit={(this.state.selectedClass.BaseSpirit + this.state.selectedRace.BaseSpirit)}
-
-
-
                 />
               </div>
 
@@ -314,4 +340,8 @@ class CreateChar extends Component {
   }
 }
 
-export default CreateChar;
+const mapStateToProps = state => ({
+  loginAccountWithToken: state.loginAccountWithToken
+})
+
+export default connect(mapStateToProps, { loginAccountWithToken })(withRouter(CreateChar))

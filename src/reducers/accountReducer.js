@@ -1,4 +1,5 @@
 import { LOGIN_ACCOUNT } from '../actions/types'
+import { REGISTER_ACCOUNT } from '../actions/types'
 
 const initialState = {
     jwt: null,
@@ -8,13 +9,14 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case LOGIN_ACCOUNT:
-        console.log("Login account with payload")    
-        console.log(action.payload)
+            console.log("Login account with payload - accountReducer")
             return {
                 ...state,
                 jwt: action.payload.token,
                 userid: action.payload.userid
             }
+        case REGISTER_ACCOUNT:
+            console.log("register account with payload - accountReducer")
         default:
             return state
     }

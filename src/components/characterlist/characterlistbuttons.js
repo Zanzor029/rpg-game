@@ -20,22 +20,17 @@ class CharacterListButtons extends Component {
         }, 500)
     }
 
-    deleteCharacterApiCall(characterId) {
-        console.log("ApiPath")
-
-    };
-
     deleteCharacter() {
-        if (global.SelectedCharacter === "0") {
-            console.log("Selected Character is 0, will not delete");
+        if (this.props.selectedCharacter == null) {
+            console.log("Selected Character is null, will not delete");
             alert("No character is selected!");
         }
         else {
 
             var alertConfirmation = window.confirm("This will delete the character permantently!");
             if (alertConfirmation === true) {
-                console.log("Delete character: " + global.SelectedCharacter);
-                var apipath = global.ApiStartPath + "deletecharacter/" + global.SelectedCharacter
+                console.log("Delete character: " + this.props.selectedCharacter.Id);
+                var apipath = global.ApiStartPath + "deletecharacter/" + this.props.selectedCharacter.Id
                 fetch(apipath, {
                     method: "DELETE",
                 })
@@ -54,15 +49,9 @@ class CharacterListButtons extends Component {
                             });
                         }
                     )
-                    .then(
-                        setTimeout(function () {
-                            window.location.href = window.location.href
-                        }, 500)
-                    );
-
             }
             else {
-                console.log("User changed his mind on character: " + global.SelectedCharacter);
+                console.log("User changed his mind on character: " + this.props.selectedCharacter.Id);
             }
 
         }
@@ -71,11 +60,11 @@ class CharacterListButtons extends Component {
     };
 
     enterWorld() {
-        if (!this.props.selectedCharacterId) {
+        if (!this.props.selectedCharacter) {
             alert("No character selected");
         }
         else {
-            console.log(`Enter world with ${this.props.selectedCharacterId}`);
+            console.log(`Enter world with ${this.props.selectedCharacter.Id}`);
             
         }
 
@@ -89,14 +78,14 @@ class CharacterListButtons extends Component {
                     <Link to="/auth/CreateCharacter" className="CharacterListBtn"><Button variant="dark" className="CharacterListBtn" id="CharacterListCreateNewBtn">Create New Character</Button></Link>
                 </div>
                 <div className="CharacterListBtnPanel" id="CharacterListDeleteBtnPanel">
-                    <Link className="CharacterListBtn"><Button variant="dark" className="CharacterListBtn" id="CharacterListDeleteBtn" onClick={() => { this.deleteCharacter() }}>Delete Character</Button></Link>
+                    <Link className="CharacterListBtn" to="#"><Button variant="dark" className="CharacterListBtn" id="CharacterListDeleteBtn" onClick={() => { this.deleteCharacter() }}>Delete Character</Button></Link>
                 </div>
 
                 <div className="CharacterListBtnPanel" id="CharacterListEnterWorldBtnPanel">
                     <Link className="CharacterListBtn" to={{
                         pathname: '/auth/world',
                         state: {
-                            characterid: this.props.selectedCharacterId
+                            characterid: this.props.selectedCharacter.Id
                         }
                     }}>
                         <Button variant="dark" className="CharacterListBtn" id="CharacterListEnterWorldBtn" onClick={() => { this.enterWorld() }}>Enter World</Button></Link>
