@@ -1,0 +1,29 @@
+#HiddenTooltip {
+    display:none;
+    height:0px;
+    padding:0px;
+    margin:0px;
+}
+#TooltipBackground {
+    position: fixed;
+    z-index: 99998; 
+    max-width: 400px; 
+    max-height: 400px; 
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.8);
+    pointer-events: none;
+    border: 2px solid whitesmoke;
+    padding: 15px;
+}
+
+.TooltipItemName {
+    font-weight: bold;
+}
+.TooltipWeaponStatsRowOne {
+    display: inline-flex;
+    justify-content: space-between;
+    margin-right:10px;
+}
+
+

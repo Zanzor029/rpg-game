@@ -12,3 +12,20 @@
 #EncounterSelectButton {
   margin-top: 20px;
 }
+
+#WorldTabContainer a {
+  color: whitesmoke;
+  font-weight: bold;
+}
+
+.nav-link.active {
+  background-color: #343a40 !important;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  border-color: whitesmoke !important;
+}
+
+.nav nav-tabs {
+  border-color: whitesmoke !important;
+}

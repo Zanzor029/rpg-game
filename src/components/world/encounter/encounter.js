@@ -530,7 +530,7 @@ class Encounter extends Component {
                             <ProgressBar id="EncounterCastBar" animated now={this.state.charactercastpercentage} label={this.state.charactercastlabel} />
                         </div>
                         <div id="EncounterCharacterSpellBarContainer">
-                            <Table size="sm" hover responsive>
+                            <Table size="sm" hover responsive variant="dark">
                                 <thead>
                                     <tr>
                                         <th><i class="far fa-keyboard"></i></th>

@@ -18,6 +18,7 @@ import CharacterPanel from './characterpanel/characterpanel'
 import Spellbook from './spellbook/spellbook';
 import EncounterList from './encounter/encounterlist';
 import Inventory from './inventory/inventory'
+import Equipment from './equipment/equipment';
 
 class World extends Component {
     constructor(props) {
@@ -29,7 +30,8 @@ class World extends Component {
             savestateloaded: false,
             savestate: [],
             selectedspells: [],
-            characterid: null
+            characterid: null,
+            loggedInCharacterSet: false
         };
         this.setSelectedEncounterValueFromChild = this.setSelectedEncounterValueFromChild.bind(this);
         this.setSelectedSpellsValueFromChild = this.setSelectedSpellsValueFromChild.bind(this);
@@ -93,7 +95,10 @@ class World extends Component {
                       }
                       dosetLoggedInCharacter()
                       .then(
-                          console.log("Logged in character set in redux store")
+                          console.log("Logged in character set in redux store"),
+                          this.setState({
+                            loggedInCharacterSet: true
+                          })
                       )                   
                 },
                 (error) => {
@@ -187,28 +192,31 @@ class World extends Component {
     }
 
     render() {
-        const { error, character, characterloaded, savestateloaded } = this.state;
+        const { error, character, characterloaded, savestateloaded,loggedInCharacterSet } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         }
         else if (!characterloaded) {
-            // return <div>Loading...</div>;
             return <Loading />
         }
         else if (!savestateloaded) {
-            return <div>Loading...</div>;
+            return <Loading />
+        }
+        else if (!loggedInCharacterSet) {
+            return <Loading />
         }
         console.log("Savestate when rendered: " + this.state.savestate.Id)
-
         return (
             <div id="WorldContainer">
                 <div id="WorldTabContainer">
                     <Tabs defaultActiveKey="CharacterPanel" id="worldtab" variant="tabs">
                         <Tab eventKey="CharacterPanel" title="Character Panel">
-                            <CharacterPanel character={character} />
+                            <CharacterPanel />
                         </Tab>
                         <Tab eventKey="Inventory" title="Inventory">
-                            <Inventory character={character} />
+                            <Equipment />
+                            <br />
+                            <Inventory/>
                         </Tab>
                         <Tab eventKey="QuestLog" title="Quest Log">
                             <QuestLog />
@@ -226,7 +234,7 @@ class World extends Component {
                                         selectedcreatureid: this.state.selectedcreatureid
                                     }
                                 }}>
-                                    <Button variant="dark">Start Encounter: {this.state.selectedencounterid}</Button>
+                                    <Button variant="success">Start Encounter: {this.state.selectedencounterid}</Button>
                                 </Link>
                             </div>
                         </Tab>

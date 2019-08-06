@@ -13,13 +13,6 @@ class CharacterListButtons extends Component {
             isLoaded: false
         };
     }
-    routeChange(targetpath) {
-        history.push(targetpath);
-        setTimeout(function () {
-            window.location.reload()
-        }, 500)
-    }
-
     deleteCharacter() {
         if (this.props.selectedCharacter == null) {
             console.log("Selected Character is null, will not delete");
@@ -41,6 +34,7 @@ class CharacterListButtons extends Component {
                                 isLoaded: true,
                                 deleteresult: result
                             });
+                            window.location.reload();
                         },
                         (error) => {
                             this.setState({
@@ -60,7 +54,7 @@ class CharacterListButtons extends Component {
     };
 
     enterWorld() {
-        if (!this.props.selectedCharacter) {
+        if (!this.props.selectedCharacter.Id) {
             alert("No character selected");
         }
         else {
@@ -71,7 +65,6 @@ class CharacterListButtons extends Component {
     }
 
     render() {
-
         return (
             <div id="CharacterListBtnsPanel">
                 <div className="CharacterListBtnPanel" id="CharacterListCreateNewBtnPanel">

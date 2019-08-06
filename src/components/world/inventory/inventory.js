@@ -1,100 +1,39 @@
 import React, { Component } from 'react'
 import './inventory.css'
 import Table from 'react-bootstrap/Table'
-import store from '../../../store';
+import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux'
-
+import { getInventoryItems } from '../../../actions/characterActions'
+import { equipItemFromInventory } from '../../../actions/characterActions'
+import { showTooltip, hideTooltip } from '../../../actions/tooltipActions'
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
+import Loading from '../../loadingscreens/loading';
 
 class Inventory extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            inventory: [],
             inventoryloaded: false,
-            equipeditems: {
-                Head: {},
-                Shoulder: {},
-                Chest: {},
-                Weapon: {},
-                Hands: {},
-                Legs: {},
-                Feet: {}
-            },
-            itemTooltip: null,
             error: null
         }
     }
 
     componentWillMount() {
-        this.getItemData()
-    }
-
-    getItemData() {
-        const getItemDataPath = global.ApiStartPath + "inventory/" + store.getState().world.loggedincharacter.Id
-
-        fetch(getItemDataPath,
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                },
-                method: "GET",
-            })
-            .then(res => res.json())
+        let doGetInventoryItems = async () => {
+            let res = await this.props.getInventoryItems()
+            return res
+        }
+        doGetInventoryItems()
             .then(
-                (result) => {
-                    this.setState({
-                        inventory: result,
-                        inventoryloaded: true
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        error
-                    });
-                }
+                this.setState({
+                    inventoryloaded: true,
+                })
             )
     }
 
-    equipItem(item) {
-        console.log("Equip item with ID: " + item.ItemId)
-        let equipment = this.state.equipeditems
-        equipment[item.ItemSlot] = item
-        this.setState({
-            equipeditems: equipment
-        })
-
-    }
-
-    renderTooltip(item) {
-        let Tooltipitem = Object.assign({}, item);
-        delete Tooltipitem["CharacterId"]
-        delete Tooltipitem["ItemId"]
-        delete Tooltipitem["IconPath"]
-        let keys = Object.keys(Tooltipitem)
-        let element = null
-        element = (
-            <div className="ItemTooltip container">
-                {keys.map(key => (
-                    <div className="ItemTooltipRow row">
-                    <span className="ItemTooltipLabel col-sm">{key}: </span> <span className="ItemTooltipValue col-sm">{Tooltipitem[key]}</span>
-                    </div>
-                ))}
-            </div>)
-        this.setState({
-            itemTooltip: element
-        })
-    }
-    removeTooltip() {
-        this.setState({
-            itemTooltip: null
-        })
-    }
-
     render() {
-        const { error, inventoryloaded, inventory, equipeditems } = this.state;
+        const { error, inventoryloaded } = this.state;
         if (error) {
             return (
                 <div>
@@ -106,38 +45,45 @@ class Inventory extends Component {
         if (inventoryloaded === false) {
             return (
                 <div>
-                    Loading...
+                    <Loading />
                 </div>
             )
         }
         else {
             return (
                 <div>
-                    <p>Character:{store.getState().world.loggedincharacter.Name}</p>
-                    <p>Head: {equipeditems.Head.Name}</p>
-                    <p>This is the inventory</p>
-                    <Table hover responsive size="sm" bordered>
+                    <p><strong>Inventory Items</strong></p>
+                    {this.props.reduxinventory.length < 1 && <p>You have no items in your inventory.</p>}
+                    {this.props.reduxinventory.length > 0 &&
+                    <Table hover responsive size="sm" bordered variant="dark">
                         <thead>
                             <tr>
                                 <th>Icon</th>
                                 <th>Name</th>
                                 <th>Item Slot</th>
+                                <th>Equip</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {inventory.map(item => (
-                                <tr id={"InventoryTablerow-" + item.Id} key={item.Id} onClick={() => this.equipItem(item)} onMouseEnter={() => this.renderTooltip(item)} onMouseLeave={() => this.removeTooltip()}>
+                            {this.props.reduxinventory.map(item => (
+                                <tr key={item.ItemId} id={"InventoryTablerow-" + item.ItemId}
+                                    onMouseOver={(e) => this.props.showTooltip({
+                                        object: item,
+                                        positionY: e.clientY,
+                                        positionX: e.clientX
+                                    }, "item")}
+                                    onMouseOut={() => this.props.hideTooltip()}
+                                >
                                     <td><img className="InventoryIcon" src={require('../../../' + item.IconPath)}></img></td>
                                     <td>{item.Name}</td>
                                     <td>{item.ItemSlot}</td>
+                                    <td><Button variant="success" size="sm" onClick={() => this.props.equipItemFromInventory(item)}> Equip Item</Button></td>
                                 </tr>
                             ))}
                         </tbody>
 
                     </Table>
-                    <div Id="ItemTooltipContainer">
-                        {this.state.itemTooltip}
-                    </div>
+                    }
                 </div>
             )
         }
@@ -145,4 +91,13 @@ class Inventory extends Component {
     }
 }
 
-export default Inventory
+
+const mapStateToProps = state => ({
+    getInventoryItems: state.getInventoryItems,
+    equipItemFromInventory: state.equipItemFromInventory,
+    reduxinventory: state.world.inventory,
+    showTooltip: state.showTooltip,
+    hideTooltip: state.hideTooltip
+})
+
+export default connect(mapStateToProps, { getInventoryItems, equipItemFromInventory, showTooltip, hideTooltip })(withRouter(Inventory))

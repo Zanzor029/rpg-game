@@ -10,7 +10,6 @@ import { connect } from 'react-redux'
 
 import ImageList from "../ImageList/ImageList";
 
-const BASE_URL = global.ApiStartPath;
 
 class CreateChar extends Component {
   constructor(props) {
@@ -26,7 +25,7 @@ class CreateChar extends Component {
       gendericonpath: null,
       name: ""
 
-    };
+    }
     this.selectRace = this.selectRace.bind(this);
     this.selectClass = this.selectClass.bind(this);
     this.getRaceData = this.getRaceData.bind(this);
@@ -67,7 +66,7 @@ class CreateChar extends Component {
   /// Get all Races
   async getRaceData() {
     try {
-      const url = `${BASE_URL}races/`;
+      const url = `${global.ApiStartPath}races/`;
       let response = await axios.get(url);
       let data = response.data;
       data.sort(function (a, b) { return a.Faction - b.Faction })
@@ -85,7 +84,7 @@ class CreateChar extends Component {
   /// Get all Classes
   async getClassData() {
     try {
-      const url = `${BASE_URL}classes/`;
+      const url = `${global.ApiStartPath}classes/`;
       let response = await axios.get(url);
       let data = response.data;
 
@@ -162,15 +161,12 @@ class CreateChar extends Component {
       return race.MaleIconPath;
     }
     if (this.state.gender === "Female") {
-      // this.setState({
-      //   gendericonpath: race.FemaleIconPath
-      // })
       return race.FemaleIconPath;
     }
   };
 
   createSaveState(charid) {
-    console.log("No savestate found. Creating savestate for character id" + charid);
+    console.log("No savestate found. Creating savestate for character id " + charid);
     if (this.state.selectedRace.Faction == "Horde") {
       var zonevalue = 2
     } else {
@@ -180,9 +176,26 @@ class CreateChar extends Component {
       Characterid: charid,
       ZoneLocation: zonevalue
     }
-    var createCharacterApiPath = global.ApiStartPath + "savestate/create"
-    axios.post(createCharacterApiPath, payload)
-    this.routeChange("/auth/characterlist");
+
+    let doCreateSaveState = async () => {
+      let res = await axios.post(`${global.ApiStartPath}savestate/create`, payload)
+      return res
+    }
+
+    let doCreateDefaultInventory = async () => {
+      let res = await axios.post(`${global.ApiStartPath}character/defaultinventory`, { Id: charid })
+    }
+
+    doCreateSaveState().then(() => {
+      doCreateDefaultInventory(charid).then(
+        this.routeChange("/auth/characterlist")
+      )
+    })
+  }
+
+  createDefaultInventory(charid) {
+    console.log(`create default inventory for ${charid}`)
+    axios.post(`${global.ApiStartPath}character/defaultinventory`, { Id: charid })
   }
 
   createCharacter = () => {
@@ -212,11 +225,10 @@ class CreateChar extends Component {
 
     try {
       axios
-        .post(`${BASE_URL}character/create`, character)
+        .post(`${global.ApiStartPath}character/create`, character)
         .then(res =>
           this.createSaveState(res.data.insertId)
         )
-
     }
     catch (error) {
       alert(error)

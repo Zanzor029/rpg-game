@@ -10,7 +10,7 @@ class QuestLog extends Component {
 render() {
     return (
         <div>
-            <p>This lists all the quests</p>
+            <p>Coming soon...</p>
         </div>
     );
 }

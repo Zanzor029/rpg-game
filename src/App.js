@@ -16,6 +16,8 @@ import Encounter from './components/world/encounter/encounter';
 import EncounterSuccess from './components/world/encounter/encountersuccess';
 import EncounterFailure from './components/world/encounter/encounterfailure';
 import LevelUp from './components/world/levelup/levelup';
+import Modal from './components/modal/modal'
+import Tooltip from './components/tooltip/tooltip'
 
 import store from './store'
 import TestParent from './components/tests/testparent';
@@ -77,6 +79,8 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        <Modal />
+        <Tooltip />
         <Router>
           <Navbar />
           <div className="AppContentRightSide">
@@ -101,6 +105,7 @@ class App extends Component {
           </div>
 
         </Router>
+        
       </Provider>
     );
   }

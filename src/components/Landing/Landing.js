@@ -18,7 +18,6 @@ class Landing extends Component {
   componentWillMount() {
 
     //Check if a JWT exists in local storage, if so try to login using that token
-
     if (localStorage.getItem('token')) {
       var base64url = localStorage.getItem('token').split('.')[1]
       var base64 = decodeURIComponent(atob(base64url).split('').map(function (c) {

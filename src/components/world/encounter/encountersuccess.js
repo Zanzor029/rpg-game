@@ -118,7 +118,7 @@ class EncounterSuccess extends Component {
                                 }
                             }}>
 
-                                <Button variant="dark" className="CharacterListBtn" id="CharacterListCreateNewBtn">Continue</Button></Link>
+                                <Button variant="success" className="CharacterListBtn" id="CharacterListCreateNewBtn">Continue</Button></Link>
                         </div>
                     </div>
                 )
@@ -136,7 +136,7 @@ class EncounterSuccess extends Component {
                                     characterid: this.state.character.Id
                                 }
                             }}>
-                                <Button variant="dark" className="CharacterListBtn" id="CharacterListCreateNewBtn">Continue</Button></Link>
+                                <Button variant="success" className="CharacterListBtn" id="CharacterListCreateNewBtn">Continue</Button></Link>
                         </div>
                     </div>
                 </div>

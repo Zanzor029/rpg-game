@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import "./spellbook.css"
+import { showModal } from '../../../actions/modalActions'
+import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
 
 //import react components
 import Table from 'react-bootstrap/Table'
-import { tsExpressionWithTypeArguments } from '@babel/types';
+
 
 class Spellbook extends Component {
     constructor(props) {
@@ -113,14 +116,28 @@ class Spellbook extends Component {
         }
         return (
             <div id="SpellbookTableContainer">
-                <p>Select active spells below. Only 4 spells can be active at the same time.</p>
-                <Table bordered responsive>
+                <i className="far fa-question-circle helperButton" onClick={() => this.props.showModal({
+                    open: true,
+                    header: 'Spellbook',
+                    body: 
+                    <div>
+                        <div>This table contains your available spells. You may only have four active spells in your loadout.</div>
+                    </div>
+                    ,
+                    buttons: [
+                        {
+                            title: "Close",
+                            action: "hideModal"
+                        },
+                    ]
+                }, 'info')}></i>
+                <Table bordered responsive variant="dark">
                     <thead>
                         <tr>
                             <th>Spell</th>
-                            <th><i class="fas fa-spinner fa-spin"></i> Cast Time (s)</th>
-                            <th><i class="far fa-clock"></i> Cooldown (s) </th>
-                            <th><i class="fas fa-tint fa-manaicon"></i> Mana Cost</th>
+                            <th><i className="fas fa-spinner fa-spin"></i> Cast Time (s)</th>
+                            <th><i className="far fa-clock"></i> Cooldown (s) </th>
+                            <th><i className="fas fa-tint fa-manaicon"></i> Mana Cost</th>
                             <th>Description</th>
                         </tr>
                     </thead>
@@ -143,4 +160,10 @@ class Spellbook extends Component {
     }
 
 }
-export default Spellbook;
+
+const mapStateToProps = state => ({
+    showModal: state.showModal,
+    loggedincharacter: state.world.loggedincharacter
+})
+
+export default connect(mapStateToProps, { showModal })(withRouter(Spellbook))

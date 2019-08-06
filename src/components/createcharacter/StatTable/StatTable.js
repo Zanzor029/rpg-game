@@ -5,7 +5,7 @@ class StatTable extends Component {
     render() {
         return (
             <div className="CreateCharacterStatTable">
-                <Table bordered responsive>
+                <Table bordered responsive variant="dark">
                     <thead>
                         <tr>
                             <th>Strength</th>

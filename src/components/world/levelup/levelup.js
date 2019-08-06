@@ -232,7 +232,7 @@ class LevelUp extends Component {
                         <p>There are <strong>{this.state.pointsremaining} </strong>points remaining.</p>
                     </div>
                 </div>
-                <Table bordered hover size="sm">
+                <Table bordered hover size="sm" variant="dark">
                     <thead>
                         <tr>
                             <th>Stat</th>
@@ -281,7 +281,7 @@ class LevelUp extends Component {
                             characterid: this.state.character.Id
                         }
                     }}> */}
-                        <Button className="SaveChangesBtn">Save changes</Button>
+                        <Button variant="success" className="SaveChangesBtn">Save changes</Button>
                     {/* </Link> */}
                 </div>
                 {/* <div className="flex-container">

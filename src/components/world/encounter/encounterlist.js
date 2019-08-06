@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import "./encounter.css"
-import ListGroup from 'react-bootstrap/ListGroup'
-import ListGroupItem from 'react-bootstrap/ListGroupItem';
+import { showModal } from '../../../actions/modalActions'
+import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
+import Table from 'react-bootstrap/Table'
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class EncounterList extends Component {
     constructor(props) {
@@ -102,17 +103,52 @@ class EncounterList extends Component {
         }
         return (
             <div id="EncounterListContainer">
+                <i className="far fa-question-circle helperButton" onClick={() => this.props.showModal({
+                    open: true,
+                    header: 'Character Stats',
+                    body: 
+                    <div>
+                        <div>This table displays available encounters for this zone.</div>
+                    </div>
+                    ,
+                    buttons: [
+                        {
+                            title: "Close",
+                            action: "hideModal"
+                        },
+                    ]
+                }, 'info')}></i>
                 <p>Zone: {this.state.encounterzonelocationname}</p>
                 <div id="EncounterListGroupContainer">
-                    <ListGroup>
-                        {encounters.map(encounter => (
-                            <ListGroupItem className="EncounterListItem" action onClick={() => this.props.setSelectedEncounterValueFromChild({Id:encounter.Id, CreatureId:encounter.CreatureId})} key={encounter.Id}>{encounter.Id} : <img className="EncounterListIcon" src={require('../../../'+encounter.IconPath)}></img> Level {encounter.Level} {encounter.Name} </ListGroupItem>
-                        ))}
-                    </ListGroup>
+                <Table hover responsive size="sm" bordered variant="dark">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Icon</th>
+                                <th>Name</th>
+                                <th>Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {encounters.map(encounter => (
+                                <tr className="EncounterListItem" key={encounter.Id} onClick={() => this.props.setSelectedEncounterValueFromChild({Id:encounter.Id, CreatureId:encounter.CreatureId})}>
+                                    <td>{encounter.Id}</td>
+                                    <td><img className="EncounterListIcon" src={require('../../../'+encounter.IconPath)}></img></td>
+                                    <td>{encounter.Name}</td>
+                                    <td>{encounter.Level}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
                 </div>
             </div>
         );
     }
 
 }
-export default EncounterList;
+const mapStateToProps = state => ({
+    showModal: state.showModal,
+    loggedincharacter: state.world.loggedincharacter
+})
+
+export default connect(mapStateToProps, { showModal })(withRouter(EncounterList))

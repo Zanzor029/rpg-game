@@ -9,10 +9,11 @@
 
 /*Shared General*/
 body {
-  color: rgb(0, 0, 0);
+  color:whitesmoke !important;
   font-family: 'Open Sans', sans-serif;
   width: 100vw;
   height:100vh;
+  background-color: #3f4041 !important;
 
   /* Disable text selection */
   -webkit-touch-callout: none; /* iOS Safari */
@@ -25,6 +26,9 @@ body {
   /* Disable dragging */
 
 }
+p {
+  color:whitesmoke !important;
+}
 button {
   font-family: FrizQuadrata;
   width:200px;
@@ -35,12 +39,17 @@ button {
   border: 1px solid grey;
 }
 
+.helperButton {
+  color:whitesmoke;
+}
+.helperButton:hover {
+  color:rgb(198, 247, 176);
+}
 
 div.AppContentRightSide{
   float:left;
   padding-left:64px;
   width:100%;
-
 }
 
 
