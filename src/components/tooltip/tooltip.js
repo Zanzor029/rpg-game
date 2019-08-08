@@ -48,13 +48,13 @@ export class Tooltip extends Component {
                     <div className="TooltipWeaponStats">
                         {weaponDiv}
                     </div>
-                    <div className="TooltipStats">
-                        <div>{item.Armor > 0 && `${item.Armor} Armor`} </div>
-                        <div>{item.Strength > 0 && `${item.Strength} Strength`} </div>
-                        <div>{item.Agility > 0 && `${item.Agility} Agility`}</div>
-                        <div>{item.Stamina > 0 && `${item.Stamina} Stamina`}</div>
-                        <div>{item.Intellect > 0 && `${item.Intellect} Intellect`}</div>
-                        <div>{item.Spirit > 0 && `${item.Spirit} Spirit`}</div>
+                    <div>{item.Armor > 0 && `${item.Armor} Armor`} </div>
+                    <div className="TooltipStatsAttributes">
+                        <div >{item.Strength > 0 && `${item.Strength} Strength`} </div>
+                        <div >{item.Agility > 0 && `${item.Agility} Agility`}</div>
+                        <div >{item.Stamina > 0 && `${item.Stamina} Stamina`}</div>
+                        <div >{item.Intellect > 0 && `${item.Intellect} Intellect`}</div>
+                        <div >{item.Spirit > 0 && `${item.Spirit} Spirit`}</div>
                     </div>
                 </div>
 

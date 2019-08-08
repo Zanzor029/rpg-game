@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getCharacters } from '../../actions/characterActions'
+import { getCharacters } from '../../actions/worldActions'
 
 export class Testcharacterlist extends Component {
 

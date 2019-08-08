@@ -4,6 +4,9 @@ import history from '../../../history';
 import Table from 'react-bootstrap/Table'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import { isNull } from 'util';
+import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
+import { setEncounterCreature } from '../../../actions/worldActions'
+import { connect } from 'react-redux'
 
 class Encounter extends Component {
     constructor(props) {
@@ -17,6 +20,7 @@ class Encounter extends Component {
             combatlog: "Combat started!"
         }
         this.CombatLogRef = React.createRef();
+        this._isMounted = false;
     }
 
     componentWillMount() {
@@ -29,7 +33,7 @@ class Encounter extends Component {
         }
 
         //Calculate additional character data
-        let characterdata = this.props.location.state.character
+        let characterdata = this.props.loggedincharacter
         //Stamina --> Health (Same for all classes)
         characterdata.Health = characterdata.Stamina * 10
         characterdata.MaxHealth = characterdata.Stamina * 10
@@ -57,12 +61,13 @@ class Encounter extends Component {
             selectedcreatureid: this.props.location.state.selectedcreatureid,
             character: characterdata,
             selectedspells: this.props.location.state.selectedspells,
-            savestate: this.props.location.state.savestate
         })
         this.getCreatureData()
         this.getSpellData()
     }
     componentDidMount() {
+        this._isMounted = true;
+
         //Start spirit regen
         this.regenCharacterManaInterval = setInterval(() => this.regenCharacterMana(), 5000);
     }
@@ -71,23 +76,17 @@ class Encounter extends Component {
 
         // Check if creature or character is dead
         if (this.state.creature.Health <= 0) {
-            clearInterval(this.regenCharacterManaInterval)
-            clearInterval(this.creatureAutoAttack)
-            clearInterval(this.characterCastProgress)
-            this.routeChange("/auth/encountersuccess", { combatresult: "CharacterWon", character: this.state.character, creature: this.state.creature, encounterid: this.selectedencounterid, savestate: this.state.savestate })
-
+            this.props.history.push("/auth/encountersuccess")
         }
         if (this.state.character.Health <= 0) {
-            clearInterval(this.regenCharacterManaInterval)
-            clearInterval(this.creatureAutoAttack)
-            clearInterval(this.characterCastProgress)
-            this.routeChange("/auth/encounterfailure", { combatresult: "CharacterWon", character: this.state.character, creature: this.state.creature, encounterid: this.selectedencounterid, savestate: this.state.savestate })
+            this.props.history.push("/auth/encounterfailure")
         }
     }
 
     componentWillUnmount() {
+        this._isMounted = false;
+        clearInterval(this.state.creatureAutoAttackInterval);
         clearInterval(this.regenCharacterManaInterval)
-        clearInterval(this.creatureAutoAttack)
         clearInterval(this.characterCastProgress)
     }
 
@@ -161,13 +160,13 @@ class Encounter extends Component {
                     result[0].MaxHealth = result[0].Health
                     result[0].MaxMana = result[0].Mana
                     result[0].LevelColorClass = "YellowMobLevel"
-                    if(this.state.character.GrayLevel >= result[0].Level) {
+                    if (this.state.character.GrayLevel >= result[0].Level) {
                         result[0].LevelColorClass = "GrayMobLevel"
                     }
-                    if((result[0].Level)>=this.state.character.Level+5) {
+                    if ((result[0].Level) >= this.state.character.Level + 5) {
                         result[0].LevelColorClass = "RedMobLevel"
                     }
-                    if((result[0].Level)<=this.state.character.Level-3) {
+                    if ((result[0].Level) <= this.state.character.Level - 3) {
                         result[0].LevelColorClass = "GreenMobLevel"
                     }
                     this.setState({
@@ -175,10 +174,14 @@ class Encounter extends Component {
                         creature: result[0]
                     });
 
+                    //Set creature data in redux store
+                    this.props.setEncounterCreature(result[0])
+
                     //Start creature auto attack
-                    var attackSpeed = this.state.creature.AttackSpeed*1000
+                    var attackSpeed = this.state.creature.AttackSpeed * 1000
                     console.log(attackSpeed)
-                    this.creatureAutoAttackInterval = setInterval(() => this.creatureAutoAttack(), attackSpeed);
+                    let creatureAutoAttackInterval = setInterval(() => this.creatureAutoAttack(), attackSpeed);
+                    this.setState({ creatureAutoAttackInterval: creatureAutoAttackInterval });
                 },
                 (error) => {
                     this.setState({
@@ -193,7 +196,7 @@ class Encounter extends Component {
         history.push(targetpath, state);
         setTimeout(function () {
             window.location.reload()
-        }, 500)
+        }, 200)
     }
 
     damageCharacter(amount) {
@@ -405,18 +408,21 @@ class Encounter extends Component {
         var hour = now.getHours()
         var minutes = now.getMinutes()
         var seconds = now.getSeconds()
-        if(seconds < 10) {
-            seconds = "0"+seconds
+        if (seconds < 10) {
+            seconds = "0" + seconds
         }
-        if(minutes < 10) {
-            minutes = "0"+minutes
+        if (minutes < 10) {
+            minutes = "0" + minutes
         }
-        var stamp = hour +":"+minutes+":"+seconds
+        var stamp = hour + ":" + minutes + ":" + seconds
         this.setState({
-            combatlog: this.state.combatlog + "\n" + "["+stamp+"]   "   + input
+            combatlog: this.state.combatlog + "\n" + "[" + stamp + "]   " + input
         });
         //Scroll to bottom of CombatLog
-        this.CombatLogRef.current.scrollTop = this.CombatLogRef.current.scrollHeight;
+        if (this._isMounted === true) {
+            this.CombatLogRef.current.scrollTop = this.CombatLogRef.current.scrollHeight;
+        }
+
     }
 
     //Intervalls
@@ -572,4 +578,10 @@ class Encounter extends Component {
     }
 
 }
-export default Encounter;
+
+const mapStateToProps = state => ({
+    setEncounterCreature: state.setEncounterCreature,
+    loggedincharacter: state.world.loggedincharacter
+})
+
+export default connect(mapStateToProps, { setEncounterCreature })(withRouter(Encounter))

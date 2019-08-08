@@ -9,14 +9,14 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case LOGIN_ACCOUNT:
-            console.log("Login account with payload - accountReducer")
+            console.log("Login account with payload - appReducer")
             return {
                 ...state,
                 jwt: action.payload.token,
                 userid: action.payload.userid
             }
         case REGISTER_ACCOUNT:
-            console.log("register account with payload - accountReducer")
+            console.log("register account with payload - appReducer")
         default:
             return state
     }

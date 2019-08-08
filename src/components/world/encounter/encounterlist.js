@@ -20,8 +20,8 @@ class EncounterList extends Component {
         };
     }
     componentWillMount() {
-        this.getZoneLocation(this.props.savestate.ZoneLocation)
-        this.getZoneEncounters(this.props.savestate.ZoneLocation)
+        this.getZoneLocation(this.props.loggedincharacter.ZoneLocation)
+        this.getZoneEncounters(this.props.loggedincharacter.ZoneLocation)
     }
 
     getZoneLocation(zoneid) {

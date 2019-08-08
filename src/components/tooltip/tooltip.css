@@ -16,6 +16,13 @@
     border: 2px solid whitesmoke;
     padding: 15px;
 }
+.TooltipStatsAttributes {
+    color: #1eff00 !important;
+}
+
+.TooltipItemSlot {
+    font-style: italic;
+}
 
 .TooltipItemName {
     font-weight: bold;

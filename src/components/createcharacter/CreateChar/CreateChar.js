@@ -5,7 +5,7 @@ import LoreBox from '../../lorebox/lorebox.js'
 import StatTable from '../StatTable/StatTable.js'
 import history from '../../../history'
 import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
-import { loginAccountWithToken } from '../../../actions/accountActions'
+import { loginAccountWithToken } from '../../../actions/appActions'
 import { connect } from 'react-redux'
 
 import ImageList from "../ImageList/ImageList";
@@ -165,43 +165,16 @@ class CreateChar extends Component {
     }
   };
 
-  createSaveState(charid) {
-    console.log("No savestate found. Creating savestate for character id " + charid);
-    if (this.state.selectedRace.Faction == "Horde") {
-      var zonevalue = 2
-    } else {
-      var zonevalue = 1
-    }
-    var payload = {
-      Characterid: charid,
-      ZoneLocation: zonevalue
-    }
-
-    let doCreateSaveState = async () => {
-      let res = await axios.post(`${global.ApiStartPath}savestate/create`, payload)
-      return res
-    }
-
-    let doCreateDefaultInventory = async () => {
-      let res = await axios.post(`${global.ApiStartPath}character/defaultinventory`, { Id: charid })
-    }
-
-    doCreateSaveState().then(() => {
-      doCreateDefaultInventory(charid).then(
-        this.routeChange("/auth/characterlist")
-      )
-    })
-  }
-
-  createDefaultInventory(charid) {
-    console.log(`create default inventory for ${charid}`)
-    axios.post(`${global.ApiStartPath}character/defaultinventory`, { Id: charid })
-  }
-
   createCharacter = () => {
     if (this.state.name.length < 3) {
       alert("Name too short!");
       return;
+    }
+
+    if (this.state.selectedRace.Faction == "Horde") {
+      var zonevalue = 2
+    } else {
+      var zonevalue = 1
     }
     const character = {
       Race: this.state.selectedRace.Name,
@@ -219,15 +192,23 @@ class CreateChar extends Component {
       Gender: this.state.gender,
       RaceIconPath: this.state.gendericonpath,
       ClassIconPath: this.state.selectedClass.ClassIconPath,
+      ZoneLocation: zonevalue,
       Level: 1,
     }
     console.log(character);
-
+    let doCreateDefaultInventory = async (charid) => {
+      await axios.post(`${global.ApiStartPath}character/defaultinventory`, { Id: charid })
+    }
     try {
       axios
         .post(`${global.ApiStartPath}character/create`, character)
-        .then(res =>
-          this.createSaveState(res.data.insertId)
+        .then(res => {
+          doCreateDefaultInventory(res.data.insertId)
+            .then(
+              this.routeChange("/auth/characterlist")
+            )
+        }
+
         )
     }
     catch (error) {

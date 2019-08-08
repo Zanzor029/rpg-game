@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./Landing.css";
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
-import { registerAccount } from '../../actions/accountActions'
-import { loginAccount } from '../../actions/accountActions'
+import { registerAccount } from '../../actions/appActions'
+import { loginAccount } from '../../actions/appActions'
 import { connect } from 'react-redux'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'

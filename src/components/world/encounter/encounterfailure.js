@@ -1,6 +1,12 @@
-import React, { Component } from 'react';
-import "./encounter.css"
 import history from '../../../history'
+import React, { Component } from 'react';
+import "../../globalcontext";
+import "./encounter.css";
+import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
+import Button from 'react-bootstrap/Button'
+import { getEncounterLoot } from '../../../actions/worldActions'
+import { showTooltip, hideTooltip } from '../../../actions/tooltipActions'
+import { connect } from 'react-redux'
 
 class EncounterFailure extends Component {
     constructor(props) {
@@ -9,10 +15,9 @@ class EncounterFailure extends Component {
 
     componentWillMount() {
         this.setState({
-            character: this.props.location.state.character,
-            creature: this.props.location.state.creature,
-            encounterid: this.props.location.state.encounterid,
-            savestate: this.props.location.state.savestate
+            character: this.props.loggedincharacter,
+            creature: this.props.creature,
+            encounterid: this.props.encounterid,
         })
     }
 
@@ -25,13 +30,32 @@ class EncounterFailure extends Component {
 
     render() {
         return (
-            <div>
+            <div className="EncounterPostContainerBackground">
+            <div className="EncounterPostContainer">
                 <p>Encounter failure!</p>
                 <p>{this.state.combatresult}</p>
-                <p>{this.state.character.Name} was defeated by {this.state.creature.Name}</p>
+                <p>{this.state.character.Name} was defeated by {this.state.creature.Name}.</p>
+                <Link to={{
+                    pathname: '/auth/world',
+                    state: {
+                        characterid: this.state.character.Id
+                    }
+                }}>
+                    <Button variant="success" className="CharacterListBtn" id="CharacterListCreateNewBtn">Continue</Button></Link>
+            </div>
             </div>
         );
     }
 
 }
-export default EncounterFailure;
+
+const mapStateToProps = state => ({
+    getEncounterLoot: state.getEncounterLoot,
+    showTooltip: state.showTooltip,
+    hideTooltip: state.hideTooltip,
+    loggedincharacter: state.world.loggedincharacter,
+    creature: state.world.creature,
+    encounterid: state.world.encounterid
+})
+
+export default connect(mapStateToProps, { getEncounterLoot, hideTooltip, showTooltip })(withRouter(EncounterFailure))

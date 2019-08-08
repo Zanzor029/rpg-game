@@ -1,4 +1,15 @@
-import { GET_CHARACTERS, SET_LOGGED_IN_CHARACTER, GET_INVENTORY, GET_EQUIPMENT, EQUIP_ITEM_FROM_INVENTORY, UNEQUIP_ITEM_TO_INVENTORY, UPDATE_CHARACTER } from '../actions/types'
+import {
+    GET_CHARACTERS,
+    SET_LOGGED_IN_CHARACTER,
+    GET_INVENTORY, GET_EQUIPMENT,
+    EQUIP_ITEM_FROM_INVENTORY,
+    UNEQUIP_ITEM_TO_INVENTORY,
+    UPDATE_CHARACTER,
+    GET_ENCOUNTER_LOOT,
+    SELL_INVENTORY_ITEM,
+    SET_ENCOUNTER_CREATURE,
+    SET_ENCOUNTER_ID
+} from '../actions/types'
 
 const initialState = {
     characters: [],
@@ -9,7 +20,7 @@ const initialState = {
 }
 
 export default function (state = initialState, action) {
-    
+
     switch (action.type) {
         case GET_CHARACTERS:
             console.log("action payload below")
@@ -118,6 +129,34 @@ export default function (state = initialState, action) {
                 inventory: [...state.inventory, action.payload],
                 equipment: state.equipment.filter(item => item !== action.payload),
                 loggedincharacter: copyCurrentLoggedInCharacterUnEq
+            }
+        case GET_ENCOUNTER_LOOT:
+            console.log("Get encounter loot in redux store...")
+        case SET_ENCOUNTER_CREATURE:
+            console.log("Set encounter creature in redux store...")
+            return {
+                ...state,
+                creature: action.payload
+            }
+        case SET_ENCOUNTER_ID:
+                console.log("Set encounter id in redux store...")
+                return {
+                    ...state,
+                    encounterid: action.payload
+                }
+        case SELL_INVENTORY_ITEM:
+            console.log("Sell inventory item in redux store...")
+            let copyCurrentLoggedInCharacterSell = Object.assign({}, state.loggedincharacter)
+            console.log(copyCurrentLoggedInCharacterSell["GoldCoins"])
+            console.log(action.payload.GoldValue)
+            if (action.payload.GoldValue > 0) {
+                copyCurrentLoggedInCharacterSell["GoldCoins"] = copyCurrentLoggedInCharacterSell["GoldCoins"] + action.payload.GoldValue
+            }
+            console.log(copyCurrentLoggedInCharacterSell["GoldCoins"])
+            return {
+                ...state,
+                inventory: state.inventory.filter(item => item !== action.payload),
+                loggedincharacter: copyCurrentLoggedInCharacterSell,
             }
         default:
             return state

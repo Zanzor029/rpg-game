@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
-import { loginAccountWithToken } from '../../actions/accountActions'
+import { loginAccountWithToken } from '../../actions/appActions'
 import { connect } from 'react-redux'
 
 import "./Landing.css";

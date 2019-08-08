@@ -1,4 +1,15 @@
-import { GET_CHARACTERS, SET_LOGGED_IN_CHARACTER, GET_INVENTORY, GET_EQUIPMENT, EQUIP_ITEM_FROM_INVENTORY, UNEQUIP_ITEM_TO_INVENTORY, UPDATE_CHARACTER } from './types'
+import {
+    GET_CHARACTERS,
+    SET_LOGGED_IN_CHARACTER,
+    GET_INVENTORY,
+    GET_EQUIPMENT,
+    EQUIP_ITEM_FROM_INVENTORY,
+    UNEQUIP_ITEM_TO_INVENTORY,
+    GET_ENCOUNTER_LOOT,
+    SELL_INVENTORY_ITEM,
+    SET_ENCOUNTER_CREATURE,
+    SET_ENCOUNTER_ID
+} from './types'
 import axios from 'axios'
 import store from '../store';
 
@@ -37,6 +48,25 @@ export const getInventoryItems = () => dispatch => {
                 dispatch({
                     type: GET_INVENTORY,
                     payload: inventoryArray
+                })
+            }
+        )
+}
+
+export const sellInventoryItem = (item) => dispatch => {
+    console.log("Sell item redux function...")
+    console.log(item)
+    axios.post(`${global.ApiStartPath}character/sellitem`,
+        {
+            Item: item,
+            Character: store.getState().world.loggedincharacter
+        })
+        .then(
+            res => {
+                console.log(res)
+                dispatch({
+                    type: SELL_INVENTORY_ITEM,
+                    payload: item
                 })
             }
         )
@@ -127,5 +157,71 @@ export const unequipItemToInventory = (item) => dispatch => {
     dispatch({
         type: UNEQUIP_ITEM_TO_INVENTORY,
         payload: item
+    })
+}
+
+export const getEncounterLoot = (encounterId) => dispatch => {
+    console.log("Get encounter loot by redux function...")
+    let getItemLootObject = async () => {
+        let itemReceived = await axios.get(`${global.ApiStartPath}encounterloot/${encounterId}`)
+            .then(
+                res => {
+                    let lootTable = res.data
+                    let lootTableRandom = []
+                    for (var i = 0; i < lootTable.length; i++) {
+                        let lootItem = Object.assign(lootTable[i])
+                        for (var i2 = 0; i2 < lootItem.Chance; i2++) {
+                            lootTableRandom.push(lootItem.ItemId)
+                        }
+                    }
+                    function getRandomIntInclusive(min, max) {
+                        min = Math.ceil(min);
+                        max = Math.floor(max);
+                        return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+                    }
+                    let randomItemNumber = getRandomIntInclusive(0, lootTableRandom.length)
+                    let itemInfo = async () => {
+                        let itemInfoObject = await axios.get(`${global.ApiStartPath}item/${lootTableRandom[randomItemNumber]}`)
+                            .then(
+                                res => {
+                                    axios.post(`${global.ApiStartPath}character/additem`, {
+                                        CharacterId: store.getState().world.loggedincharacter.Id,
+                                        ItemId: lootTableRandom[randomItemNumber]
+                                    })
+                                        .then(
+                                            res => {
+                                                console.log(res)
+                                            }
+                                        )
+                                    return res.data[0]
+
+                                }
+                            )
+                        return itemInfoObject
+                    }
+                    return itemInfo()
+                }
+            )
+        console.log(itemReceived)
+        return itemReceived
+    }
+    return getItemLootObject()
+}
+
+export const setEncounterCreature = (creature) => dispatch => {
+    console.log("Set creature redux function...")
+    console.log(creature)
+    dispatch({
+        type: SET_ENCOUNTER_CREATURE,
+        payload: creature
+    })
+}
+
+export const setEncounterId = (id) => dispatch => {
+    console.log("Set encounter id redux function...")
+    console.log(id)
+    dispatch({
+        type: SET_ENCOUNTER_ID,
+        payload: id
     })
 }

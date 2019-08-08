@@ -1,23 +1,37 @@
 import React, { Component } from 'react';
 import "../../globalcontext";
 import "./encounter.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
 import Button from 'react-bootstrap/Button'
+import { getEncounterLoot } from '../../../actions/worldActions'
+import { showTooltip, hideTooltip } from '../../../actions/tooltipActions'
+import { connect } from 'react-redux'
+import Table from 'react-bootstrap/Table'
 
 class EncounterSuccess extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            character: this.props.loggedincharacter,
+            creature: this.props.creature,
+            encounterid: this.props.encounterid,
+            xpcalculated: false,
+        }
     }
 
     componentWillMount() {
-        this.setState({
-            character: this.props.location.state.character,
-            creature: this.props.location.state.creature,
-            encounterid: this.props.location.state.encounterid,
-            savestate: this.props.location.state.savestate,
-            xpcalculated: false,
-        })
+        this.props.getEncounterLoot(1)
+            .then(
+                res => {
+                    console.log(res)
+                    this.setState({
+                        itemReceived: res,
+                        itemReceivedLoaded: true
+                    })
+                }
+            )
     }
+
     componentDidMount() {
         this.calculateExperienceGain(this.state.character, this.state.creature)
     }
@@ -97,7 +111,14 @@ class EncounterSuccess extends Component {
     }
 
     render() {
-        const { error, xpcalculated, character, creature, combatresult, levelup, xpgain } = this.state;
+        const { error, xpcalculated, character, creature, levelup, xpgain } = this.state;
+        if (!this.state.itemReceivedLoaded) {
+            return (
+                <div>
+                    Loading...
+                </div>
+            )
+        }
         if (error) {
             return <div>Error: {error.message}</div>;
         }
@@ -107,28 +128,75 @@ class EncounterSuccess extends Component {
         else {
             if (levelup === true) {
                 return (
-                    <div>
-                        <p>{character.Name} defeated {creature.Name} and gained {xpgain} experience. {character.Name} has gained a level and grows in power! </p>
-                        <div >
-                            <Link to={{
-                                pathname: '/auth/levelup',
-                                state: {
-                                    character: character,
-                                    levelup: levelup
-                                }
-                            }}>
+                    <div className="EncounterPostContainerBackground">
+                        <div className="EncounterPostContainer">
+                            <p>{character.Name} defeated {creature.Name} and gained {xpgain} experience. </p>
+                            <p>{character.Name} have received an item: </p>
+                            <Table hover responsive size="sm" bordered variant="dark">
+                            <thead>
+                                <tr>
+                                    <th>Icon</th>
+                                    <th>Name</th>
+                                    <th>Item Slot</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    <tr key={this.state.itemReceived.ItemId} id={"InventoryTablerow-" + this.state.itemReceived.ItemId}
+                                        onMouseOver={(e) => this.props.showTooltip({
+                                            object: this.state.itemReceived,
+                                            positionY: e.clientY,
+                                            positionX: e.clientX
+                                        }, "item")}
+                                        onMouseOut={() => this.props.hideTooltip()}>
+                                        <td><img className="InventoryIcon" src={require('../../../' + this.state.itemReceived.IconPath)}></img></td>
+                                        <td>{this.state.itemReceived.Name}</td>
+                                        <td>{this.state.itemReceived.ItemSlot}</td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                            <p>{character.Name} has gained a level and grows in power!</p>
+                            <div >
+                                <Link to={{
+                                    pathname: '/auth/levelup',
+                                    state: {
+                                        character: character,
+                                        levelup: levelup
+                                    }
+                                }}>
 
-                                <Button variant="success" className="CharacterListBtn" id="CharacterListCreateNewBtn">Continue</Button></Link>
+                                    <Button variant="success" className="CharacterListBtn" id="CharacterListCreateNewBtn">Continue</Button></Link>
+                            </div>
                         </div>
                     </div>
                 )
             }
             return (
-                <div>
-                    <div className="flex-item">
-
-
+                <div className="EncounterPostContainerBackground">
+                    <div className="EncounterPostContainer">
                         <p>{character.Name} defeated {creature.Name} and gained {xpgain} experience.</p>
+                        <p>{character.Name} have received an item: </p>
+                        <Table hover responsive size="sm" bordered variant="dark">
+                            <thead>
+                                <tr>
+                                    <th>Icon</th>
+                                    <th>Name</th>
+                                    <th>Item Slot</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr key={this.state.itemReceived.ItemId} id={"InventoryTablerow-" + this.state.itemReceived.ItemId}
+                                    onMouseOver={(e) => this.props.showTooltip({
+                                        object: this.state.itemReceived,
+                                        positionY: e.clientY,
+                                        positionX: e.clientX
+                                    }, "item")}
+                                    onMouseOut={() => this.props.hideTooltip()}>
+                                    <td><img className="InventoryIcon" src={require('../../../' + this.state.itemReceived.IconPath)}></img></td>
+                                    <td>{this.state.itemReceived.Name}</td>
+                                    <td>{this.state.itemReceived.ItemSlot}</td>
+                                </tr>
+                            </tbody>
+                        </Table>
                         <div>
                             <Link to={{
                                 pathname: '/auth/world',
@@ -138,6 +206,7 @@ class EncounterSuccess extends Component {
                             }}>
                                 <Button variant="success" className="CharacterListBtn" id="CharacterListCreateNewBtn">Continue</Button></Link>
                         </div>
+
                     </div>
                 </div>
             );
@@ -146,4 +215,14 @@ class EncounterSuccess extends Component {
     }
 
 }
-export default EncounterSuccess;
+
+const mapStateToProps = state => ({
+    getEncounterLoot: state.getEncounterLoot,
+    showTooltip: state.showTooltip,
+    hideTooltip: state.hideTooltip,
+    loggedincharacter: state.world.loggedincharacter,
+    creature: state.world.creature,
+    encounterid: state.world.encounterid
+})
+
+export default connect(mapStateToProps, { getEncounterLoot, hideTooltip, showTooltip })(withRouter(EncounterSuccess))

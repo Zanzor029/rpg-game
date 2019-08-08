@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { loginAccount } from '../../actions/accountActions'
+import { loginAccount } from '../../actions/appActions'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
 

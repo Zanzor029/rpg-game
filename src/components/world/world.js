@@ -4,7 +4,7 @@ import './world.css';
 import history from '../../history';
 import Loading from '../loadingscreens/loading'
 import { BrowserRouter as Router, Route, Link, withRouter} from "react-router-dom";
-import { setLoggedInCharacter } from '../../actions/characterActions'
+import { setLoggedInCharacter, setEncounterId } from '../../actions/worldActions'
 import { connect } from 'react-redux'
 
 //import react bootstrap components
@@ -27,8 +27,6 @@ class World extends Component {
             character: [],
             characterloaded: false,
             error: null,
-            savestateloaded: false,
-            savestate: [],
             selectedspells: [],
             characterid: null,
             loggedInCharacterSet: false
@@ -45,7 +43,6 @@ class World extends Component {
         else {
             console.log("World prop:" + this.props.location.state.characterid)
             this.getCharacterData(this.props.location.state.characterid);
-            this.checkSaveState(this.state.savestateloaded);
         }
 
     }
@@ -63,6 +60,10 @@ class World extends Component {
             selectedcreatureid: SelectedEncounter.CreatureId
         });
         console.log(SelectedEncounter)
+
+        //Set the encounter id in Redux
+        this.props.setEncounterId(SelectedEncounter.Id)
+
         console.log("Encounter selected with ID " + SelectedEncounter.Id + " and Creature ID " + SelectedEncounter.CreatureId)
     }
     setSelectedSpellsValueFromChild(SelectedSpells) {
@@ -110,102 +111,19 @@ class World extends Component {
             )
     }
 
-    checkSaveState(loaded) {
-        if (loaded == false) {
-            const getSaveStatePath = global.ApiStartPath + "savestate/" + this.props.location.state.characterid
-            fetch(getSaveStatePath,
-                {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    },
-                    method: "GET",
-                })
-                .then(res => res.json())
-                .then(
-                    (result) => {
-                        if (result.msg == "null") {
-                            console.log("0 savestates found")
-                            if (loaded == false) {
-                                this.createSaveState(false)
-                            }
-
-                        }
-                        else if (result.msg == "found") {
-                            console.log("Savestate found:" + result.result[0].Id)
-                            this.setState({
-                                savestate: result.result[0],
-                                savestateloaded: true
-                            });
-
-                        }
-                    },
-                    (error) => {
-                        if (error)
-                            this.setState({
-                                error
-                            });
-                    }
-                )
-        }
-    }
-
-    createSaveState(loaded) {
-        if (loaded == false) {
-            console.log("No savestate found. Creating savestate for character id" + this.props.characterid);
-            if (this.state.character.Faction == "Horde") {
-                var zonevalue = 2
-            } else {
-                var zonevalue = 1
-            }
-            var payload = {
-                Characterid: this.props.characterid,
-                ZoneLocation: zonevalue
-            }
-            var createCharacterApiPath = global.ApiStartPath + "savestate/create"
-            fetch(createCharacterApiPath,
-                {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                })
-                .then(res => res.json())
-                .then(
-                    (result) => {
-                        this.setState({
-                            savestate: result,
-                            savestateloaded: true
-                        });
-                    },
-                    (error) => {
-                        if (error)
-                            this.setState({
-                                error
-                            });
-                    }
-                )
-        }
-    }
 
     render() {
-        const { error, character, characterloaded, savestateloaded,loggedInCharacterSet } = this.state;
+        const { error, characterloaded,loggedInCharacterSet } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         }
         else if (!characterloaded) {
             return <Loading />
         }
-        else if (!savestateloaded) {
-            return <Loading />
-        }
         else if (!loggedInCharacterSet) {
             return <Loading />
         }
-        console.log("Savestate when rendered: " + this.state.savestate.Id)
+        console.log("ZoneLocation when rendered: " + this.props.loggedincharacter.ZoneLocation)
         return (
             <div id="WorldContainer">
                 <div id="WorldTabContainer">
@@ -222,14 +140,13 @@ class World extends Component {
                             <QuestLog />
                         </Tab>
                         <Tab eventKey="AvailableEncounters" title="Available Encounters">
-                            <EncounterList character={this.state.character} savestate={this.state.savestate} setSelectedEncounterValueFromChild={this.setSelectedEncounterValueFromChild} />
+                            <EncounterList setSelectedEncounterValueFromChild={this.setSelectedEncounterValueFromChild} />
                             <div id="EncounterSelectButton">
                                 <Link to={{
                                     pathname: '/auth/encounter',
                                     state: {
-                                        savestate: this.state.savestate,
                                         selectedspells: this.state.selectedspells,
-                                        character: this.state.character,
+                                        character: this.props.loggedincharacter,
                                         selectedencounterid: this.state.selectedencounterid,
                                         selectedcreatureid: this.state.selectedcreatureid
                                     }
@@ -239,7 +156,7 @@ class World extends Component {
                             </div>
                         </Tab>
                         <Tab eventKey="Spellbook" title="Spellbook">
-                            <Spellbook ClassId={this.state.character.ClassId} setSelectedSpellsValueFromChild={this.setSelectedSpellsValueFromChild} />
+                            <Spellbook ClassId={this.props.loggedincharacter.ClassId} setSelectedSpellsValueFromChild={this.setSelectedSpellsValueFromChild} />
                         </Tab>
 
                     </Tabs>
@@ -251,7 +168,9 @@ class World extends Component {
 }
 
 const mapStateToProps = state => ({
-    setLoggedInCharacter: state.setLoggedInCharacter
+    setLoggedInCharacter: state.setLoggedInCharacter,
+    loggedincharacter: state.world.loggedincharacter,
+    setEncounterId: state.setEncounterId
 })
 
-export default connect(mapStateToProps, { setLoggedInCharacter })(withRouter(World))
+export default connect(mapStateToProps, { setLoggedInCharacter, setEncounterId })(withRouter(World))

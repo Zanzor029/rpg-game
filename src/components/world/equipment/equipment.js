@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './equipment.css'
 import { connect } from 'react-redux'
-import { getEquipment, unequipItemToInventory } from '../../../actions/characterActions'
+import { getEquipment, unequipItemToInventory } from '../../../actions/worldActions'
 import { showModal } from '../../../actions/modalActions'
 import { showTooltip, hideTooltip } from '../../../actions/tooltipActions'
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";

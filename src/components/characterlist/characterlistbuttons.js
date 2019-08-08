@@ -33,8 +33,7 @@ class CharacterListButtons extends Component {
                             this.setState({
                                 isLoaded: true,
                                 deleteresult: result
-                            });
-                            window.location.reload();
+                            })
                         },
                         (error) => {
                             this.setState({
@@ -42,6 +41,11 @@ class CharacterListButtons extends Component {
                                 error
                             });
                         }
+                    )
+                    .then (
+                        setTimeout(function () {
+                            window.location.href = window.location.href
+                        }, 500)
                     )
             }
             else {

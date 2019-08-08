@@ -48,6 +48,10 @@ class CharacterPanel extends Component {
                             <td>{this.props.loggedincharacter.Level}</td>
                         </tr>
                         <tr>
+                            <td>Gold Coins</td>
+                            <td>{this.props.loggedincharacter.GoldCoins}</td>
+                        </tr>
+                        <tr>
                             <td>Experience</td>
                             <td><ProgressBar now={Math.round((this.props.loggedincharacter.ExperiencePoints / xptolevel) * 100)} label={this.props.loggedincharacter.ExperiencePoints + " / " + xptolevel + " (" + Math.round((this.props.loggedincharacter.ExperiencePoints / xptolevel) * 100) + "%)"} /></td>
                         </tr>
