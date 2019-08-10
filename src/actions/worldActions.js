@@ -8,7 +8,8 @@ import {
     GET_ENCOUNTER_LOOT,
     SELL_INVENTORY_ITEM,
     SET_ENCOUNTER_CREATURE,
-    SET_ENCOUNTER_ID
+    SET_ENCOUNTER_ID,
+    SET_STORE_ITEMS
 } from './types'
 import axios from 'axios'
 import store from '../store';
@@ -158,6 +159,45 @@ export const unequipItemToInventory = (item) => dispatch => {
         type: UNEQUIP_ITEM_TO_INVENTORY,
         payload: item
     })
+}
+
+export const getStoreItemsByZone = (zoneId) => dispatch => {
+    console.log("Get store items by redux function")
+    let storeItemArr = []
+    let promises = []
+    let getStoreItemIds = async () => {
+        await axios.get(`${global.ApiStartPath}storeitemsbyzone/${zoneId}`)
+            .then(
+                res => {
+                    let storeIdArr = res.data
+                    let storeItemInfo = async (itemId) => {
+                        await axios.get(`${global.ApiStartPath}item/${itemId}`)
+                            .then(
+                                res => {
+                                    console.log(res.data[0])
+                                    storeItemArr.push(res.data[0])
+                                }
+                            )
+                    }
+                    for (var i = 0; i < storeIdArr.length; i++) {
+                        promises.push(storeItemInfo(storeIdArr[i].ItemId))
+                    }
+                }
+            )
+    }
+    promises.push(getStoreItemIds())
+
+    Promise.all(promises)
+        .then(() => {
+            console.log(storeItemArr)
+            dispatch({
+                type: SET_STORE_ITEMS,
+                payload: storeItemArr
+            })
+        })
+        .catch((e) => {
+            console.error(e)
+        })
 }
 
 export const getEncounterLoot = (encounterId) => dispatch => {

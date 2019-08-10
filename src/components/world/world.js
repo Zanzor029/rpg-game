@@ -19,6 +19,7 @@ import Spellbook from './spellbook/spellbook';
 import EncounterList from './encounter/encounterlist';
 import Inventory from './inventory/inventory'
 import Equipment from './equipment/equipment';
+import Store from './store/store';
 
 class World extends Component {
     constructor(props) {
@@ -135,6 +136,9 @@ class World extends Component {
                             <Equipment />
                             <br />
                             <Inventory/>
+                        </Tab>
+                        <Tab eventKey="Store" title="Store">
+                            <Store/>
                         </Tab>
                         <Tab eventKey="QuestLog" title="Quest Log">
                             <QuestLog />

@@ -8,7 +8,8 @@ import {
     GET_ENCOUNTER_LOOT,
     SELL_INVENTORY_ITEM,
     SET_ENCOUNTER_CREATURE,
-    SET_ENCOUNTER_ID
+    SET_ENCOUNTER_ID,
+    SET_STORE_ITEMS
 } from '../actions/types'
 
 const initialState = {
@@ -16,7 +17,8 @@ const initialState = {
     loggedincharacter: {},
     userid: 0,
     inventory: [],
-    equipment: []
+    equipment: [],
+    storeitems:[]
 }
 
 export default function (state = initialState, action) {
@@ -144,6 +146,12 @@ export default function (state = initialState, action) {
                     ...state,
                     encounterid: action.payload
                 }
+        case SET_STORE_ITEMS:
+            console.log("Set store items in redux store")
+            return {
+                ...state,
+                storeitems: action.payload
+            }
         case SELL_INVENTORY_ITEM:
             console.log("Sell inventory item in redux store...")
             let copyCurrentLoggedInCharacterSell = Object.assign({}, state.loggedincharacter)
