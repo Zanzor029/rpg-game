@@ -18,6 +18,7 @@ import EncounterFailure from './components/world/encounter/encounterfailure';
 import LevelUp from './components/world/levelup/levelup';
 import Modal from './components/modal/modal'
 import Tooltip from './components/tooltip/tooltip'
+import Movement from './components/movement/movement'
 
 import store from './store'
 import TestParent from './components/tests/testparent';
@@ -86,6 +87,7 @@ class App extends Component {
           <div className="AppContentRightSide">
             <Route exact path="/" component={Landing} />
             <Route path="/register" component={Register} />
+            <Route path="/movement" component={Movement} />
             <Route path="/test" component={TestParent} />
             <Route path="/auth/world" component={World} />
             <Route path="/auth/encounter" component={Encounter} />

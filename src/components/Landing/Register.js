@@ -77,8 +77,9 @@ class Register extends Component {
       <div className="landing">
         <div className="loginbox">
           <div className="loginheadertext">
-            Create your account <br></br>
+            Create your account
           </div>
+          <br></br>
           <Form onSubmit={this.onSubmit}>
             <div>
               <input
@@ -126,6 +127,7 @@ class Register extends Component {
                 onChange={this.onChange}
               />
             </div>
+            <br></br>
             <Button variant="dark" type="submit">Register</Button>
           </Form>
           <Link to="/"><Button variant="dark" id="RegisterCancel">Cancel</Button></Link>

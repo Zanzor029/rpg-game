@@ -26,12 +26,13 @@
   transform: translate(-50%, -50%);
 }
 div.loginheadertext {
-  color: black;
+  color: whitesmoke;
   font-weight: bolder;
 }
 
 .logininput {
   width: 200px;
+  color: white;
   border: 1px solid;
   border-color:rgba(0, 0 , 0,0.3);
   background-color:rgba(255, 255, 255, 0.4);
